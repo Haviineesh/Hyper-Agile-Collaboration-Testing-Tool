@@ -1,5 +1,5 @@
 body {
-    background-color: #ff66b2; /* Pink background color */
+    background-color: white;/* Pink background color */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,7 +8,7 @@ body {
 }
 
 .login-container {
-    background-color: white;
+    background-color: #ff66b2;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 40px;
@@ -58,3 +58,26 @@ button:hover {
     background-color: #ff3385; /* Lighter pink on hover */
 }
 
+/* viewTestCase.css */
+
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #ff66b2;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+/* viewTestCase.css */
