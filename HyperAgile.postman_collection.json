@@ -1,0 +1,590 @@
+{
+	"info": {
+		"_postman_id": "ef343360-4775-4366-9b42-4bfa094ed650",
+		"name": "HyperAgile",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30878891",
+		"_collection_link": "https://restless-crater-58481.postman.co/workspace/API-HyperAgile~92df5540-17c1-4679-85a9-3b349c35d6b9/collection/30878891-ef343360-4775-4366-9b42-4bfa094ed650?action=share&source=collection_link&creator=30878891"
+	},
+	"item": [
+		{
+			"name": "channels",
+			"item": [
+				{
+					"name": "Query to fetch channels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/channels",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"channels"
+							]
+						},
+						"description": "Query to fetch channels"
+					},
+					"response": []
+				},
+				{
+					"name": "Query to get channels information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/channels/info",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"channels",
+								"info"
+							]
+						},
+						"description": "Query to get channels information"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "block",
+			"item": [
+				{
+					"name": "Query to fetch blocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/block/:channelName/:number",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"block",
+								":channelName",
+								":number"
+							],
+							"variable": [
+								{
+									"key": "channelName",
+									"value": "<>",
+									"description": "genesis_block_hash"
+								},
+								{
+									"key": "number",
+									"value": "<>",
+									"description": "block number"
+								}
+							]
+						},
+						"description": "Query to fetch blocks in a channel"
+					},
+					"response": []
+				},
+				{
+					"name": "Query to fetch block transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/block/transactions/:channelName/:number",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"block",
+								"transactions",
+								":channelName",
+								":number"
+							],
+							"variable": [
+								{
+									"key": "channelName",
+									"value": "<>",
+									"description": "genesis_block_hash"
+								},
+								{
+									"key": "number",
+									"value": "<>",
+									"description": "block number"
+								}
+							]
+						},
+						"description": "Query to fetch transactions of a block in a channel"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Query to get BlockCount on a channel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/status/:channelName",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"status",
+						":channelName"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						}
+					]
+				},
+				"description": "Query to get the number of blocks in a channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Get current channel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/curChannel",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"curChannel"
+					]
+				},
+				"description": "Get current channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to get Change Channel on a channel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/changeChannel/:channelName",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"changeChannel",
+						":channelName"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						}
+					]
+				},
+				"description": "Query to change channel from a channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to fetch all Installed/instantiated chaincodes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/chaincode/:channelName",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"chaincode",
+						":channelName"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						}
+					]
+				},
+				"description": "Query to fetch all Installed/instantiated chaincodes"
+			},
+			"response": []
+		},
+		{
+			"name": "Create New channel on target peers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/channel",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"channel"
+					]
+				},
+				"description": "Create New channel on target peers"
+			},
+			"response": []
+		},
+		{
+			"name": "Join channel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/joinChannel",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"joinChannel"
+					]
+				},
+				"description": "Join channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to Get Transaction by Txid",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/transaction/:channelName/:txid",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"transaction",
+						":channelName",
+						":txid"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						},
+						{
+							"key": "txid",
+							"value": "<>",
+							"description": "transaction id"
+						}
+					]
+				},
+				"description": "Query to Get Transaction by Transaction ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to Get Transaction List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/txList/:channelName/:number/:txid",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"txList",
+						":channelName",
+						":number",
+						":txid"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						},
+						{
+							"key": "number",
+							"value": "<>",
+							"description": "block number"
+						},
+						{
+							"key": "txid",
+							"value": "<>",
+							"description": "transaction id"
+						}
+					]
+				},
+				"description": "Query to Get Transaction List"
+			},
+			"response": []
+		},
+		{
+			"name": "Peers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/peers/:channelName",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"peers",
+						":channelName"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						}
+					]
+				},
+				"description": "View peers on a channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to Get Peers Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/peersStatus/:channelName",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"peersStatus",
+						":channelName"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						}
+					]
+				},
+				"description": "Query to get status of peers on a channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to Get Block And Transaction List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/blockAndTxList/:channelName/:number",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"blockAndTxList",
+						":channelName",
+						":number"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						},
+						{
+							"key": "number",
+							"value": "<>",
+							"description": "block number"
+						}
+					]
+				},
+				"description": "Query to Get Block And Transaction List"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to Get Transaction By Hour",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/txByMinute/:channelName/:hours",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"txByMinute",
+						":channelName",
+						":hours"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						},
+						{
+							"key": "hours",
+							"value": "<>",
+							"description": "hours"
+						}
+					]
+				},
+				"description": "Query to Get Transaction By Hour"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to Get Transaction By Day",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/txByHour/:channelName/:days",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"txByHour",
+						":channelName",
+						":days"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						},
+						{
+							"key": "days",
+							"value": "<>",
+							"description": "days"
+						}
+					]
+				},
+				"description": "Query to Get Transaction By Day"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to Get Blocks By Hour",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/blocksByMinute/:channelName/:hours",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"blocksByMinute",
+						":channelName",
+						":hours"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						},
+						{
+							"key": "hours",
+							"value": "<>",
+							"description": "hours"
+						}
+					]
+				},
+				"description": "Query to Get Blocks By Hour"
+			},
+			"response": []
+		},
+		{
+			"name": "Query to Get Blocks By Day",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/blocksByHour/:channelName/:days",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"blocksByHour",
+						":channelName",
+						":days"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						},
+						{
+							"key": "days",
+							"value": "<>",
+							"description": "days"
+						}
+					]
+				},
+				"description": "Query to Get Blocks By Day"
+			},
+			"response": []
+		},
+		{
+			"name": "Query Get Transaction By Org",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/txByOrg/:channelName",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"txByOrg",
+						":channelName"
+					],
+					"variable": [
+						{
+							"key": "channelName",
+							"value": "<>",
+							"description": "genesis_block_hash"
+						}
+					]
+				},
+				"description": "Query Get Transaction By Org"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "httpslocalhost:8080/api",
+			"type": "string"
+		}
+	]
+}
