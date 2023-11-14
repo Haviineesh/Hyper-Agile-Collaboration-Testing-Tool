@@ -1,26 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login Page</title>
-    <link rel="stylesheet" type="text/css" href="/src/main/resources/static/css/login.css">
+    <!-- Bootstrap CSS link (place this before any custom styles) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- I put css code here temporarily -->
+    <style>
+        body {
+            background-color: white;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container form {
+            margin-top: 20px;
+        }
+
+        .login-container a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="login-container">
-        <form method="post">
-            <h2>Welcome Back!</h2>
-            <div class="input-container">
+    <div class="container login-container">
+        <h2>Login</h2>
+        <form>
+            <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" class="form-control" id="username" required>
             </div>
-            <div class="input-container">
+            <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" required>
             </div>
-            <button type="submit">Login</button>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
+        <a href="/change-password">Change Password</a>
     </div>
+
+    <!-- Bootstrap JS and Popper.js (place these before any custom scripts) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
 
 
