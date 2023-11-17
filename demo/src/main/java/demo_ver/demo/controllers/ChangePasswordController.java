@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ChangePasswordController {
 
-    @GetMapping("/change-password")
+    @GetMapping("/ChangePassword")
     public String showChangePasswordPage() {
-        return "change-password";
+        return "ChangePassword";
     }
 }
