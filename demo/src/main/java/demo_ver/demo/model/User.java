@@ -1,4 +1,4 @@
-package demo_ver.demo.User;
+package demo_ver.demo.model;
 
 public class User {
     private String userId;
