@@ -13,7 +13,7 @@ public class ManageRolesController {
 
     @GetMapping("/rolestestcases")
     public String rolestestcases() {
-        return "Roles Test Cases";
+        return "RolesTestCases";
     }
 
     
