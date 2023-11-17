@@ -13,8 +13,8 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/change-password")
-    public String ChangePassword() {
-        return "change-password";
-    }
+//    @GetMapping("/change-password")
+  //  public String ChangePassword() {
+    //    return "change-password";
+    //}
 }
