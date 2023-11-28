@@ -13,6 +13,12 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/view")
+    public String viewTestCases() {
+        return "viewTestCase";
+    }
+
+
 
 //    @GetMapping("/change-password")
   //  public String ChangePassword() {
