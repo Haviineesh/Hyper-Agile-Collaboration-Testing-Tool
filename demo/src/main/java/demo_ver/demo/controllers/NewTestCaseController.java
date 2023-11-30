@@ -9,5 +9,5 @@ public class NewTestCaseController {
     @GetMapping("/add")
     public String showAddTestCaseForm() {
         return "addTestCase"; // Thymeleaf template name for the addTestCase.html file
-    }
+    }  
 }
