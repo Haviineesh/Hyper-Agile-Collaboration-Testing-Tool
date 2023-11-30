@@ -30,10 +30,10 @@ public class ManageRole {
 
     }
 
-    public ManageRole(String description, int roleID, String roleName) {
-        this.description = description;
+    public ManageRole(int roleID, String roleName, String description) {
         this.roleID = roleID;
         this.roleName = roleName;
+        this.description = description;
     }
 
     public String getDescription() {
