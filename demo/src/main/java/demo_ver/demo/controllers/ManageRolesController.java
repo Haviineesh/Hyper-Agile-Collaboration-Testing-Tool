@@ -16,5 +16,10 @@ public class ManageRolesController {
         return "RolesTestCases";
     }
 
+    @GetMapping("/editrole")
+    public String managerolesedit(){
+        return "ManageRolesEdit";
+    }
+
     
 }
