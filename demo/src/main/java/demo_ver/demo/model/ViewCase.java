@@ -15,6 +15,11 @@ public class ViewCase {
     private int idtest_cases;
     private String test_desc;
 
+     // Default constructor (no-argument constructor)
+    public ViewCase() {  
+                  // Default constructor is needed by Hibernate
+    }
+
     public int getIdtest_cases() {
         return idtest_cases;
     }
