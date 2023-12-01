@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
 public class ManageRole {
-    public String description;
     private int roleID;
+    public String description;
     public String roleName;
 
     class roleRepository {

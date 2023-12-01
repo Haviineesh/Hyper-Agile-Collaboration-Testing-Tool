@@ -26,9 +26,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="role, iterStat : ${roles}">
-                    <td th:text="${iterStat.count}"></td>
-                    <td th:text="${role.roleId}"></td>
+                <tr th:each="role, iStat : ${roles}">
+                    <td th:text="${iStat.count}"></td>
+                    <td th:text="${role.roleID}"></td>
                     <td th:text="${role.roleName}"></td>
                     <td th:text="${role.description}"></td>
                     <td>
@@ -40,7 +40,6 @@
             </tbody>
         </table>
     </div>
-
     <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
