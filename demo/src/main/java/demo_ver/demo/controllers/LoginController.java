@@ -1,15 +1,19 @@
 package demo_ver.demo.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+// import org.springframework.web.bind.annotation.RequestBody;
+import demo_ver.demo.model.User;
 import demo_ver.demo.service.LoginService;
-import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 public class LoginController {
 
+   
     private final LoginService loginService;
 
     public LoginController(LoginService loginService) {
@@ -21,28 +25,31 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(
-            @RequestParam String username,
-            @RequestParam String password,
-            @RequestParam String roleId,
-            HttpServletRequest request
-    ) {
-        // Use the LoginService for login validation
-        if (loginService.validateLogin(username, password, roleId)) {
-            // Set a session attribute indicating successful login
-            request.getSession().setAttribute("loggedInUser", username);
-            // Redirect to the "viewTestCases" page upon successful login
-            return "redirect:/view";
-        } else {
-            // Redirect back to the login page with an error message
-            return "redirect:/login?error=true";
-        }
-    }
+    // @PostMapping("/login")
+    // public ResponseEntity<String> login(@RequestBody User loginUser) {
+    //     String username = loginUser.getUsername();
+    //     String password = loginUser.getPassword();
+    //     String roleId = loginUser.getRoleId();
 
-    @GetMapping("/changepassword")
-    public String showChangePasswordPage() {
-        return "ChangePassword";
+    //     if (loginService.validateLogin(username, password, roleId)) {
+
+    //         return ResponseEntity.ok("Login Successful!");
+    //     } else {
+    //         return ResponseEntity.status(401).body("Invalid username or password or roleId");
+    //     }
+    // }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@ModelAttribute User loginUser) {
+        String username = loginUser.getUsername();
+        String password = loginUser.getPassword();
+        String roleId = loginUser.getRoleId();
+
+        if (loginService.validateLogin(username, password, roleId)) {
+            return ResponseEntity.ok("Login Successful!");
+        } else {
+            return ResponseEntity.status(401).body("Invalid username or password or roleId");
+        }
     }
 
     @GetMapping("/view")

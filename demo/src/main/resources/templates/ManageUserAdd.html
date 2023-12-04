@@ -24,12 +24,24 @@
       <form action="#" method="post">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" class="form-control" id="username" name="username" required>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <!-- Display auto-generated random password (replace with actual logic) -->
-          <input type="text" class="form-control" id="password" name="password" readonly>
+          <input
+            type="text"
+            class="form-control"
+            id="password"
+            name="password"
+            readonly
+          />
         </div>
         <div class="form-group">
           <label for="role">Role</label>
@@ -40,6 +52,13 @@
           </select>
         </div>
         <button type="submit" class="btn btn-primary">Save User</button>
+        <button
+          type="submit"
+          class="btn btn-danger"
+          onclick="window.location.href='/manageuser'"
+        >
+          Cancel
+        </button>
       </form>
     </div>
 
@@ -48,8 +67,9 @@
       $(document).ready(function () {
         // Function to generate a random password
         function generateRandomPassword() {
-          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-          let password = '';
+          const characters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+          let password = "";
           for (let i = 0; i < 8; i++) {
             const randomIndex = Math.floor(Math.random() * characters.length);
             password += characters.charAt(randomIndex);
@@ -58,9 +78,8 @@
         }
 
         // Set the generated random password to the password input field
-        $('#password').val(generateRandomPassword());
+        $("#password").val(generateRandomPassword());
       });
     </script>
   </body>
 </html>
-
