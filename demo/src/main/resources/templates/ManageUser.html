@@ -42,65 +42,26 @@
       <table class="table table-bordered">
         <thead class="table-header">
           <tr>
-            <th>No</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Role</th>
-            <th>Actions</th>
+            <th scope="col">#</th>
+            <th scope="col">User ID</th>
+            <th scope="col">Role ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Password</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
-          <!-- Sample Data -->
-          <tr>
-            <td>1</td>
-            <td>teen</td>
-            <td>123</td>
-            <td>admin</td>
+          <tr th:each="user, iStat : ${users}">
+            <td th:text="${iStat.count}"></td>
+            <td th:text="${user.userID}"></td>
+            <td th:text="${user.roleID}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.password}"></td>
             <td>
-              <a href="#" class="btn btn-warning btn-sm">Edit</a>
-              <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                <button type="button" class="btn btn-success">Edit</button>
+                <button type="button" class="btn btn-danger">Delete</button>
             </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>ali</td>
-            <td>aw23</td>
-            <td>tester</td>
-            <td>
-              <a href="#" class="btn btn-warning btn-sm">Edit</a>
-              <a href="#" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>jack</td>
-            <td>4444</td>
-            <td>tester</td>
-            <td>
-              <a href="#" class="btn btn-warning btn-sm">Edit</a>
-              <a href="#" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>chok boon</td>
-            <td>655e</td>
-            <td>manager</td>
-            <td>
-              <a href="#" class="btn btn-warning btn-sm">Edit</a>
-              <a href="#" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>ashhvin</td>
-            <td>34353/td>
-            <td>manager</td>
-            <td>
-              <a href="#" class="btn btn-warning btn-sm">Edit</a>
-              <a href="#" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-          </tr>
+        </tr>
         </tbody>
       </table>
     </div>
