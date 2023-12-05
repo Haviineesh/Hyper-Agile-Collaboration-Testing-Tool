@@ -52,10 +52,6 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/view")
-    public String viewTestCases() {
-        return "viewTestCases";
-    }
 }
 
 
