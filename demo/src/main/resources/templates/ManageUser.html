@@ -23,7 +23,7 @@
     <div th:replace="fragments/navbar :: navbar"></div>
     <br />
     <div class="container mt-5">
-      <h2 class="mb-4">Users List</h2>
+      <h2 class="mb-4">User Table</h2>
 
       <!-- Search Box with Filter Options -->
       <div class="form-group">
@@ -36,15 +36,15 @@
       </div>
 
       <!-- Add New User Link -->
-      <a href="#" class="btn btn-primary mb-3">Add New User</a>
+      <a href="/adduser" class="btn btn-primary mb-3">Add New User</a>
 
       <!-- User Table -->
       <table class="table table-bordered">
         <thead class="table-header">
           <tr>
             <th>No</th>
-            <th>Name</th>
-            <th>Email</th>
+            <th>Username</th>
+            <th>Password</th>
             <th>Role</th>
             <th>Actions</th>
           </tr>
@@ -54,7 +54,7 @@
           <tr>
             <td>1</td>
             <td>teen</td>
-            <td>user1@example.com</td>
+            <td>123</td>
             <td>admin</td>
             <td>
               <a href="#" class="btn btn-warning btn-sm">Edit</a>
@@ -64,8 +64,8 @@
           <tr>
             <td>2</td>
             <td>ali</td>
-            <td>user2@example.com</td>
-            <td>admin</td>
+            <td>aw23</td>
+            <td>tester</td>
             <td>
               <a href="#" class="btn btn-warning btn-sm">Edit</a>
               <a href="#" class="btn btn-danger btn-sm">Delete</a>
@@ -74,8 +74,8 @@
           <tr>
             <td>3</td>
             <td>jack</td>
-            <td>user3@example.com</td>
-            <td>admin</td>
+            <td>4444</td>
+            <td>tester</td>
             <td>
               <a href="#" class="btn btn-warning btn-sm">Edit</a>
               <a href="#" class="btn btn-danger btn-sm">Delete</a>
@@ -84,8 +84,8 @@
           <tr>
             <td>4</td>
             <td>chok boon</td>
-            <td>user4@example.com</td>
-            <td>admin</td>
+            <td>655e</td>
+            <td>manager</td>
             <td>
               <a href="#" class="btn btn-warning btn-sm">Edit</a>
               <a href="#" class="btn btn-danger btn-sm">Delete</a>
@@ -94,8 +94,8 @@
           <tr>
             <td>5</td>
             <td>ashhvin</td>
-            <td>user5@example.com</td>
-            <td>admin</td>
+            <td>34353/td>
+            <td>manager</td>
             <td>
               <a href="#" class="btn btn-warning btn-sm">Edit</a>
               <a href="#" class="btn btn-danger btn-sm">Delete</a>
@@ -106,7 +106,7 @@
     </div>
 
     <!-- JavaScript for Filtering -->
-    <!-- <script>
+    <script>
       $(document).ready(function () {
         $("#searchInput").on("keyup", function () {
           var value = $(this).val().toLowerCase();
@@ -115,6 +115,6 @@
           });
         });
       });
-    </script> -->
+    </script>
   </body>
 </html>
