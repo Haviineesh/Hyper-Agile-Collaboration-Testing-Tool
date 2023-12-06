@@ -39,7 +39,9 @@
         }
 
         // Show the notification immediately upon page load
-        showNotificationInternal();
+        window.onload = function() {
+              showNotificationInternal();
+        };
     </script>
 
 </body>
