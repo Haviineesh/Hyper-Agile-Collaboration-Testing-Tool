@@ -21,22 +21,22 @@
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
-        <form action="/createrole" method="post">
+        <form method="post" action="/createrole">
 
             <div class="mb-3 d-flex justify-content-center">
                 <h3>Create New Role</h3>
             </div>
             <p>
-                <label class="col-3" for="createRoleID">Role ID:</label>
-                <input type="number" name="createRoleID" id="createRoleID" placeholder="E.g. 1234" required>
+                <label class="col-3" for="roleID">Role ID:</label>
+                <input type="number" name="roleID" id="roleID" placeholder="E.g. 1234" required>
             </p>
             <p>
-                <label class="col-3" for="createRoleName">Role Name:</label>
-                <input type="text" name="createRoleName" id="createRoleName" placeholder="name">
+                <label class="col-3" for="roleName">Role Name:</label>
+                <input type="text" name="roleName" id="roleName" placeholder="name">
             </p>
             <p>
-                <label class="col-3" for="createDescription">Description:</label>
-                <textarea name="createDescription" id="createDescription" rows="3"></textarea>
+                <label class="col-3" for="description">Description:</label>
+                <textarea name="description" id="description" rows="3"></textarea>
             </p>
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success">Create <i class="bi bi-plus"></i></button>
