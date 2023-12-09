@@ -69,17 +69,17 @@ public class ManageUser {
         this.password = password;
     }
 
-    // public String addNewUser(String username, String password) {
-    //     // Implementation for adding a new user
-    //     ManageUser newUser = new ManageUser();
-    //     newUser.setUsername(username);
-    //     newUser.setPassword(password);
+    public String addNewUser(String username, String password) {
+        // Implementation for adding a new user
+        ManageUser newUser = new ManageUser();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
 
-    //     // Save the new user to the database (assuming you have a repository)
-    //     // userRepository.save(newUser);
+        // Save the new user to the database (assuming you have a repository)
+        // userRepository.save(newUser);
 
-    //     return "New user added";
-    // }
+        return "New user added";
+    }
 
     // public String deleteUser(int userID) {
     //     // Implementation for deleting a user
