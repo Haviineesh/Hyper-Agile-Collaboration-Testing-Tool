@@ -2,9 +2,13 @@ package demo_ver.demo.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+
 import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.service.ManageUserService;
 
@@ -28,8 +32,16 @@ public class ManageUserController {
     }
 
     @GetMapping("/adduser")
-    public String showAddUserPage() {
+    public String showAddUserPage(Model model) {
+        model.addAttribute("manageUser", new ManageUser());
         return "ManageUserAdd";
+    }
+
+    @PostMapping("/adduser")
+    public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, Model model) {
+        manageUserService.addUser(manageUser);// save puser into database, using DbService
+        		model.addAttribute("manageUser", manageUser);
+        return "ManageUser";
     }
 }
 

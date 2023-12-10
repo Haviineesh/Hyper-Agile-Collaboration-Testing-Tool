@@ -22,35 +22,26 @@
 
     <h1>Notification Page</h1>
 
-    <button onclick="showNotification()">Show Notification</button>
-
     <script>
-        function showNotification() {
+        function showNotificationInternal() {
             // Check if the browser supports the Notification API
             if (!("Notification" in window)) {
                 alert("This browser does not support system notifications");
-            } else if (Notification.permission === "granted") {
-                // If permission is already granted, show the notification
-                showNotificationInternal();
-            } else if (Notification.permission !== "denied") {
-                // Otherwise, request permission from the user
-                Notification.requestPermission().then(function (permission) {
-                    if (permission === "granted") {
-                        showNotificationInternal();
-                    }
-                });
+            } else {
+                // Create a notification
+                var notification = new Notification("Hello, this is a notification!");
+
+                // Close the notification after a few seconds (optional)
+                setTimeout(function () {
+                    notification.close();
+                }, 5000);
             }
         }
 
-        function showNotificationInternal() {
-            // Create a notification
-            var notification = new Notification("Hello, this is a notification!");
-
-            // Close the notification after a few seconds (optional)
-            setTimeout(function () {
-                notification.close();
-            }, 5000);
-        }
+        // Show the notification immediately upon page load
+        window.onload = function() {
+              showNotificationInternal();
+        };
     </script>
 
 </body>
