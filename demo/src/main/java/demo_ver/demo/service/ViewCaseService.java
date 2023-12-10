@@ -2,7 +2,9 @@ package demo_ver.demo.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+
 
 import org.springframework.stereotype.Service;
 
@@ -28,4 +30,16 @@ public class ViewCaseService {
     // public static void deleteById(int idtest_cases) {
     //     testList.removeIf(testCase -> testCase.getId() == idtest_cases);
     // }
+
+    // public boolean deleteCase(String name) {
+	//     Iterator<TestCase> iterator = testList.iterator();
+	//     while (iterator.hasNext()) {
+	//         TestCase testCase = iterator.next();
+	//         if (testCase.getName().equalsIgnoreCase(name)) {
+	//             iterator.remove();
+	//             return true; // Product found and deleted
+	//         }
+	//     }
+	//     return false; // Product not found
+	// }
 }
