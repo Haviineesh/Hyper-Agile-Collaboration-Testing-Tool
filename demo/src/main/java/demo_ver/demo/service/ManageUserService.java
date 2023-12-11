@@ -12,8 +12,8 @@ import java.util.List;
 public class ManageUserService {
 
     private static List<ManageUser> userList = new ArrayList<ManageUser>(Arrays.asList(
-            new ManageUser(2001, 4055, "Teen", "123"),
-            new ManageUser(2002, 5055, "hulk10 ", "abc")));
+            new ManageUser( "Teen", "123", "Admin"),
+            new ManageUser( "hulk10 ", "abc", "Software Tester")));
 
     public static List<ManageUser> getAllUsers() {
         return new ArrayList<ManageUser>(userList);
@@ -21,13 +21,13 @@ public class ManageUserService {
 
     public void addUser(ManageUser newUser) {
         // Check if a user with the same ID already exists
-        if (userList.stream().noneMatch(user -> user.getRoleID() == newUser.getRoleID())) {
+        if (userList.stream().noneMatch(user -> user.getUsername() == newUser.getUsername())) {
             userList.add(newUser);
         } else {
             // Handle the case when a role with the same ID already exists
             // You can throw an exception, log a message, or take any other appropriate action.
             // For simplicity, let's log a message to the console.
-            System.out.println("Role with ID " + newUser.getRoleID() + " already exists.");
+            System.out.println("User with ID " + newUser.getUsername() + " already exists.");
         }
     }
 

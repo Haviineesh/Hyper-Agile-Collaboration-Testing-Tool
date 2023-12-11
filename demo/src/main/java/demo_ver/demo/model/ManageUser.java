@@ -7,10 +7,11 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
 public class ManageUser {
-    private int userID;
-    private int roleID;
+    // private int userID;
+    // private int roleID;
     public String username;
     public String password;
+    public String role;
 
     class userRepository {
 
@@ -31,11 +32,12 @@ public class ManageUser {
 
     }
 
-    public ManageUser(int userID, int roleID, String username, String password) {
-        this.userID = userID;
-        this.roleID = roleID;
+    public ManageUser(String username, String password, String role) {
+        // this.userID = userID;
+        // this.roleID = roleID;
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -46,20 +48,20 @@ public class ManageUser {
         this.username = username;
     }
 
-    public int getRoleID() {
-        return roleID;
-    }
+    // public int getRoleID() {
+    //     return roleID;
+    // }
 
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
-    }
-    public int getUserID() {
-        return userID;
-    }
+    // public void setRoleID(int roleID) {
+    //     this.roleID = roleID;
+    // }
+    // public int getUserID() {
+    //     return userID;
+    // }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
+    // public void setUserID(int userID) {
+    //     this.userID = userID;
+    // }
 
     public String getPassword() {
         return password;
@@ -68,12 +70,20 @@ public class ManageUser {
     public void setPassword(String password) {
         this.password = password;
     }
+    public String getRole() {
+        return role;
+    }
 
-    public String addNewUser(String username, String password) {
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String addNewUser(String username, String password, String role) {
         // Implementation for adding a new user
         ManageUser newUser = new ManageUser();
         newUser.setUsername(username);
         newUser.setPassword(password);
+        newUser.setRole(role);
 
         // Save the new user to the database (assuming you have a repository)
         // userRepository.save(newUser);
