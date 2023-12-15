@@ -21,18 +21,18 @@
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
-        <form method="post" action="/add">
+        <form th:object="${testCase}" method="post" th:action="@{/save}">
 
             <div class="mb-3 d-flex justify-content-center">
                 <h3>Add Test Case</h3>
             </div>
             <p>
-                <label class="col-3" for="idtest_cases">Test Case ID:</label>
-                <input type="number" name="idtest_cases" id="idtest_cases" placeholder="ID Test Case">
+                <label class="col-3" for="code">Test Case Code:</label>
+                <input type="number" th:field ="*{code}" placeholder="Code Test Case">
             </p>
             <p>
                 <label class="col-3" for="test_desc">Description:</label>
-                <textarea name="test_desc" id="test_desc" rows="3"></textarea>
+                <textarea name="test_desc" th:field ="*{test_desc}" rows="3"></textarea>
             </p>
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success">Create <i class="bi bi-plus"></i></button>
