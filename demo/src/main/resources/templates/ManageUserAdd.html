@@ -28,6 +28,24 @@
             required
           />
         </div>
+        <!-- Display an alert if the username already exists -->
+    <div th:if="${usernameExists}" class="alert alert-danger" role="alert">
+      Username already exists! Please choose a different username.
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      required
+    />
+  </div>
+   <!-- Display an alert if the email already exists -->
+   <div th:if="${emailExists}" class="alert alert-danger" role="alert">
+    Email already exists!
+</div>
         <div class="form-group">
           <label for="password">Password</label>
           <!-- Display auto-generated random password (replace with actual logic) -->

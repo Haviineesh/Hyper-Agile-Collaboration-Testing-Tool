@@ -20,14 +20,14 @@ public class ManageRoleService {
     }
 
     public void addRole(ManageRole newRole) {
-        // Check if a role with the same ID already exists
-        if (roleList.stream().noneMatch(role -> role.getRoleID() == newRole.getRoleID())) {
+        if (roleList.stream().noneMatch(role -> role.getRoleName().equals(newRole.getRoleName()))) {
             roleList.add(newRole);
         } else {
-            // Handle the case when a role with the same ID already exists
-            // You can throw an exception, log a message, or take any other appropriate action.
+            // Handle the case when a role with the same roleName already exists
+            // You can throw an exception, log a message, or take any other appropriate
+            // action.
             // For simplicity, let's log a message to the console.
-            System.out.println("Role with ID " + newRole.getRoleID() + " already exists.");
+            System.out.println("Role with roleName " + newRole.getRoleName() + " already exists.");
         }
     }
 
