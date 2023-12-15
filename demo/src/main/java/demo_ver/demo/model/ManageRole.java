@@ -30,6 +30,11 @@ public class ManageRole {
 
     }
 
+    public ManageRole(String roleName, String description) {
+        this.roleName = roleName;
+        this.description = description;
+    }
+
     public ManageRole(int roleID, String roleName, String description) {
         this.roleID = roleID;
         this.roleName = roleName;

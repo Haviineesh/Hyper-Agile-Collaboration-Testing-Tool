@@ -10,8 +10,13 @@ public class TestCase {
     private Long idtest_cases;
     private String test_desc;
     private String code;
+    private String deadline;
+    private String dateUpdated;
+    private String projectId;
+    private String reason;
+    private String status;
+    private String testCaseName;
 
-     // Default constructor (no-argument constructor)
 
     public TestCase(){
 
@@ -39,10 +44,35 @@ public class TestCase {
     }
     public void setCode(String code) {
         this.code = code;
-    }
+    }    
+
+    // Getters and Setters afser
+   
+
+    public String getDeadline() { return deadline; }
+    public void setDeadline(String deadline) { this.deadline = deadline; }
+
+    public String getDateUpdated() { return dateUpdated; }
+    public void setDateUpdated(String dateUpdated) { this.dateUpdated = dateUpdated; }
+
+    public String getProjectId() { return projectId; }
+    public void setProjectId(String projectId) { this.projectId = projectId; }
+
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String getTestCaseName() { return testCaseName; }
+    public void setTestCaseName(String testCaseName) { this.testCaseName = testCaseName; }
 
 
 }
+
+
+
+
 
 
     

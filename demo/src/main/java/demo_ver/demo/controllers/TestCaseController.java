@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import demo_ver.demo.model.TestCase;
 import demo_ver.demo.service.ViewCaseService;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 
 @Controller

@@ -44,10 +44,9 @@
         <thead class="table-header">
           <tr>
             <th scope="col">#</th>
-            <!-- <th scope="col">User ID</th>
-            <th scope="col">Role ID</th> -->
+            <th scope="col">User ID</th>
+            <th scope="col">Email</th>
             <th scope="col">Username</th>
-            <th scope="col">Password</th>
             <th scope="col">Role</th>
             <th scope="col">Action</th>
           </tr>
@@ -55,10 +54,9 @@
         <tbody>
           <tr th:each="user, iStat : ${users}">
             <td th:text="${iStat.count}"></td>
-            <!-- <td th:text="${user.userID}"></td>
-            <td th:text="${user.roleID}"></td> -->
+            <td th:text="${user.userID}"></td>
+            <td th:text="${user.email}"></td>
             <td th:text="${user.username}"></td>
-            <td th:text="${user.password}"></td>
             <td th:text="${user.role}"></td>
             <td>
               <button type="button" class="btn btn-success">

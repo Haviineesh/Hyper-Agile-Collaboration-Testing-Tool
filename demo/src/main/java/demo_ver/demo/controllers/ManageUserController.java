@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-
 import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.service.ManageUserService;
 
@@ -37,11 +36,35 @@ public class ManageUserController {
         return "ManageUserAdd";
     }
 
+    public void setManageUserService(ManageUserService manageUserService) {
+        this.manageUserService = manageUserService;
+    }
+
+    // @PostMapping("/adduser")
+    // public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, Model model) {
+    //     manageUserService.addUser(manageUser);// save puser into database, using DbService
+    //    model.addAttribute("manageUser", manageUser);
+    //     return "ManageUser";
+    // }
+
     @PostMapping("/adduser")
     public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, Model model) {
-        manageUserService.addUser(manageUser);// save puser into database, using DbService
-        		model.addAttribute("manageUser", manageUser);
+        // Check if the username already exists
+        if (manageUserService.isUsernameExists(manageUser.getUsername())) {
+            model.addAttribute("usernameExists", true);
+            return "ManageUserAdd";
+        }
+
+        if (manageUserService.isEmailExists(manageUser.getEmail())) {
+            model.addAttribute("emailExists", true);
+            return "ManageUserAdd";
+        }
+
+        // If the username does not exist, save the user
+        manageUserService.addUser(manageUser);
+        model.addAttribute("manageUser", manageUser);
         return "ManageUser";
     }
+
 }
 

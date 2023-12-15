@@ -2,9 +2,9 @@ package demo_ver.demo.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
@@ -46,6 +46,14 @@ public class ViewCaseService {
     public void updateCase(TestCase testCase){
         deleteCase(testCase.getIdtest_cases());
         testList.add(testCase);
+    }
+
+    public TestCase getTestCaseById(int id) {
+
+     return testList.stream()
+                       .filter(testCase -> testCase.getIdtest_cases() == id)
+                       .findFirst()
+                       .orElseThrow(() -> new NoSuchElementException("Test case not found"));
     }
 
 
