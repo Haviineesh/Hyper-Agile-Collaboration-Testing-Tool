@@ -1,36 +1,124 @@
-// package demo_ver.demo.service;
+package demo_ver.demo.service;
 
-// import java.util.List;
+import java.time.LocalDateTime;
+import java.util.List;
 
-// import org.springframework.boot.SpringApplication;
-// import org.springframework.boot.autoconfigure.SpringBootApplication;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-// @SpringBootApplication
-// public class ShowNotification {
+@Service
+public class ShowNotification {
 
-//     public static void main(String[] args) {
-//         SpringApplication.run(ShowNotification.class, args);
-//     }
-// }
+    @Autowired
+    private ApiService apiService;
 
-// @RestController
-// @RequestMapping("/api")
-// class NotificationController {
+    public static class UseCase {
+        private LocalDateTime deadline;
+        private String status;
+        private List<String> roles;
 
-//     @GetMapping("/send-notification")
-//     public String sendNotification() {
-//         // Replace this with your actual notification logic
-//         String notificationMessage = "Hello, this is a notification!";
-//         sendNotificationToPostman(notificationMessage);
-//         return "Notification sent successfully";
-//     }
+        // Constructors, getters, and setters 
+        public UseCase() {
+        }
 
-//     private void sendNotificationToPostman(String message) {
-//         // You can use any notification mechanism here, like sending an email, SMS, etc.
-//         // For simplicity, we will print the message to the console.
-//         System.out.println("Notification: " + message);
-//     }
-// }
+        public UseCase(LocalDateTime deadline, String status, List<String> roles) {
+            this.deadline = deadline;
+            this.status = status;
+            this.roles = roles;
+        }
+
+        // Getters and Setters
+        public LocalDateTime getDeadline() {
+            return deadline;
+        }
+
+        public void setDeadline(LocalDateTime deadline) {
+            this.deadline = deadline;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public List<String> getRoles() {
+            return roles;
+        }
+
+        public void setRoles(List<String> roles) {
+            this.roles = roles;
+        }
+
+        @Override
+        public String toString() {
+            return "UseCase{" +
+                    "deadline=" + deadline +
+                    ", status='" + status + '\'' +
+                    ", roles=" + roles +
+                    '}';
+        }
+    }
+
+    // This method sends notifications based on the specified criteria.
+    public void sendNotifications(List<UseCase> useCases, ApiService apiService) {
+        for (UseCase useCase : useCases) {
+            LocalDateTime currentDateTime = LocalDateTime.now();
+
+            // Check if the deadline is not null, the status is not null, and the status is unchecked.
+            if (useCase.getDeadline() != null &&
+                useCase.getStatus() != null &&
+                currentDateTime.isAfter(useCase.getDeadline()) &&
+                "unchecked".equals(useCase.getStatus())) {
+                
+                // Get the roles of the user associated with this use case.
+                List<String> userRoles = apiService.getUserRoles(useCase);
+
+                // Iterate through user roles to send notifications.
+                for (String role : userRoles) {
+                    // Send notification to the user with the specific role.
+                    sendNotification(role, "Use case deadline reached and status is unchecked for: " + useCase);
+                }
+            }
+        }
+    }
+
+    // Method to simulate sending a notification.
+    private void sendNotification(String userRole, String message) {
+        // Implement logic to send a notification to the user with the specified role.
+        // This could involve using a messaging system or an API call.
+        // For the sake of the example, let's print the notification.
+
+        System.out.println("Notification sent to user with role '" + userRole + "': " + message);
+    }
+
+    public static void main(String[] args) {
+        // Create instances of the NotificationService, UseCase, and ApiService for testing.
+        ShowNotification notificationService = new ShowNotification();
+        UseCase useCase = new UseCase();
+        // Set relevant properties for the use case.
+
+        // Create a list of use cases.
+        List<UseCase> useCases = List.of(useCase);
+
+        // Create an instance of the DummyApiService for testing.
+        ApiService apiService = new DummyApiService();
+
+        // Call the sendNotifications method to check and send notifications.
+        notificationService.sendNotifications(useCases, apiService);
+    }
+
+    // Dummy implementation of ApiService for testing
+    public static class DummyApiService implements ApiService {
+
+        @Override
+        public List<String> getUserRoles(UseCase useCase) {
+            // Simulate API call to retrieve user roles based on the use case
+            // Replace this with your actual API logic
+            // For the sake of the example, let's return a sample list of roles.
+            return useCase.getRoles();
+        }
+    }
+}

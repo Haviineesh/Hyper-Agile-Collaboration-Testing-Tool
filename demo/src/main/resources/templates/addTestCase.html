@@ -23,6 +23,11 @@
     <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
         <form method="post" action="/add">
 
+            <!-- Notification -->
+            <div th:if="${notificationMessage}" class="alert alert-info" role="alert">
+                <span th:text="${notificationMessage}"></span>
+            </div>
+
             <div class="mb-3 d-flex justify-content-center">
                 <h3>Add Test Case</h3>
             </div>
@@ -37,12 +42,9 @@
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success">Create <i class="bi bi-plus"></i></button>
             </div>
-        
+
         </form>
-        
-
     </div>
-
 </body>
 
 </html>

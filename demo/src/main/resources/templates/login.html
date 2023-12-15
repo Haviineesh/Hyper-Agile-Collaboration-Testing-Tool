@@ -78,6 +78,13 @@
     </style>
   </head>
   <body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    
+    <!-- Notification -->
+    <div th:if="${notificationMessage}" class="alert alert-info" role="alert">
+      <span th:text="${notificationMessage}"></span>
+    </div>
+
     <div class="container login-container">
       <h2>Login</h2>
       <form method="post" action="/login">
@@ -112,36 +119,37 @@
         <button type="submit" class="form-control btn btn-block">Login</button>
       </form>
     </div>
+    
     <div class="svg-container">
-    <!-- Vector 2 -->
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 1440 111"
-      style="position: absolute; bottom: 0; z-index: 2"
-    >
-      <path
-        fill="#D689E9"
-        fill-opacity=".83"
-        fill-rule="evenodd"
-        d="m0 44.4 48 8.88c48 8.88 144 26.64 240 22.2 96-4.44 192-31.08 288-48.84C672 8.88 768 0 864 0s192 8.88 288 24.42c96 15.54 192 37.74 240 48.84l48 11.1V111H0V44.4Z"
-        clip-rule="evenodd"
-      />
-    </svg>
-    <!-- Vector 1 -->
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 1440 111"
-      style="position: absolute; bottom: 0; z-index: 1"
-    >
-      <path
-        fill="#DF20CC"
-        fill-rule="evenodd"
-        d="m0 0 59.625 4.17c60.75 4.171 180 12.512 300.375 26.628 120.375 14.436 239.625 34.968 360 39.138 120.375 4.17 239.625-8.34 360-12.19 120.38-4.17 239.62 0 300.38 1.924l59.62 1.925V111H0V0Z"
-        clip-rule="evenodd"
-      />
-    </svg>
-  </div>
+      <!-- Vector 2 -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 1440 111"
+        style="position: absolute; bottom: 0; z-index: 2"
+      >
+        <path
+          fill="#D689E9"
+          fill-opacity=".83"
+          fill-rule="evenodd"
+          d="m0 44.4 48 8.88c48 8.88 144 26.64 240 22.2 96-4.44 192-31.08 288-48.84C672 8.88 768 0 864 0s192 8.88 288 24.42c96 15.54 192 37.74 240 48.84l48 11.1V111H0V44.4Z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <!-- Vector 1 -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 1440 111"
+        style="position: absolute; bottom: 0; z-index: 1"
+      >
+        <path
+          fill="#DF20CC"
+          fill-rule="evenodd"
+          d="m0 0 59.625 4.17c60.75 4.171 180 12.512 300.375 26.628 120.375 14.436 239.625 34.968 360 39.138 120.375 4.17 239.625-8.34 360-12.19 120.38-4.17 239.62 0 300.38 1.924l59.62 1.925V111H0V0Z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </div>
   </body>
 </html>

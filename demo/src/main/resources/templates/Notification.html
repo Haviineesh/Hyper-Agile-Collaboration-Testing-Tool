@@ -1,48 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notification Page</title>
+    <title>Notification</title>
+    <!-- Notification Style -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        .notification {
+            padding: 16px;
+            background-color: #f44336;
+            color: white;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
             text-align: center;
-            margin-top: 50px;
+            z-index: 1;
         }
 
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
+        .close-btn {
+            padding: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
             cursor: pointer;
+            position: absolute;
+            top: 0;
+            right: 0;
         }
     </style>
 </head>
 <body>
+    <div th:if="${notifierMessage}" class="notification">
+        <span th:text="${notifierMessage}"></span>
+        <button class="close-btn" onclick="closeNotification()">×</button>
+    </div>
 
-    <h1>Notification Page</h1>
-
-    <script>
-        function showNotificationInternal() {
-            // Check if the browser supports the Notification API
-            if (!("Notification" in window)) {
-                alert("This browser does not support system notifications");
-            } else {
-                // Create a notification
-                var notification = new Notification("Hello, this is a notification!");
-
-                // Close the notification after a few seconds (optional)
-                setTimeout(function () {
-                    notification.close();
-                }, 5000);
-            }
+    <script th:inline="javascript">
+        function closeNotification() {
+            document.querySelector('.notification').style.display = 'none';
         }
-
-        // Show the notification immediately upon page load
-        window.onload = function() {
-              showNotificationInternal();
-        };
     </script>
-
 </body>
 </html>
+
