@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import demo_ver.demo.model.TestCase;
@@ -25,8 +26,8 @@ public class TestCaseController {
 
     @GetMapping("/view")
     public String viewCase(Model model) {
-        List<TestCase> cases = viewCaseService.getAllRoles();
-        model.addAttribute("cases", cases);
+        // List<TestCase> cases = viewCaseService.findAllList();
+        model.addAttribute("testCase", ViewCaseService.findAllList());
         return "viewTestCase";
     }
 
@@ -42,45 +43,31 @@ public class TestCaseController {
         return "addTestCase"; // Thymeleaf template name for the addTestCase.html file
     }  
 
-    @PostMapping("/add")
-	public String addTestCaseForm(@ModelAttribute("testCase") TestCase testCase) {
+    @PostMapping("/save")
+	public String addTestCaseForm(TestCase testCase,Model model) {
 		viewCaseService.addTestCaseForm(testCase);// save product into database, using DbService
-		return "viewTestCase";
+		return "redirect:/view";
 	}
 
-    @GetMapping("/editTC")
-    public String showEditTestCaseForm(Model model) {
-        model.addAttribute("testCase", new TestCase());
-        return "EditTestCase"; // Thymeleaf template name for the addTestCase.html file
-    }  
-
-    @PostMapping("/editTC")
-	public String editTestCaseForm(@ModelAttribute("testCase") TestCase testCase) {
-		viewCaseService.addTestCaseForm(testCase);// save product into database, using DbService
-		return "viewTestCase";
+    @GetMapping("/deleteCase/{idtest_cases}")
+	public String deleteCase(@PathVariable("idtest_cases") Long idtest_cases) {
+		
+       viewCaseService.deleteCase(idtest_cases);
+		return "redirect:/view";
 	}
 
-    // @PostMapping("/editTC")
-	// public String updateproduct(HttpServletRequest request, Model model) {
-	// 	// Get the product name and updated details from the request
-	// 	String name = request.getParameter("name");
-	// 	String updatedName = request.getParameter("updatedName");
-	// 	double updatedPrice = Double.parseDouble(request.getParameter("updatedPrice"));
+    @GetMapping("/editCase/{idtest_cases}")
+	public String editCase(@PathVariable("idtest_cases") Long idtest_cases,Model model) {
+		
+        model.addAttribute("testCase", viewCaseService.findById(idtest_cases));
+		return "EditTestCase";
+	}
 
-	// 	// Create a new Product object with the updated details
-	// 	Product updatedProduct = new Product(updatedName, updatedPrice);
-
-	// 	// Call the updateProduct method from DbService
-	// 	dbService.updateProduct(name, updatedProduct);
-
-	// 	// Redirect to a view to show the updated product details
-	// 	return "redirect:/viewallproducts";
-	// }
-
-    @GetMapping("/deleteproduct")
-	public String deleteProductForm(Model model) {
-		// You can include any necessary data for the delete form using model
-		return "deleteproductform";
+    @PostMapping("/update")
+	public String editTestCaseForm(TestCase testCase,Model model) {
+		
+        viewCaseService.updateCase(testCase);
+		return "redirect:/view";
 	}
 
     
