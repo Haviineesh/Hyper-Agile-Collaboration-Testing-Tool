@@ -48,10 +48,10 @@ public class ViewCaseService {
         testList.add(testCase);
     }
 
-    public TestCase getTestCaseById(int id) {
+    public TestCase getTestCaseById(long idtest_cases) {
 
      return testList.stream()
-                       .filter(testCase -> testCase.getIdtest_cases() == id)
+                       .filter(testCase -> testCase.getIdtest_cases() == idtest_cases)
                        .findFirst()
                        .orElseThrow(() -> new NoSuchElementException("Test case not found"));
     }

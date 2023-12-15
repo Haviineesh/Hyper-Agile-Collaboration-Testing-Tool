@@ -14,10 +14,10 @@ public class TestCaseDetailsController {
     @Autowired
     private ViewCaseService viewCaseService;
 
-    @GetMapping("/testcases/details/{id}")
-    public String viewTestCaseDetails(@PathVariable("id") int id, Model model) {
+    @GetMapping("/testcases/details/{idtest_cases}")
+    public String viewTestCaseDetails(@PathVariable("idtest_cases") Long idtest_cases, Model model) {
         // Fetch the TestCase by id
-        TestCase testCase = viewCaseService.getTestCaseById(id);
+        TestCase testCase = viewCaseService.getTestCaseById(idtest_cases);
 
         // Add the TestCase to the model
         model.addAttribute("testCase", testCase);

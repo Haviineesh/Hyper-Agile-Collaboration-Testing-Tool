@@ -30,18 +30,14 @@
                     <td th:text="${test.code}"></td>
                     <td th:text="${test.test_desc}"></td>
                     <td>
-                        <button type="button" class="btn btn-primary"><i class="bi bi-eye"></i></button>
+
+                        <a class="btn btn-primary" th:href = "@{'/testcases/details/'+${test.idtest_cases}}">
+                            Details
+                            </a>
+                        
                         <a class="btn btn-warning" th:href = "@{'/editCase/' +${test.idtest_cases}}">
-                        <a th:href="@{/testcases/details/{id}(id=${test.idtest_cases})}">
-                            <button type="button" class="btn btn-primary">
-                                <i class="bi bi-eye"></i>
-                        
-                            </button>
-                        </a>
-                        
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal">
                             Edit
-                        </a>
+                            </a>
                         <a class="btn btn-danger" th:href = "@{'/deleteCase/' +${test.idtest_cases}}">
                             Delete
                         </a>
