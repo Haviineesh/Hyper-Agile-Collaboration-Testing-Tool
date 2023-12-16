@@ -19,16 +19,18 @@
             <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Code</th>
                     <th scope="col">Test Case</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="test, iStat : ${testCase}">
                     <td th:text="${test.idtest_cases}"></td>
-                    <td th:text="${test.code}"></td>
-                    <td th:text="${test.test_desc}"></td>
+                    <td th:text="${test.testCaseName}"></td>
+                    <td th:text="${test.deadline}"></td>
+                    <td th:text="${test.status}"></td>
                     <td>
 
                         <a class="btn btn-primary" th:href = "@{'/testcases/details/'+${test.idtest_cases}}">
