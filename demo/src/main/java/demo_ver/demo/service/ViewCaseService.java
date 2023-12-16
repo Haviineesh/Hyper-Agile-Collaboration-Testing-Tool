@@ -18,9 +18,9 @@ public class ViewCaseService {
 
      private static List<TestCase> testList = new ArrayList<TestCase>(){
      {
-            add(new TestCase(RandomNumber.getRandom(100,999),"001","Tester"));
-            add(new TestCase(RandomNumber.getRandom(100,999),"002","Proproduction"));
-            add(new TestCase(RandomNumber.getRandom(100,999), "003","Manager"));
+            add(new TestCase(RandomNumber.getRandom(100,999),"001",8,"Diagram","desc1","2023-12-11","2023-11-10","Approved"));
+            add(new TestCase(RandomNumber.getRandom(100,999),"002",5,"Sequence","desc2","2023-10-10","2023-11-17","Pending"));
+            add(new TestCase(RandomNumber.getRandom(100,999),"003",7,"Testing","desc3","2023-12-10","2023-11-15","Disapproved"));
      }
     };
            
