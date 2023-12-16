@@ -27,16 +27,36 @@
                 <h3>Edit Test Case</h3>
             </div>
             <p>
-                <label class="col-3" for="code">Test Case Code:</label>
-                <input type="number" th:field ="*{code}" placeholder="Code Test Case">
+                <label class="col-3" for="code">Project ID:</label>
+                <input type="text" th:field ="*{projectId}" placeholder="Code Test Case">
             </p>
             <p>
-                <label class="col-3" for="test_desc">Description:</label>
+                <label class="col-3" for="smart">Smart Contract ID:</label>
+                <input type="number" th:field ="*{smartContractID}" placeholder="Smart Contract ID">
+            </p>
+            <p>
+                <label class="col-3" for="tcName">Test Case Name:</label>
+                <input type="text" th:field ="*{testCaseName}" placeholder="Test Case Name">
+            </p>
+            <p>
+                <label class="col-3" for="desc">Test Case Description:</label>
                 <textarea name="test_desc" th:field ="*{test_desc}" rows="3"></textarea>
+            </p>    
+            <p>
+                <label class="col-3" for="dateCreated">Deadline:</label>
+                <input type="date" th:field ="*{dateCreated}" placeholder="Date Created">
+            </p>
+            <p>
+                <label class="col-3" for="deadline">Date Update:</label>
+                <input type="date" th:field ="*{deadline}" placeholder="Deadline">
+            </p>
+            <p>
+                <label class="col-3" for="status">Status:</label>
+                <input type="text" th:field ="*{status}" placeholder="Status">
             </p>
             <br/><input type="hidden" th:field="*{idtest_cases}" />
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success">Save <i class="bi bi-plus"></i></button>
+                <button type="submit" class="btn btn-success">Save </button>
             </div>
         
         </form>
