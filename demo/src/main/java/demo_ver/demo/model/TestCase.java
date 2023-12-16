@@ -9,24 +9,32 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 public class TestCase {
     private Long idtest_cases;
     private String test_desc;
-    private String code;
     private String deadline;
     private String dateUpdated;
     private String projectId;
     private String reason;
     private String status;
     private String testCaseName;
+    private String dateCreated;
+    private int smartContractID;
 
 
     public TestCase(){
 
     }
 
-    public TestCase(Long idtest_cases, String code, String test_desc) {
+    public TestCase(Long idtest_cases, String projectId,int smartContractID, String testCaseName,String test_desc, String dateCreated, String deadline,
+            String status) {
         this.idtest_cases = idtest_cases;
+        this.deadline = deadline;
+        this.projectId = projectId;
+        this.status = status;
+        this.testCaseName = testCaseName;
+        this.dateCreated = dateCreated;
+        this.smartContractID = smartContractID;
         this.test_desc = test_desc;
-        this.code = code;
     }
+
     public Long getIdtest_cases() {
         return idtest_cases;
     }
@@ -39,12 +47,13 @@ public class TestCase {
     public void setTest_desc(String test_desc) {
         this.test_desc = test_desc;
     }
-    public String getCode() {
-        return code;
+    public int getSmartContractID() {
+        return smartContractID;
     }
-    public void setCode(String code) {
-        this.code = code;
+    public void setSmartContractID(int smartContractID) {
+        this.smartContractID = smartContractID;
     }    
+    
 
     // Getters and Setters afser
    
@@ -66,6 +75,14 @@ public class TestCase {
 
     public String getTestCaseName() { return testCaseName; }
     public void setTestCaseName(String testCaseName) { this.testCaseName = testCaseName; }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 
 
 }
