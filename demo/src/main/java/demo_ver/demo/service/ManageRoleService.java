@@ -1,8 +1,8 @@
 package demo_ver.demo.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -11,16 +11,20 @@ import demo_ver.demo.model.ManageRole;
 @Service
 public class ManageRoleService {
 
-    private static List<ManageRole> roleList = new ArrayList<ManageRole>(Arrays.asList(
-            new ManageRole(4055, "Tester", "unit tester"),
-            new ManageRole(5055, "Product Manager", "manage production")));
+    private static List<ManageRole> roleList = new ArrayList<ManageRole>() {
+        {
+            add(new ManageRole(1000, "Tester", "unit tester"));
+            add(new ManageRole(1001, "Product Manager", "manage production"));
+        }
+    };
 
-    public List<ManageRole> getAllRoles() {
-        return new ArrayList<ManageRole>(roleList);
+    public static List<ManageRole> getAllRoles() {
+        return roleList;
     }
 
     public void addRole(ManageRole newRole) {
         if (roleList.stream().noneMatch(role -> role.getRoleName().equals(newRole.getRoleName()))) {
+            newRole.setRoleID(roleList.get(roleList.size()-1).getRoleID()+1);
             roleList.add(newRole);
         } else {
             // Handle the case when a role with the same roleName already exists
@@ -29,6 +33,26 @@ public class ManageRoleService {
             // For simplicity, let's log a message to the console.
             System.out.println("Role with roleName " + newRole.getRoleName() + " already exists.");
         }
+    }
+
+    public Optional <ManageRole> findById(long id){
+        return roleList.stream().filter(t -> t.getRoleID()==id).findFirst();
+    }
+
+    public void updateManageRole(ManageRole manageRole) {
+        Optional<ManageRole> existingRoleOptional = findById(manageRole.getRoleID());
+
+        if (existingRoleOptional.isPresent()) {
+            ManageRole existingRole = existingRoleOptional.get();
+    
+            // Update the existing role's properties
+            existingRole.setRoleName(manageRole.getRoleName());
+            existingRole.setDescription(manageRole.getDescription());
+            System.out.println("Role with ID " + existingRole.getRoleID() + " updated successfully");
+        } else {
+            System.out.println("Role with ID " + manageRole.getRoleID() + " not found");
+        }
+    
     }
 
 }
