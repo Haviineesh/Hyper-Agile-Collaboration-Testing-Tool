@@ -21,22 +21,24 @@
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
-        <form action="#">
+        <form th:object="${role}" method="post" th:action="@{/editrole}">
+            <input type="hidden" th:field="*{roleID}" />
             <p>
                 <label class="col-3" for="editRoleID">Role ID:</label>
-                <input type="text" id="editRoleID" placeholder="4044" disabled>
+                <input type="text" id="editRoleID" placeholder="" th:field="*{roleID}" readonly="readonly" disabled>
             </p>
             <p>
                 <label class="col-3" for="editRoleName">Role Name:</label>
-                <input type="text" id="editRoleName" placeholder="name">
+                <input type="text" id="editRoleName" placeholder="" th:field="*{roleName}">
             </p>
             <p>
                 <label class="col-3" for="textarea">Description:</label>
-                <textarea id="textarea" rows="3"></textarea>
-            </p>
+                <textarea id="textarea" rows="3" th:field="*{description}"></textarea>
+            </p>            
             <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-secondary">Cancel <i class="bi bi-x"></i></button>
-                <button type="button" class="btn btn-primary">Edit <i class="bi bi-eye"></i></button>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success">Save </button>
+                </div>
             </div>
 
         </form>

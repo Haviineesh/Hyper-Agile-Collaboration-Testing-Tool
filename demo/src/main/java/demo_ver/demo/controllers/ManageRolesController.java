@@ -45,8 +45,8 @@ public class ManageRolesController {
     }
 
     @GetMapping("/editrole/{id}")
-    public String editManagerole(@PathVariable("id") long id, Model model) {
-        model.addAttribute("manageRole", manageRoleService.findById(id));
+    public String editManagerole(@PathVariable("id") int id, Model model) {
+        model.addAttribute("role", manageRoleService.findById(id));
         return "ManageRolesEdit";
     }
 

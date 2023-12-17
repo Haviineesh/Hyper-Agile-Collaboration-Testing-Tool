@@ -33,7 +33,9 @@
                     <td th:text="${role.roleName}"></td>
                     <td th:text="${role.description}"></td>
                     <td>
-                        <button type="button" class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
+                        <a class="btn btn-warning" th:href = "@{'/editrole/' +${role.roleID}}">
+                            <i class="bi bi-pencil-square"></i>
+                            </a>
                         <button type="button" class="btn btn-danger"><i class="bi bi-trash"></i></button>
                     </td>
                 </tr>
