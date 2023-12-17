@@ -55,5 +55,11 @@ public class ManageRolesController {
         manageRoleService.updateManageRole(manageRole);
         return "redirect:/manageroles";
     }
+
+    @GetMapping("/deleterole/{id}")
+	public String deleteRole(@PathVariable("id") int id) {
+       manageRoleService.deleteRole(id);
+		return "redirect:/manageroles";
+	}
     
 }
