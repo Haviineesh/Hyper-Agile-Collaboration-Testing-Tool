@@ -23,7 +23,11 @@ public class ManageRoleService {
     }
 
     public void addRole(ManageRole newRole) {
-        if (roleList.stream().noneMatch(role -> role.getRoleName().equals(newRole.getRoleName()))) {
+        if (roleList.isEmpty()) {
+            // If the roleList is empty, set the roleID to 1
+            newRole.setRoleID(1000);
+            roleList.add(newRole);
+        } else if (roleList.stream().noneMatch(role -> role.getRoleName().equals(newRole.getRoleName()))) {
             newRole.setRoleID(roleList.get(roleList.size() - 1).getRoleID() + 1);
             roleList.add(newRole);
         } else {
