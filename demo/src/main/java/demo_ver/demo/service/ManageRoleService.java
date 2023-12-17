@@ -43,10 +43,38 @@ public class ManageRoleService {
         roleList.removeIf(t -> t.getRoleID() == id);
     }
 
-    public void updateManageRole(ManageRole manageRole) {
-        deleteRole(manageRole.getRoleID());
-        roleList.add(manageRole);
+    // public void updateManageRole(ManageRole manageRole) {
+    //     deleteRole(manageRole.getRoleID());
+    //     roleList.add(manageRole);
 
+    // }
+
+    public void updateManageRole(ManageRole manageRole) {
+        Optional<ManageRole> existingRoleOptional = findById(manageRole.getRoleID());
+    
+        if (existingRoleOptional.isPresent()) {
+            ManageRole existingRole = existingRoleOptional.get();
+    
+            // Check if the new roleName is not already in use
+            if (roleList.stream().noneMatch(role -> role.getRoleName().equals(manageRole.getRoleName()))) {
+                // Update the existing role's properties
+                existingRole.setRoleName(manageRole.getRoleName());
+                existingRole.setDescription(manageRole.getDescription());
+    
+                // Optionally, you can update other properties as needed
+    
+                // Log a message or perform other actions if necessary
+                System.out.println("Role with ID " + existingRole.getRoleID() + " updated successfully");
+            } else {
+                // Handle the case when a role with the same roleName already exists
+                System.out.println("Role with roleName " + manageRole.getRoleName() + " already exists.");
+            }
+        } else {
+            // Handle the case when the role does not exist
+            System.out.println("Role with ID " + manageRole.getRoleID() + " not found");
+        }
     }
+    
+    
 
 }
