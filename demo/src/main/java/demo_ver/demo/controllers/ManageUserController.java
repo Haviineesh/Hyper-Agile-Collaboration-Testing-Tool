@@ -3,9 +3,9 @@ package demo_ver.demo.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import demo_ver.demo.model.ManageUser;
@@ -20,13 +20,13 @@ public class ManageUserController {
     // @GetMapping("/manageuser")
     // @ResponseBody
     // public List<ManageUser> getAllUsers(){
-    //     return manageUserService.getAllUsers();
+    // return manageUserService.getAllUsers();
     // }
 
     @GetMapping("/manageuser")
     public String manageusers(Model model) {
-        List<ManageUser> users = manageUserService.getAllUsers();
-		model.addAttribute("users", users);
+        // List<ManageUser> users = manageUserService.getAllUsers();
+        model.addAttribute("users", ManageUserService.getAllUsers());
         return "ManageUser";
     }
 
@@ -36,20 +36,9 @@ public class ManageUserController {
         return "ManageUserAdd";
     }
 
-    public void setManageUserService(ManageUserService manageUserService) {
-        this.manageUserService = manageUserService;
-    }
-
-    // @PostMapping("/adduser")
-    // public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, Model model) {
-    //     manageUserService.addUser(manageUser);// save puser into database, using DbService
-    //    model.addAttribute("manageUser", manageUser);
-    //     return "ManageUser";
-    // }
-
+    // @RequestMapping("/adduser")
     @PostMapping("/adduser")
     public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, Model model) {
-        // Check if the username already exists
         if (manageUserService.isUsernameExists(manageUser.getUsername())) {
             model.addAttribute("usernameExists", true);
             return "ManageUserAdd";
@@ -60,11 +49,25 @@ public class ManageUserController {
             return "ManageUserAdd";
         }
 
-        // If the username does not exist, save the user
         manageUserService.addUser(manageUser);
-        model.addAttribute("manageUser", manageUser);
-        return "ManageUser";
+
+        // model.addAttribute("manageUser", manageUser);
+
+        // Add a 3s delay before redirecting to the manage user page
+        // try {
+        //     Thread.sleep(2000);
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
+
+        return "redirect:/manageuser";
+    }
+
+    @GetMapping("/deleteuser/{userID}")
+    public String deleteUser(@PathVariable("userID") int userID) {
+        manageUserService.deleteUser(userID);
+
+        return "redirect:/manageuser";
     }
 
 }
-

@@ -11,10 +11,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   </head>
   <body>
     <div th:replace="fragments/navbar :: navbar"></div>
-    <br />
     <div class="container mt-5">
       <h2 class="mb-4">Add New User</h2>
       <form action="/adduser" method="post">
@@ -28,29 +28,31 @@
             required
           />
         </div>
+        
         <!-- Display an alert if the username already exists -->
-    <div th:if="${usernameExists}" class="alert alert-danger" role="alert">
-      Username already exists! Please choose a different username.
-  </div>
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input
-      type="email"
-      class="form-control"
-      id="email"
-      name="email"
-      required
-    />
-  </div>
-   <!-- Display an alert if the email already exists -->
-   <div th:if="${emailExists}" class="alert alert-danger" role="alert">
-    Email already exists!
-</div>
+        <div th:if="${usernameExists}" class="alert alert-danger" role="alert">
+          Username already exists! Please choose a different username.
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+        <!-- Display an alert if the email already exists -->
+        <div th:if="${emailExists}" class="alert alert-danger" role="alert">
+          Email already exists!
+        </div>
         <div class="form-group">
           <label for="password">Password</label>
           <!-- Display auto-generated random password (replace with actual logic) -->
           <input
-            type="text"
+            type="password"
             class="form-control"
             id="password"
             name="password"
@@ -74,7 +76,6 @@
           Cancel
         </button>
       </form>
-    </div>
 
     <!-- JavaScript to generate random password -->
     <script>
@@ -84,7 +85,7 @@
           const characters =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
           let password = "";
-          for (let i = 0; i < 8; i++) {
+          for (let i = 0; i < 6; i++) {
             const randomIndex = Math.floor(Math.random() * characters.length);
             password += characters.charAt(randomIndex);
           }
