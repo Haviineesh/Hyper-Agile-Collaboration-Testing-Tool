@@ -53,11 +53,11 @@ public class ManageRoleService {
         if (existingRoleOptional.isPresent()) {
             ManageRole existingRole = existingRoleOptional.get();
 
+            existingRole.setDescription(manageRole.getDescription());
             // Check if the new roleName is not already in use
             if (roleList.stream().noneMatch(role -> role.getRoleName().equals(manageRole.getRoleName()))) {
                 // Update the existing role's properties
                 existingRole.setRoleName(manageRole.getRoleName());
-                existingRole.setDescription(manageRole.getDescription());
                 System.out.println("Role with ID " + existingRole.getRoleID() + " updated successfully");
             } else {
                 System.out.println("Role with roleName " + manageRole.getRoleName() + " already exists.");
