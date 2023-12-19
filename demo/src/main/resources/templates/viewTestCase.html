@@ -18,7 +18,8 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Project Id</th>
                     <th scope="col">Test Case</th>
                     <th scope="col">Deadline</th>
                     <th scope="col">Status</th>
@@ -27,7 +28,8 @@
             </thead>
             <tbody>
                 <tr th:each="test, iStat : ${testCase}">
-                    <td th:text="${test.idtest_cases}"></td>
+                    <td th:text="${iStat.count}"></td>
+                    <td th:text="${test.projectId}"></td>
                     <td th:text="${test.testCaseName}"></td>
                     <td th:text="${test.deadline}"></td>
                     <td th:text="${test.status}"></td>
@@ -40,7 +42,7 @@
                         <a class="btn btn-warning" th:href = "@{'/editCase/' +${test.idtest_cases}}">
                             Edit
                             </a>
-                        <a class="btn btn-danger" th:href = "@{'/deleteCase/' +${test.idtest_cases}}">
+                        <a class="btn btn-danger" data-toggle="modal" th:attr= " data-target= '#deleteModal'+ ${test.idtest_cases}">
                             Delete
                         </a>
                     </td>
@@ -93,26 +95,31 @@
         </div>
     </div>
 
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this item?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-danger">Yes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+     <!-- Delete Modal -->
+     <div th:each="test : ${testCase}" th:id="'deleteModal' + ${test.idtest_cases}" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="deleteModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="modal-body">
+                 <p
+                 th:utext="'<b>Are you sure you want to delete case name:</b> ' + ${test.testCaseName} + '<br/><b>Project ID:</b> (ID: ' + ${test.projectId} + ')'">
+
+
+                 </p>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                 <a th:href="@{'/deleteCase/' + ${test.idtest_cases}}" class="btn btn-danger">Yes</a>
+             </div>
+         </div>
+     </div>
+ </div>
 
 
 

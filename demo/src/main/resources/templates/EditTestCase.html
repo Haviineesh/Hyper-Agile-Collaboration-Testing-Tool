@@ -52,8 +52,13 @@
             </p>
             <p>
                 <label class="col-3" for="status">Status:</label>
-                <input type="text" th:field ="*{status}" placeholder="Status">
+                <select th:field="*{status}">
+                    <option value="Pending">Pending</option>
+                    <option value="Reject">Reject</option>
+                    <option value="Success">Success</option>
+                </select>
             </p>
+            
             <br/><input type="hidden" th:field="*{idtest_cases}" />
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success">Save </button>

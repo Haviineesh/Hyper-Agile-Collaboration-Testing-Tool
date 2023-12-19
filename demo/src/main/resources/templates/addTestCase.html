@@ -52,8 +52,13 @@
             </p>
             <p>
                 <label class="col-3" for="status">Status:</label>
-                <input type="text" th:field ="*{status}" placeholder="Status">
+                <select th:field="*{status}">
+                    <option value="Pending">Pending</option>
+                    <option value="Reject">Reject</option>
+                    <option value="Success">Success</option>
+                </select>
             </p>
+            
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success">Create <i class="bi bi-plus"></i></button>
             </div>
