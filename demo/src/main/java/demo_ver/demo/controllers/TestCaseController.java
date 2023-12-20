@@ -43,10 +43,11 @@ public class TestCaseController {
     }  
 
     @PostMapping("/add")
-	public String addTestCaseForm(@ModelAttribute("testCase") TestCase testCase) {
-		viewCaseService.addTestCaseForm(testCase);// save product into database, using DbService
-		return "viewTestCase";
-	}
+    public String addTestCaseForm(@ModelAttribute("testCase") TestCase testCase) {
+        testCase.setApprovalStatus("Pending"); // Set default status as "Pending"
+        viewCaseService.addTestCaseForm(testCase);
+        return "redirect:/view";
+    }
 
     @GetMapping("/editTC")
     public String showEditTestCaseForm(Model model) {

@@ -14,9 +14,9 @@ import demo_ver.demo.model.TestCase;
 public class ViewCaseService {
 
      private static List<TestCase> testList = new ArrayList<TestCase>(Arrays.asList(
-            new TestCase(234,"Tester"),
-            new TestCase(334,"Proproduction"),
-            new TestCase(22, "Manager")));
+            new TestCase(234,"Tester", "Approved"),
+            new TestCase(334,"Proproduction", "Pending"),
+            new TestCase(22, "Manager", "Rejected")));
 
     public static List<TestCase> getAllRoles() {
         return new ArrayList<TestCase>(testList);
@@ -25,6 +25,15 @@ public class ViewCaseService {
     public void addTestCaseForm(TestCase testCase) {
         // Add the product to the static productList
         testList.add(testCase);
+    }
+
+    public String getApprovalStatus(int idtest_cases) {
+        for (TestCase testCase : testList) {
+            if (testCase.getIdtest_cases() == idtest_cases) {
+                return testCase.getApprovalStatus();
+            }
+        }
+        return "Not Found";
     }
 
     // public static void deleteById(int idtest_cases) {

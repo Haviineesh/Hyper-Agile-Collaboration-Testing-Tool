@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 public class TestCase {
     private int idtest_cases;
     private String test_desc;
+    private String approvalStatus;
 
      // Default constructor (no-argument constructor)
 
@@ -24,9 +25,13 @@ public class TestCase {
     public void setTest_desc(String test_desc) {
         this.test_desc = test_desc;
     }
-    public TestCase(int idtest_cases,String test_desc) {
+    public TestCase(int idtest_cases,String test_desc, String approvalStatus) {
         this.idtest_cases = idtest_cases;
         this.test_desc = test_desc;
+        this.approvalStatus = approvalStatus;
+    }
+    public String getApprovalStatus() {
+        return approvalStatus;
     }
 
     public TestCase(){
@@ -86,6 +91,8 @@ public class TestCase {
         } else {
             return "Role not found";
         }
+    }
+    public void setApprovalStatus(String string) {
     }
 
 
