@@ -19,7 +19,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Project Id</th>
+                    <th scope="col">Test Case ID</th>
                     <th scope="col">Test Case</th>
                     <th scope="col">Deadline</th>
                     <th scope="col">Status</th>
@@ -29,7 +29,7 @@
             <tbody>
                 <tr th:each="test, iStat : ${testCase}">
                     <td th:text="${iStat.count}"></td>
-                    <td th:text="${test.projectId}"></td>
+                    <td th:text="${test.idtest_cases}"></td>
                     <td th:text="${test.testCaseName}"></td>
                     <td th:text="${test.deadline}"></td>
                     <td th:text="${test.status}"></td>
@@ -108,7 +108,7 @@
              </div>
              <div class="modal-body">
                  <p
-                 th:utext="'<b>Are you sure you want to delete case name:</b> ' + ${test.testCaseName} + '<br/><b>Project ID:</b> (ID: ' + ${test.projectId} + ')'">
+                 th:utext="'<b>Are you sure you want to delete case name:</b> ' + ${test.testCaseName} + '<br/><b>Project ID:</b> (ID: ' + ${test.idtest_cases} + ')'">
 
 
                  </p>
