@@ -62,7 +62,7 @@
               <a type="button" class="btn btn-success">
                 <i class="bi bi-pencil-square"></i>
               </a>
-              <a class="btn btn-danger" th:href="@{'/deleteuser/' + ${user.userID}}">
+              <a class="btn btn-danger" data-toggle="modal"  th:attr="data-target='#deleteModal' + ${user.userID}">
                 <i class="bi bi-trash"></i>
               
             </td>
@@ -71,8 +71,8 @@
       </table>
     </div>
 
-      <!-- Delete Modal -->
-      <!-- <div th:each="user : ${users}" th:id="'deleteModal' + ${user.userID}" class="modal fade" tabindex="-1" role="dialog"
+      <!-- Delete Modal
+      <div th:each="user : ${users}" th:id="'deleteModal' + ${user.userID}" class="modal fade" tabindex="-1" role="dialog"
       aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
           <div class="modal-content">
