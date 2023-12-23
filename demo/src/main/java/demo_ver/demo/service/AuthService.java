@@ -5,16 +5,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    public boolean validateLogin(String username, String password, String roleId) {
+    public boolean validateLogin(String username, String password, String role) {
         
-          System.out.println("Received username: " + username);
-          System.out.println("Received password: " + password);
-          System.out.println("Received roleId: " + roleId);
-          
-        // Simulating login validation
-        return "teen".equals(username) &&
-                "123".equals(password) &&
-                "a10".equals(roleId);
+        return "teenesh".equals(username) &&
+                "123456".equals(password) &&
+                "admin".equals(role);
     }
 
 
