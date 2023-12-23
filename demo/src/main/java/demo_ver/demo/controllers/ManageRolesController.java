@@ -38,7 +38,7 @@ public class ManageRolesController {
 
     // @RequestMapping("/createrole")
     @PostMapping("/createrole")
-    public String createrole(@ModelAttribute("manageRole") ManageRole manageRole, Model model) {
+    public String createRole(@ModelAttribute("manageRole") ManageRole manageRole, Model model) {
         manageRoleService.addRole(manageRole);// save product into database, using DbService
         // model.addAttribute("manageRole", manageRole);
         return "redirect:/manageroles";
