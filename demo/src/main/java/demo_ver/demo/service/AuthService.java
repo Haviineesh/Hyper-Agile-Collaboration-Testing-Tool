@@ -9,7 +9,7 @@ public class AuthService {
         
         return "teenesh".equals(username) &&
                 "123456".equals(password) &&
-                "admin".equals(role);
+                "Admin".equals(role);
     }
 
 

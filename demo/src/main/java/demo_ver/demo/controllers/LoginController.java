@@ -24,6 +24,10 @@ public class LoginController {
     public String showLoginPage() {
         return "login";
     }
+    @GetMapping("/forgotpassword")
+    public String showForgotPasswordPage() {
+        return "ForgotPassword";
+    }
 
     // @PostMapping("/login")
     // public ResponseEntity<String> login(@RequestBody User loginUser) {
