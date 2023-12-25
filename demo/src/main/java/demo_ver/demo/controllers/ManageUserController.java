@@ -55,9 +55,9 @@ public class ManageUserController {
 
         // Add a 3s delay before redirecting to the manage user page
         // try {
-        //     Thread.sleep(2000);
+        // Thread.sleep(2000);
         // } catch (InterruptedException e) {
-        //     e.printStackTrace();
+        // e.printStackTrace();
         // }
 
         return "redirect:/manageuser";
@@ -66,7 +66,6 @@ public class ManageUserController {
     @GetMapping("/deleteuser/{userID}")
     public String deleteUser(@PathVariable("userID") int userID) {
         manageUserService.deleteUser(userID);
-
         return "redirect:/manageuser";
     }
 

@@ -7,22 +7,26 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 // import org.springframework.web.bind.annotation.RequestBody;
 import demo_ver.demo.model.User;
-import demo_ver.demo.service.LoginService;
+import demo_ver.demo.service.AuthService;
 
 
 @Controller
 public class LoginController {
 
    
-    private final LoginService loginService;
+    private final AuthService authService;
 
-    public LoginController(LoginService loginService) {
-        this.loginService = loginService;
+    public LoginController(AuthService authService) {
+        this.authService = authService;
     }
 
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
+    }
+    @GetMapping("/forgotpassword")
+    public String showForgotPasswordPage() {
+        return "ForgotPassword";
     }
 
     // @PostMapping("/login")
@@ -45,7 +49,7 @@ public class LoginController {
         String password = loginUser.getPassword();
         String roleId = loginUser.getRoleId();
 
-        if (loginService.validateLogin(username, password, roleId)) {
+        if (authService.validateLogin(username, password, roleId)) {
             return ResponseEntity.ok("Login Successful!");
         } else {
             return ResponseEntity.status(401).body("Invalid username or password or roleId");
