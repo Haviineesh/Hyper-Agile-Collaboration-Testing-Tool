@@ -21,6 +21,9 @@ public class ViewCaseService {
             add(new TestCase(RandomNumber.getRandom(100,999),"001",8,"Diagram","desc1","2023-12-11","2023-11-10","Pending"));
             add(new TestCase(RandomNumber.getRandom(100,999),"002",5,"Sequence","desc2","2023-10-10","2023-11-17","Pending"));
             add(new TestCase(RandomNumber.getRandom(100,999),"003",7,"Testing","desc3","2023-12-10","2023-11-15","Pending"));
+            add(new TestCase(RandomNumber.getRandom(100,999),"001",10,"Draw","desc12","2023-11-11","2023-11-10","Pending"));
+            add(new TestCase(RandomNumber.getRandom(100,999),"002",15,"Package","desc23","2023-11-07","2023-11-17","Pending"));
+            add(new TestCase(RandomNumber.getRandom(100,999),"003",17,"Behavorial","desc34","2023-12-05","2023-11-15","Pending"));
      }
     };
            
@@ -28,6 +31,7 @@ public class ViewCaseService {
     public static List<TestCase> findAllList() {
        return testList;
     }
+
 
     public void addTestCaseForm(TestCase testCase) {
         
