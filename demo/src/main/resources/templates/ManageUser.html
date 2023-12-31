@@ -1,176 +1,106 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Manage Users</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- Notification Styles -->
-    <style>
-        .notification {
-            padding: 16px;
-            background-color: #f44336;
-            color: white;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 1;
-        }
-
-        .close-btn {
-            padding: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            position: absolute;
-            top: 0;
-            right: 0;
-        }
-    </style>
-</head>
-
-<body>
+  </head>
+  <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <br />
     <div class="container">
-        <!-- Search Box with Filter Options -->
-        <div class="form-group">
-            <input type="text" class="form-control" id="searchInput" placeholder="Search..." />
-        </div>
 
-        <div class="mt-3 mb-3 d-flex justify-content-end">
-            <a href="http://localhost:8090/adduser" id="addUser" class="btn btn-light">Add New User <i
-                    class="bi bi-plus"></i></a>
-        </div>
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          id="searchInput"
+          placeholder="Search..."
+        />
+      </div>
 
-        <!-- User Table -->
-        <table class="table table-bordered">
-            <thead class="table-header">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">User ID</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="user, iStat : ${users}">
-                    <td th:text="${iStat.count}"></td>
-                    <td th:text="${user.userID}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.username}"></td>
-                    <td th:text="${user.role}"></td>
-                    <td>
-                        <button type="button" class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                            data-user-id="${user.userID}"> <!-- Added data-user-id attribute -->
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+      <div class="mt-3 mb-3 d-flex justify-content-end">
+        <a
+          href="http://localhost:8090/adduser"
+          id="addUser"
+          class="btn btn-light"
+          >Add New User <i class="bi bi-plus"></i
+        ></a>
+      </div>
+
+      <table class="table table-bordered">
+        <thead class="table-header">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="user, iStat : ${users}">
+            <td th:text="${iStat.count}"></td>
+            <td th:text="${user.userID}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+              <a type="button" class="btn btn-success">
+                <i class="bi bi-pencil-square"></i>
+              </a>
+              <a class="btn btn-danger" data-toggle="modal"  th:attr="data-target='#deleteModal' + ${user.userID}">
+                <i class="bi bi-trash"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this user?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-danger" onclick="handleDelete()">Yes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+      <!-- Delete Modal -->
+      <div th:each="user : ${users}" th:id="'deleteModal' + ${user.userID}" class="modal fade" tabindex="-1" role="dialog"
+      aria-labelledby="deleteModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="modal-body">
+                 <p th:text="'Are you sure you want to delete this user, ' + ${user.username}"></p>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                 <a th:href="@{'/deleteuser/' + ${user.userID}}"  class="btn btn-danger">Delete</a>
+             </div>
+         </div>
+     </div>
+ </div>
 
-    <!-- Notification -->
-    <div th:if="${notifierMessage}" class="notification">
-        <span th:text="${notifierMessage}"></span>
-        <button class="close-btn" onclick="closeNotification()">×</button>
-    </div>
-
-    <!-- JavaScript for Filtering and Notification -->
     <script>
-        $(document).ready(function () {
-            $("#searchInput").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-            });
+      // JavaScript for Filtering 
+      $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          $("tbody tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
         });
-
-        function handleDelete() {
-            // Get the user ID from the current row (adjust based on your HTML structure)
-            var userId = $('#deleteModal').data('user-id');
-
-            // Make an asynchronous request to delete the user
-            $.ajax({
-                type: 'DELETE',
-                url: '/deleteUser/' + userId,  // Update the URL based on your backend endpoint
-                success: function (response) {
-                    // Handle success, e.g., update the UI
-                    console.log('User deleted successfully');
-
-                    // Close the modal
-                    $('#deleteModal').modal('hide');
-
-                    // Show notification
-                    showNotification('User deleted successfully');
-
-                    // Reload the page or update the UI as needed
-                    location.reload();  // Reload the page for simplicity (you may want to update the UI instead)
-                },
-                error: function (error) {
-                    // Handle error, e.g., show an alert
-                    console.error('Error deleting user:', error);
-
-                    // Close the modal
-                    $('#deleteModal').modal('hide');
-
-                    // Show notification
-                    showNotification('Error deleting user');
-                }
-            });
-        }
-
-        function showNotification(message) {
-            // Display notification
-            document.querySelector('.notification span').innerText = message;
-            document.querySelector('.notification').style.display = 'block';
-
-            // Close notification after 5 seconds (adjust as needed)
-            setTimeout(function () {
-                document.querySelector('.notification').style.display = 'none';
-            }, 5000);
-        }
-
-        function closeNotification() {
-            document.querySelector('.notification').style.display = 'none';
-        }
+      });
     </script>
-</body>
-
+  </body>
 </html>

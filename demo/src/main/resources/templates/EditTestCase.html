@@ -21,21 +21,47 @@
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
-        <form method="post" action="/editTC">
+        <form th:object="${testCase}" method="post" th:action="@{/update}">
 
             <div class="mb-3 d-flex justify-content-center">
                 <h3>Edit Test Case</h3>
             </div>
             <p>
-                <label class="col-3" for="idtest_cases">Test Case ID:</label>
-                <input type="number" name="idtest_cases" id="idtest_cases" placeholder="ID Test Case">
+                <label class="col-3" for="code">Project ID:</label>
+                <input type="text" th:field ="*{projectId}" placeholder="Code Test Case">
             </p>
             <p>
-                <label class="col-3" for="test_desc">Description:</label>
-                <textarea name="test_desc" id="test_desc" rows="3"></textarea>
+                <label class="col-3" for="smart">Smart Contract ID:</label>
+                <input type="number" th:field ="*{smartContractID}" placeholder="Smart Contract ID">
             </p>
+            <p>
+                <label class="col-3" for="tcName">Test Case Name:</label>
+                <input type="text" th:field ="*{testCaseName}" placeholder="Test Case Name">
+            </p>
+            <p>
+                <label class="col-3" for="desc">Test Case Description:</label>
+                <textarea name="test_desc" th:field ="*{test_desc}" rows="3"></textarea>
+            </p>    
+            <p>
+                <label class="col-3" for="dateCreated">Deadline:</label>
+                <input type="date" th:field ="*{dateCreated}" placeholder="Date Created">
+            </p>
+            <p>
+                <label class="col-3" for="deadline">Date Update:</label>
+                <input type="date" th:field ="*{deadline}" placeholder="Deadline">
+            </p>
+            <p>
+                <label class="col-3" for="status">Status:</label>
+                <select th:field="*{status}">
+                    <option value="Pending">Pending</option>
+                    <option value="Reject">Reject</option>
+                    <option value="Approved">Approved</option>
+                </select>
+            </p>
+            
+            <br/><input type="hidden" th:field="*{idtest_cases}" />
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success">Finalize <i class="bi bi-plus"></i></button>
+                <button type="submit" class="btn btn-success">Save </button>
             </div>
         
         </form>

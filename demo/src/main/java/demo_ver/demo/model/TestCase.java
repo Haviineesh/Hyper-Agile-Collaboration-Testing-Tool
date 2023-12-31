@@ -7,16 +7,38 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EntityScan
 public class TestCase {
-    private int idtest_cases;
+    private Long idtest_cases;
     private String test_desc;
-    private String approvalStatus;
+    private String deadline;
+    private String dateUpdated;
+    private String projectId;
+    private String reason;
+    private String status;
+    private String testCaseName;
+    private String dateCreated;
+    private int smartContractID;
 
-     // Default constructor (no-argument constructor)
 
-    public int getIdtest_cases() {
+    public TestCase(){
+
+    }
+
+    public TestCase(Long idtest_cases, String projectId,int smartContractID, String testCaseName,String test_desc, String dateCreated, String deadline,
+            String status) {
+        this.idtest_cases = idtest_cases;
+        this.deadline = deadline;
+        this.projectId = projectId;
+        this.status = status;
+        this.testCaseName = testCaseName;
+        this.dateCreated = dateCreated;
+        this.smartContractID = smartContractID;
+        this.test_desc = test_desc;
+    }
+
+    public Long getIdtest_cases() {
         return idtest_cases;
     }
-    public void setIdtest_cases(int idtest_cases) {
+    public void setIdtest_cases(Long idtest_cases) {
         this.idtest_cases = idtest_cases;
     }
     public String getTest_desc() {
@@ -25,78 +47,49 @@ public class TestCase {
     public void setTest_desc(String test_desc) {
         this.test_desc = test_desc;
     }
-    public TestCase(int idtest_cases,String test_desc, String approvalStatus) {
-        this.idtest_cases = idtest_cases;
-        this.test_desc = test_desc;
-        this.approvalStatus = approvalStatus;
+    public int getSmartContractID() {
+        return smartContractID;
     }
-    public String getApprovalStatus() {
-        return approvalStatus;
-    }
+    public void setSmartContractID(int smartContractID) {
+        this.smartContractID = smartContractID;
+    }    
+    
 
-    public TestCase(){
+    // Getters and Setters afser
+   
 
-    }
+    public String getDeadline() { return deadline; }
+    public void setDeadline(String deadline) { this.deadline = deadline; }
 
-        class testRepo {
+    public String getDateUpdated() { return dateUpdated; }
+    public void setDateUpdated(String dateUpdated) { this.dateUpdated = dateUpdated; }
 
-        public static Optional<TestCase> findById(int idtest_cases) {
-            return null;
-        }
+    public String getProjectId() { return projectId; }
+    public void setProjectId(String projectId) { this.projectId = projectId; }
 
-        public static void deleteById(int idtest_cases) {
-        }
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
 
-        public static List<TestCase> findAll() {
-            return null;
-        }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    }
+    public String getTestCaseName() { return testCaseName; }
+    public void setTestCaseName(String testCaseName) { this.testCaseName = testCaseName; }
 
-
-    public List<TestCase> viewList() {
-        // Implementation for viewing a list of roles
-        // Retrieve the list of roles from the database (assuming you have a repository)
-        // List<ManageRole> roles = roleRepository.findAll();
-
-        // You may also add additional logic to filter or customize the list as needed
-    List<TestCase> test = testRepo.findAll();
-
-    return test;
+    public String getDateCreated() {
+        return dateCreated;
     }
 
-    public String addNewCase(int idtest_cases,String test_desc) {
-        // Implementation for adding a new role
-        TestCase newCase = new TestCase();
-        newCase.setIdtest_cases(idtest_cases);
-        newCase.setTest_desc(test_desc);
-
-        // Save the new role to the database (assuming you have a repository)
-        // roleRepository.save(newRole);
-
-        return "New role added";
-    }
-
-    public String deleteCase(int idtest_cases) {
-        // Implementation for deleting a role
-        // Delete the role from the database (assuming you have a repository)
-        Optional<TestCase> existingCaseOptional = testRepo.findById(idtest_cases);
-
-        // Check if the role exists
-        if (existingCaseOptional.isPresent()) {
-            // Delete the role from the database
-            testRepo.deleteById(idtest_cases);
-
-            return "Role deleted successfully";
-        } else {
-            return "Role not found";
-        }
-    }
-    public void setApprovalStatus(String string) {
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
 
 }
+
+
+
+
 
 
     

@@ -1,83 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>View Test Case Details</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>Test Case Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
-
 <body>
-    <div th:replace="fragments/navbar :: navbar"></div>
 
-    <div class="container mt-4">
-        <h2>View Test Case Details</h2>
-
-        <!-- Test Case Information -->
-        <div class="card">
-            <div class="card-header">
-                <h5>Test Case Information</h5>
-            </div>
-            <div class="card-body">
-                <ul>
-                    <!-- Add th: prefix to reference Thymeleaf model attributes -->
-                    <li><strong>Deadline:</strong> <span th:text="${testCase.deadline}"></span></li>
-                    <li><strong>Date Updated:</strong> <span th:text="${testCase.dateUpdated}"></span></li>
-                    <li><strong>Description:</strong> <span th:text="${testCase.description}"></span></li>
-                    <li><strong>Project ID:</strong> <span th:text="${testCase.projectId}"></span></li>
-                    <li><strong>Reason:</strong> <span th:text="${testCase.reason}"></span></li>
-                    <li><strong>Status:</strong> <span th:text="${testCase.status}"></span></li>
-                    <li><strong>Test Case ID:</strong> <span th:text="${testCase.testCaseId}"></span></li>
-                    <li><strong>Test Case Name:</strong> <span th:text="${testCase.testCaseName}"></span></li>
-                </ul>
-            </div>
+<div class="container mt-4">
+    <h2>Test Case Details</h2>
+    <a href="/view" class="btn btn-secondary mb-3">Back to List</a>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Details</h4>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: <span th:text="${testCase.idtest_cases}"></span></li>
+                <li class="list-group-item">Description: <span th:text="${testCase.test_desc}"></span></li>
+                <li class="list-group-item">Deadline: <span th:text="${testCase.deadline}"></span></li>
+                <li class="list-group-item">Date Updated: <span th:text="${testCase.dateUpdated}"></span></li>
+                <li class="list-group-item">Project ID: <span th:text="${testCase.projectId}"></span></li>
+                <li class="list-group-item">Reason: <span th:text="${testCase.reason}"></span></li>
+                <li class="list-group-item">Status: <span th:text="${testCase.status}"></span></li>
+                <li class="list-group-item">Test Case Name: <span th:text="${testCase.testCaseName}"></span></li>
+            </ul>
         </div>
-
-        <!-- Actions -->
-        <div class="mt-3">
-            <h5>Actions</h5>
-            
-            <!-- Button to View Approval Status -->
-            <button type="button" class="btn btn-primary" onclick="getViewApprovalStatus('${testCase.testCaseId}')">
-                View Approval Status <i class="bi bi-eye"></i>
-            </button>
-
-            <!-- Add other buttons for your actions (e.g., Approve, Reject) -->
-
+        <div class="actions mt-3">
+            <button class="btn btn-success" th:onclick="'window.location.href=\'/approveStatus/' + ${testCase.idtest_cases} + '\''">Approve Status</button>
+            <button class="btn btn-danger" th:onclick="'window.location.href=\'/rejectStatus/' + ${testCase.idtest_cases} + '\''">Reject Status</button>
+            <button class="btn btn-info" th:onclick="'window.location.href=\'/viewSelectedTestCaseInfo/' + ${testCase.idtest_cases} + '\''">Edit Selected Test Case Info</button>
         </div>
     </div>
+</div>
 
-    <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
 
-    <script>
-        // Function to get and display approval status
-        function getViewApprovalStatus(testCaseId) {
-            // You need to implement the logic to get the approval status based on testCaseId
-            // For demonstration, let's assume there's a function `getApprovalStatusById` in your backend
-            $.ajax({
-                type: 'GET',
-                url: '/getApprovalStatus/' + testCaseId,  // Update the URL based on your backend endpoint
-                success: function (approvalStatus) {
-                    // Display the approval status (you can customize this part based on your needs)
-                    alert('Approval Status: ' + approvalStatus);
-                },
-                error: function (error) {
-                    console.error('Error getting approval status:', error);
-                }
-            });
-        }
-    </script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
-
 </html>
-
