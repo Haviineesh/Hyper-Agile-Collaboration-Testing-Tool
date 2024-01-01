@@ -90,8 +90,8 @@ public class NotificationController {
         String emailPassword = "ktyrwfbmcoftihzo";
     
         // Add logging to check the values
-        System.out.println("Email username: " + emailUsername);
         // It's not advisable to print the password, but for debugging purposes, you can do it during development
+        System.out.println("Email username: " + emailUsername);
         System.out.println("Email password: " + emailPassword);
     
         Properties properties = new Properties();
