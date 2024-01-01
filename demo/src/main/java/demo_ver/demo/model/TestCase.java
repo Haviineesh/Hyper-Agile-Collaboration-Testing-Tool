@@ -16,6 +16,7 @@ public class TestCase {
     private String status;
     private String testCaseName;
     private String dateCreated;
+    private String actor;
     private int smartContractID;
 
 
@@ -24,7 +25,7 @@ public class TestCase {
     }
 
     public TestCase(Long idtest_cases, String projectId,int smartContractID, String testCaseName,String test_desc, String dateCreated, String deadline,
-            String status) {
+            String status, String actor) {
         this.idtest_cases = idtest_cases;
         this.deadline = deadline;
         this.projectId = projectId;
@@ -33,6 +34,7 @@ public class TestCase {
         this.dateCreated = dateCreated;
         this.smartContractID = smartContractID;
         this.test_desc = test_desc;
+        this.actor = actor;
     }
 
     public Long getIdtest_cases() {
@@ -82,6 +84,14 @@ public class TestCase {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
     }
 
 

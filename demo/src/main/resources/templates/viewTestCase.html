@@ -19,7 +19,8 @@
   </head>
 
 <body>
-    <div th:replace="fragments/navbar :: navbar"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
     <br />
     <div class="container">
 
@@ -53,7 +54,9 @@
                     <td th:text="${test.idtest_cases}"></td>
                     <td th:text="${test.testCaseName}"></td>
                     <td th:text="${test.deadline}"></td>
-                    <td th:text="${test.status}"></td>
+                    <td>
+                        <span th:text="${test.status}" th:class="${test.status eq 'Approved' ? 'text-success' : (test.status eq 'Rejected' ? 'text-danger' : 'text-Pending')}"></span>
+                    </td>
                     <td>
 
                         <a class="btn btn-primary" th:href = "@{'/testcases/details/'+${test.idtest_cases}}">
@@ -156,16 +159,40 @@
         crossorigin="anonymous"></script>
 
         <script>
-            // JavaScript for Filtering 
             $(document).ready(function () {
-              $("#searchInput").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("tbody tr").filter(function () {
-                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                // Filtering logic
+                $("#searchInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("tbody tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
                 });
-              });
+        
+                // Dynamic user role update
+                var userRole = "Default User";
+        
+                function updateUserRole(role) {
+                    userRole = role;
+                    $(".user-role").text(userRole);
+                }
+        
+                // Set initial active state based on the URL or other criteria
+                var currentPage = window.location.pathname;
+                if (currentPage.includes("/view")) {
+                    $("#test-case-link").addClass("active");
+                }
+        
+                $(document).on("click", "#test-case-link", function (e) {
+                e.preventDefault();
+                updateUserRole("Tester");
+                    // Remove active class from other links and add to the clicked link
+                    $(".nav-item").removeClass("active");
+                    $(this).addClass("active");
+                });
+        
+                // Add similar event handlers for other menu items as needed
             });
-          </script>
+        </script>
 </body>
 
 
