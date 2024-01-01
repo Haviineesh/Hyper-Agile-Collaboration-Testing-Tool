@@ -8,19 +8,19 @@ public class ManageUser {
     public String email;
     public String username;
     public String password;
-    public String role;
+    public int roleID;
 
     public ManageUser() {
 
     }
 
-    public ManageUser(int userID, String email, String username, String password, String role) {
+    public ManageUser(int userID, String email, String username, String password, int roleID) {
         this.userID = userID;
         // this.roleID = roleID;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roleID = roleID;
     }
 
     public String getUsername() {
@@ -63,12 +63,12 @@ public class ManageUser {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public int getRoleID() {
+        return roleID;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleID(int roleID) {
+        this.roleID = roleID;
     }
 
 }

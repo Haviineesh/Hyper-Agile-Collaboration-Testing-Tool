@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.service.ManageRoleService;
@@ -40,7 +41,7 @@ public class ManageUserController {
 
     // @RequestMapping("/adduser")
     @PostMapping("/adduser")
-    public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, Model model) {
+    public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("role") int roleID, Model model) {
         if (manageUserService.isUsernameExists(manageUser.getUsername())) {
             model.addAttribute("usernameExists", true);
             return "ManageUserAdd";
@@ -51,7 +52,7 @@ public class ManageUserController {
             return "ManageUserAdd";
         }
 
-        manageUserService.addUser(manageUser);
+        manageUserService.addUser(manageUser, roleID);
 
         // model.addAttribute("manageUser", manageUser);
 
@@ -75,12 +76,13 @@ public class ManageUserController {
     public String showEditUserForm(@PathVariable("userID") int userID, Model model) {
         ManageUser userToEdit = manageUserService.getUserById(userID);
         model.addAttribute("manageUser", userToEdit);
-        return "ManageUserEdit"; 
+        model.addAttribute("roles", ManageRoleService.getAllRoles());
+        return "ManageUserEdit"; // This is the Thymeleaf template for editing a user
     }
 
     @PostMapping("/updateuser")
-    public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser) {
-        manageUserService.updateUser(manageUser);
+    public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID) {
+        manageUserService.updateUser(manageUser, roleID);
         return "redirect:/manageuser";
     }
 

@@ -24,11 +24,8 @@
             </div>
             <div class="form-group">
                 <label for="role">Role</label>
-                <select class="form-control" th:field="*{role}">
-                    <option value="Admin">Admin</option>
-                    <option value="Software Tester">Software Tester</option>
-                    <option value="PoA">PoA</option>
-
+                <select class="form-control" id="role" name="roleID" th:field="*{roleID}">
+                    <option th:each="role : ${roles}" th:value="${role.roleID}" th:text="${role.roleName}"></option>
                 </select>
             </div>
             <div class="form-row">
