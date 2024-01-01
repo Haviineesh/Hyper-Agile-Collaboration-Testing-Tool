@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import demo_ver.demo.service.ApiService;
 import demo_ver.demo.service.ShowNotification.UseCase;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @Controller
 @RequestMapping("/api")
@@ -32,20 +36,19 @@ public class NotificationController {
         for (UseCase useCase : useCases) {
             LocalDateTime currentDateTime = LocalDateTime.now();
 
-            // Check if the deadline is not null and the status is not null.
             if (useCase.getDeadline() != null && useCase.getStatus() != null) {
                 if (currentDateTime.isAfter(useCase.getDeadline())) {
                     if ("unchecked".equals(useCase.getStatus())) {
                         List<String> userRoles = apiService.getUserRoles(useCase);
 
                         for (String role : userRoles) {
-                            sendNotification(role, "Use case deadline reached and status is unchecked for: " + useCase);
-                            notifications.add("Notification sent to user with role '" + role + "': " +
+                            sendEmail(role, "Use case deadline reached and status is unchecked for: " + useCase);
+                            notifications.add("Email sent to user with role '" + role + "': " +
                                     "Use case deadline reached and status is unchecked.");
                         }
                     } else if ("checked".equals(useCase.getStatus())) {
-                        sendNotification("anyRole", "Deadline reached, but status is checked for: " + useCase);
-                        notifications.add("Notification sent to user with role 'anyRole': " +
+                        sendEmail("anyRole", "Deadline reached, but status is checked for: " + useCase);
+                        notifications.add("Email sent to user with role 'anyRole': " +
                                 "Deadline reached, but status is checked.");
                     }
                 } else {
@@ -82,8 +85,43 @@ public class NotificationController {
         return "notificationResult";
     }
 
-    private void sendNotification(String userRole, String message) {
-        System.out.println("Notification sent to user with role '" + userRole + "': " + message);
+    private void sendEmail(String recipient, String message) {
+        // Use external configuration, environment variables, or a secure credential storage mechanism
+        String emailUsername = System.getenv("EMAIL_USERNAME");
+        String emailPassword = System.getenv("EMAIL_PASSWORD");
+
+        if (emailUsername == null || emailPassword == null) {
+            throw new RuntimeException("Email credentials not configured.");
+        }
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(emailUsername, emailPassword);
+            }
+        };
+
+        Session session = Session.getInstance(properties, authenticator);
+
+        try {
+            Message mimeMessage = new MimeMessage(session);
+            mimeMessage.setFrom(new InternetAddress(emailUsername));
+            mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            mimeMessage.setSubject("Notification");
+            mimeMessage.setText(message);
+
+            Transport.send(mimeMessage);
+
+            System.out.println("Email sent to '" + recipient + "': " + message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
     private static class NotificationResponse {
@@ -103,3 +141,4 @@ public class NotificationController {
         }
     }
 }
+
