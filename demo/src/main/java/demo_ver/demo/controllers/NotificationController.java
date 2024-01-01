@@ -86,43 +86,46 @@ public class NotificationController {
     }
 
     private void sendEmail(String recipient, String message) {
-        // Use external configuration, environment variables, or a secure credential storage mechanism
         String emailUsername = System.getenv("EMAIL_USERNAME");
         String emailPassword = System.getenv("EMAIL_PASSWORD");
-
+    
         if (emailUsername == null || emailPassword == null) {
             throw new RuntimeException("Email credentials not configured.");
         }
-
+    
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
-
+    
         Authenticator authenticator = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(emailUsername, emailPassword);
             }
         };
-
+    
         Session session = Session.getInstance(properties, authenticator);
-
+    
         try {
             Message mimeMessage = new MimeMessage(session);
             mimeMessage.setFrom(new InternetAddress(emailUsername));
             mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             mimeMessage.setSubject("Notification");
             mimeMessage.setText(message);
-
+    
             Transport.send(mimeMessage);
-
+    
             System.out.println("Email sent to '" + recipient + "': " + message);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            // Log the error instead of just printing the stack trace
+            System.err.println("Failed to send email: " + e.getMessage());
+            e.printStackTrace();  // This line can be removed or replaced with a logging framework
+            // Depending on your use case, you might want to throw a custom exception or handle it differently
         }
     }
+    
 
     private static class NotificationResponse {
         private final List<String> notifications;
