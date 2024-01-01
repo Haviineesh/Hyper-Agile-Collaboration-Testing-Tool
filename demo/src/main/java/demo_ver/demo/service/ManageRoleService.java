@@ -13,8 +13,11 @@ public class ManageRoleService {
 
     private static List<ManageRole> roleList = new ArrayList<ManageRole>() {
         {
-            add(new ManageRole(1000, "Tester", "unit tester"));
-            add(new ManageRole(1001, "Product Manager", "manage production"));
+             add(new ManageRole(1000, "Admin", "Administration"));
+            add(new ManageRole(1001, "Tester", "unit tester"));
+            add(new ManageRole(1002, "Product Manager", "manage production"));
+            add(new ManageRole(1003, "Developer", "Programming"));
+
         }
     };
 
