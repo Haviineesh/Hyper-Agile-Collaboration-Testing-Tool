@@ -31,14 +31,14 @@ public class ChangePasswordController {
             Model model) {
 
         // Validate current password
-        if (!authService.validateLogin(dummyUsername, currentPassword, "a10")) {
+        if (!authService.validateLogin(dummyUsername, currentPassword, "Admin")) {
             model.addAttribute("error", "Incorrect current password");
             return "ChangePassword";
         }
 
         // Validate new password
         if (!authService.validatePassword(newPassword)) {
-            model.addAttribute("error", "Password must be at least 6 characters long");
+            model.addAttribute("error", "New password must be at least 6 characters long");
             return "ChangePassword";
         }
 

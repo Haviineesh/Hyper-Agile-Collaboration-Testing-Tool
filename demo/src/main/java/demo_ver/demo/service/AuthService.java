@@ -6,19 +6,17 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     public boolean validateLogin(String username, String password, String role) {
-        
         return "teenesh".equals(username) &&
-                "123456".equals(password) &&
-                "Admin".equals(role);
+               "123456".equals(password) &&
+               "Admin".equals(role);
     }
 
-
     public boolean validatePassword(String password) {
-      return password.length() >= 6;
-  }
+        return password.length() >= 6;
+    }
 
     public boolean matchPasswords(String newPassword, String confirmPassword) {
-      return newPassword.equals(confirmPassword);
-  }
-}
+        return newPassword.equals(confirmPassword);
+    }
 
+}
