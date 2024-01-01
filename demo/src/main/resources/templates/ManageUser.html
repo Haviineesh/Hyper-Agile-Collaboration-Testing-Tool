@@ -58,7 +58,7 @@
             <td th:text="${user.username}"></td>
             <td th:text="${user.role}"></td>
             <td>
-              <a type="button" class="btn btn-success">
+              <a th:href="@{/edituser/{userID}(userID=${user.userID})}" class="btn btn-success">
                 <i class="bi bi-pencil-square"></i>
               </a>
               <a class="btn btn-danger" data-toggle="modal"  th:attr="data-target='#deleteModal' + ${user.userID}">
