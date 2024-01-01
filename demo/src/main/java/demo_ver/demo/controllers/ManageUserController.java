@@ -77,7 +77,7 @@ public class ManageUserController {
         ManageUser userToEdit = manageUserService.getUserById(userID);
         model.addAttribute("manageUser", userToEdit);
         model.addAttribute("roles", ManageRoleService.getAllRoles());
-        return "ManageUserEdit"; // This is the Thymeleaf template for editing a user
+        return "ManageUserEdit"; // 
     }
 
     @PostMapping("/updateuser")
