@@ -86,17 +86,14 @@ public class NotificationController {
     }
 
     private void sendEmail(String recipient, String message) {
-        String emailUsername = System.getenv("EMAIL_USERNAME");
-        String emailPassword = System.getenv("EMAIL_PASSWORD");
-
+        String emailUsername = "williamlik@graduate.utm.my";
+        String emailPassword = "ktyrwfbmcoftihzo";
+    
         // Add logging to check the values
         System.out.println("Email username: " + emailUsername);
+        // It's not advisable to print the password, but for debugging purposes, you can do it during development
         System.out.println("Email password: " + emailPassword);
-
-        if (emailUsername == null || emailPassword == null) {
-            logAndThrowConfigurationException("Email credentials not configured.");
-        }
-
+    
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
