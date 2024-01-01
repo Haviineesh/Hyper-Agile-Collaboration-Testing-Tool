@@ -24,9 +24,9 @@
                 <li class="list-group-item">Test Case Name: <span th:text="${testCase.testCaseName}"></span></li>
             </ul>
         </div>
-        <div class="actions mt-3">
-            <button class="btn btn-success" th:onclick="'window.location.href=\'/approveStatus/' + ${testCase.idtest_cases} + '\''">Approve Status</button>
-            <button class="btn btn-danger" th:onclick="'window.location.href=\'/rejectStatus/' + ${testCase.idtest_cases} + '\''">Reject Status</button>
+            <div class="actions mt-3">
+                <a th:href="@{/testcases/approveStatus/{id}(id=${testCase.idtest_cases})}" class="btn btn-success">Approve Status</a>
+                <a th:href="@{/testcases/rejectStatus/{id}(id=${testCase.idtest_cases})}" class="btn btn-danger">Reject Status</a>
             <button class="btn btn-info" th:onclick="'window.location.href=\'/viewSelectedTestCaseInfo/' + ${testCase.idtest_cases} + '\''">Edit Selected Test Case Info</button>
         </div>
     </div>

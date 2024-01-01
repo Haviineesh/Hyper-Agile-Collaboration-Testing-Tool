@@ -60,6 +60,14 @@ public class ViewCaseService {
                        .orElseThrow(() -> new NoSuchElementException("Test case not found"));
     }
 
+    public void changeStatus(long idtest_cases, String newStatus) {
+        Optional<TestCase> testCaseOptional = findById(idtest_cases);
+        testCaseOptional.ifPresent(testCase -> {
+            testCase.setStatus(newStatus);
+            updateCase(testCase);
+        });
+    }
+
 
 
 }
