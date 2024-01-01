@@ -24,7 +24,7 @@ public class ManageRolesController {
     // }
 
     @GetMapping("/manageroles")
-    public String manageroles(Model model) {
+    public String getManageroles(Model model) {
         // List<ManageRole> roles = manageRoleService.getAllRoles();
         model.addAttribute("roles", ManageRoleService.getAllRoles());
         return "ManageRoles";
