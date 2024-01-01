@@ -13,8 +13,11 @@ public class ManageRoleService {
 
     private static List<ManageRole> roleList = new ArrayList<ManageRole>() {
         {
-            add(new ManageRole(1000, "Tester", "unit tester"));
-            add(new ManageRole(1001, "Product Manager", "manage production"));
+             add(new ManageRole(1000, "Admin", "Administration"));
+            add(new ManageRole(1001, "Tester", "unit tester"));
+            add(new ManageRole(1002, "Product Manager", "manage production"));
+            add(new ManageRole(1003, "Developer", "Programming"));
+
         }
     };
 
@@ -66,6 +69,13 @@ public class ManageRoleService {
             // Handle the case when the role does not exist
             System.out.println("Role with ID " + manageRole.getRoleID() + " not found");
         }
+    }
+
+    public static ManageRole getRoleById(int roleID) {
+        return roleList.stream()
+                .filter(role -> role.getRoleID() == roleID)
+                .findFirst()
+                .orElse(null);
     }
 
 }
