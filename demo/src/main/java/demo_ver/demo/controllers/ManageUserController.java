@@ -71,4 +71,17 @@ public class ManageUserController {
         return "redirect:/manageuser";
     }
 
+    @GetMapping("/edituser/{userID}")
+    public String showEditUserForm(@PathVariable("userID") int userID, Model model) {
+        ManageUser userToEdit = manageUserService.getUserById(userID);
+        model.addAttribute("manageUser", userToEdit);
+        return "ManageUserEdit"; // This is the Thymeleaf template for editing a user
+    }
+
+    @PostMapping("/updateuser")
+    public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser) {
+        manageUserService.updateUser(manageUser);
+        return "redirect:/manageuser";
+    }
+
 }

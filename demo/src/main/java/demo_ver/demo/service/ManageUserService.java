@@ -52,4 +52,24 @@ public class ManageUserService {
         return userList.stream().anyMatch(user -> user.getEmail().equalsIgnoreCase(email));
     }
 
+    public ManageUser getUserById(int userID) {
+        return userList.stream()
+                .filter(user -> user.getUserID() == userID)
+                .findFirst()
+                .orElse(null); // You should handle the null case appropriately
+    }
+
+    public void updateUser(ManageUser updatedUser) {
+        // Find the existing user and update their details
+        userList.stream()
+                .filter(user -> user.getUserID() == updatedUser.getUserID())
+                .findFirst()
+                .ifPresent(user -> {
+                    user.setEmail(updatedUser.getEmail());
+                    user.setUsername(updatedUser.getUsername());
+                    user.setRole(updatedUser.getRole());
+                    // Consider handling password updates carefully, especially with regards to security
+                });
+    }
+
 }
