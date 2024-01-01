@@ -92,6 +92,10 @@ public class NotificationController {
         if (emailUsername == null || emailPassword == null) {
             logAndThrowConfigurationException("Email credentials not configured.");
         }
+
+        // Add logging to check the values
+        System.out.println("Email username: " + emailUsername);
+        System.out.println("Email password: " + emailPassword);
     
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
