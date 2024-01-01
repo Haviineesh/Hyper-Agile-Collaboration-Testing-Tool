@@ -75,7 +75,7 @@ public class ManageUserController {
     public String showEditUserForm(@PathVariable("userID") int userID, Model model) {
         ManageUser userToEdit = manageUserService.getUserById(userID);
         model.addAttribute("manageUser", userToEdit);
-        return "ManageUserEdit"; // This is the Thymeleaf template for editing a user
+        return "ManageUserEdit"; 
     }
 
     @PostMapping("/updateuser")

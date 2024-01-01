@@ -56,11 +56,10 @@ public class ManageUserService {
         return userList.stream()
                 .filter(user -> user.getUserID() == userID)
                 .findFirst()
-                .orElse(null); // You should handle the null case appropriately
+                .orElse(null); 
     }
 
     public void updateUser(ManageUser updatedUser) {
-        // Find the existing user and update their details
         userList.stream()
                 .filter(user -> user.getUserID() == updatedUser.getUserID())
                 .findFirst()
@@ -68,7 +67,6 @@ public class ManageUserService {
                     user.setEmail(updatedUser.getEmail());
                     user.setUsername(updatedUser.getUsername());
                     user.setRole(updatedUser.getRole());
-                    // Consider handling password updates carefully, especially with regards to security
                 });
     }
 
