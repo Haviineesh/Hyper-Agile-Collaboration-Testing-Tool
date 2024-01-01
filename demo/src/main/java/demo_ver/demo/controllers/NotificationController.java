@@ -90,7 +90,7 @@ public class NotificationController {
         String emailPassword = System.getenv("EMAIL_PASSWORD");
     
         if (emailUsername == null || emailPassword == null) {
-            throw new RuntimeException("Email credentials not configured.");
+            logAndThrowConfigurationException("Email credentials not configured.");
         }
     
         Properties properties = new Properties();
@@ -119,13 +119,17 @@ public class NotificationController {
     
             System.out.println("Email sent to '" + recipient + "': " + message);
         } catch (MessagingException e) {
-            // Log the error instead of just printing the stack trace
-            System.err.println("Failed to send email: " + e.getMessage());
-            e.printStackTrace();  // This line can be removed or replaced with a logging framework
-            // Depending on your use case, you might want to throw a custom exception or handle it differently
+            logAndThrowConfigurationException("Failed to send email: " + e.getMessage());
         }
     }
-    
+
+    private void logAndThrowConfigurationException(String errorMessage) {
+        // Log the error
+        System.err.println(errorMessage);
+
+        // Throw a runtime exception with the error message
+        throw new RuntimeException(errorMessage);
+    }
 
     private static class NotificationResponse {
         private final List<String> notifications;
@@ -144,4 +148,6 @@ public class NotificationController {
         }
     }
 }
+
+
 
