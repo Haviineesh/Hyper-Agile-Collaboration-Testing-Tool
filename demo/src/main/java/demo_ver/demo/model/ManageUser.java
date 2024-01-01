@@ -2,6 +2,8 @@ package demo_ver.demo.model;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import demo_ver.demo.service.ManageRoleService;
+
 @EntityScan
 public class ManageUser {
     private int userID;
@@ -69,6 +71,11 @@ public class ManageUser {
 
     public void setRoleID(int roleID) {
         this.roleID = roleID;
+    }
+
+    public String getRoleName() {
+        ManageRole role = ManageRoleService.getRoleById(roleID);
+        return (role != null) ? role.getRoleName() : "";
     }
 
 }

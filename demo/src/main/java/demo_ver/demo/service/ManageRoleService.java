@@ -71,4 +71,11 @@ public class ManageRoleService {
         }
     }
 
+    public static ManageRole getRoleById(int roleID) {
+        return roleList.stream()
+                .filter(role -> role.getRoleID() == roleID)
+                .findFirst()
+                .orElse(null);
+    }
+
 }
