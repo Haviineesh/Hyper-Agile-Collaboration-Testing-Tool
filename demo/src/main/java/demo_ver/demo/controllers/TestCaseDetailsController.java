@@ -28,13 +28,13 @@ public class TestCaseDetailsController {
 
     @GetMapping("/testcases/approveStatus/{idtest_cases}")
     public String approveTestCase(@PathVariable("idtest_cases") Long idtest_cases) {
-        viewCaseService.changeStatus(idtest_cases, "Approved", "Tester");
+        viewCaseService.changeStatus(idtest_cases, "Approved");
         return "redirect:/view";
     }
 
     @GetMapping("/testcases/rejectStatus/{idtest_cases}")
     public String rejectTestCase(@PathVariable("idtest_cases") Long idtest_cases) {
-        viewCaseService.changeStatus(idtest_cases, "Rejected", "Tester");
+        viewCaseService.changeStatus(idtest_cases, "Rejected");
         return "redirect:/view";
     }
 }
