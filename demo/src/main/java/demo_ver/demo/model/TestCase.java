@@ -2,8 +2,11 @@ package demo_ver.demo.model;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+import demo_ver.demo.service.ManageUserService;
 
 @EntityScan
 public class TestCase {
@@ -16,8 +19,9 @@ public class TestCase {
     private String status;
     private String testCaseName;
     private String dateCreated;
-    private String actor;
+    // public int userID;
     private int smartContractID;
+    private List<Integer> userID;
 
 
     public TestCase(){
@@ -25,7 +29,7 @@ public class TestCase {
     }
 
     public TestCase(Long idtest_cases, String projectId,int smartContractID, String testCaseName,String test_desc, String dateCreated, String deadline,
-            String status, String actor) {
+            String status, List<Integer> userID) {
         this.idtest_cases = idtest_cases;
         this.deadline = deadline;
         this.projectId = projectId;
@@ -34,7 +38,7 @@ public class TestCase {
         this.dateCreated = dateCreated;
         this.smartContractID = smartContractID;
         this.test_desc = test_desc;
-        this.actor = actor;
+        this.userID = userID;
     }
 
     public Long getIdtest_cases() {
@@ -86,12 +90,21 @@ public class TestCase {
         this.dateCreated = dateCreated;
     }
 
-    public String getActor() {
-        return actor;
+    public List<Integer> getUserID() {
+        return userID;
     }
 
-    public void setActor(String actor) {
-        this.actor = actor;
+    public void setUserID(List<Integer> userID) {
+        this.userID = userID;
+    }
+
+public List<String> getUsername() {
+        return userID.stream()
+                .map(userId -> {
+                    ManageUser user = ManageUserService.getUserById(userId);
+                    return (user != null) ? user.getUsername() : "";
+                })
+                .collect(Collectors.toList());
     }
 
 
