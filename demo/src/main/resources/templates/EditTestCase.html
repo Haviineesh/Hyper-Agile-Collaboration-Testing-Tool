@@ -42,33 +42,48 @@
                 <label class="col-3" for="desc">Test Case Description:</label>
                 <textarea name="test_desc" th:field ="*{test_desc}" rows="3"></textarea>
             </p>    
-            <p>
-                <label class="col-3" for="dateCreated">Deadline:</label>
-                <input type="date" th:field ="*{dateCreated}" placeholder="Date Created">
-            </p>
-            <p>
-                <label class="col-3" for="deadline">Date Update:</label>
-                <input type="date" th:field ="*{deadline}" placeholder="Deadline">
-            </p>
-            <p>
-                <label class="col-3" for="status">Status:</label>
-                <select th:field="*{status}">
-                    <option value="Pending">Pending</option>
-                    <option value="Reject">Reject</option>
-                    <option value="Approved">Approved</option>
-                </select>
-            </p>
-            
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        <label class="col-6" for="dateCreated">Deadline:</label>
+                        <input type="date" th:field ="*{dateCreated}" placeholder="Date Created">
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <label class="col-6" for="deadline">Date Update:</label>
+                        <input type="date" th:field ="*{deadline}" placeholder="Deadline">
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        <label class="col-6" for="status">Status:</label>
+                        <select th:field="*{status}">
+                            <option value="Pending">Pending</option>
+                            <option value="Reject">Reject</option>
+                            <option value="Approved">Approved</option>
+                        </select>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <label class="col-6" for="user">Assign Users:</label>
+                        <select id="userID" name="userID" th:field="*{userID}" required multiple>
+                            <option th:each="user : ${users}" th:value="${user.userID}" th:text="${user.username + ' (' + user.roleName + ')'}"></option>
+                        </select>
+                    </p>
+                </div>
+            </div>
+
             <br/><input type="hidden" th:field="*{idtest_cases}" />
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success">Save </button>
             </div>
         
         </form>
-        
-
     </div>
-
 </body>
 
 </html>
