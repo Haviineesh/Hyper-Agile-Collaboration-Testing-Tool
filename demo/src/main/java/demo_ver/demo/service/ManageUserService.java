@@ -53,7 +53,7 @@ public class ManageUserService {
         return userList.stream().anyMatch(user -> user.getEmail().equalsIgnoreCase(email));
     }
 
-    public ManageUser getUserById(int userID) {
+    public static ManageUser getUserById(int userID) {
         return userList.stream()
                 .filter(user -> user.getUserID() == userID)
                 .findFirst()
