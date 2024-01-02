@@ -45,6 +45,7 @@
                     <th scope="col">Test Case</th>
                     <th scope="col">Deadline</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Users</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -57,6 +58,7 @@
                     <td>
                         <span th:text="${test.status}" th:class="${test.status eq 'Approved' ? 'text-success' : (test.status eq 'Rejected' ? 'text-danger' : 'text-Pending')}"></span>
                     </td>
+                    <td th:text="${test.username}"></td>
                     <td>
 
                         <a class="btn btn-primary" th:href = "@{'/testcases/details/'+${test.idtest_cases}}">
