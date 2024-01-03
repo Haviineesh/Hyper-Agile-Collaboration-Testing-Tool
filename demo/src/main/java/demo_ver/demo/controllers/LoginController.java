@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 // import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 // import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import demo_ver.demo.model.User;
 import demo_ver.demo.service.AuthService;
@@ -31,11 +30,6 @@ public class LoginController {
     public String showLoginPage(Model model) {
         model.addAttribute("user", new User());
         return "login";
-    }
-
-    @GetMapping("/forgotpassword")
-    public String showForgotPasswordPage() {
-        return "ForgotPassword";
     }
 
     // @PostMapping("/login")
@@ -91,15 +85,6 @@ public class LoginController {
         return "login";
     }
 }
-
-    @PostMapping("/forgotpassword")
-    public String handleForgotPasswordForm(@RequestParam String email, Model model) {
-
-        // For demonstration purposes, let's assume the link is sent successfully
-        model.addAttribute("successMessage", "Password reset link sent to your email");
-
-        return "ForgotPassword";
-    }
 
 }
 
