@@ -18,7 +18,7 @@
 
     <div class="container mt-5">
       <h2 class="mb-4">Add New User</h2>
-      <form action="/adduser" method="post">
+      <form th:action="@{/adduser}" method="post">
         <div class="form-group">
           <label for="username">Username</label>
           <input

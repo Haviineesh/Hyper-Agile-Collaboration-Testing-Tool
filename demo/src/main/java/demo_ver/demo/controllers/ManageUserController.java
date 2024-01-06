@@ -41,7 +41,8 @@ public class ManageUserController {
 
     // @RequestMapping("/adduser")
     @PostMapping("/adduser")
-    public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("role") int roleID, Model model) {
+    public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("role") int roleID,
+            Model model) {
         if (manageUserService.isUsernameExists(manageUser.getUsername())) {
             model.addAttribute("usernameExists", true);
             return "ManageUserAdd";
@@ -55,13 +56,6 @@ public class ManageUserController {
         manageUserService.addUser(manageUser, roleID);
 
         // model.addAttribute("manageUser", manageUser);
-
-        // Add a 3s delay before redirecting to the manage user page
-        // try {
-        // Thread.sleep(2000);
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
 
         return "redirect:/manageuser";
     }
@@ -77,7 +71,7 @@ public class ManageUserController {
         ManageUser userToEdit = manageUserService.getUserById(userID);
         model.addAttribute("manageUser", userToEdit);
         model.addAttribute("roles", ManageRoleService.getAllRoles());
-        return "ManageUserEdit"; // 
+        return "ManageUserEdit"; //
     }
 
     @PostMapping("/updateuser")

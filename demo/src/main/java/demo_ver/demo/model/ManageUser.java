@@ -18,7 +18,6 @@ public class ManageUser {
 
     public ManageUser(int userID, String email, String username, String password, int roleID) {
         this.userID = userID;
-        // this.roleID = roleID;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -40,14 +39,6 @@ public class ManageUser {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    // public int getRoleID() {
-    // return roleID;
-    // }
-
-    // public void setRoleID(int roleID) {
-    // this.roleID = roleID;
-    // }
 
     public int getUserID() {
         return userID;
