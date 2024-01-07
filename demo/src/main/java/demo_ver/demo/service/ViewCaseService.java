@@ -48,19 +48,19 @@ public class ViewCaseService {
     }
 
     public void updateCaseUser(TestCase updatedTestCase, List<Integer> userID) {
-        // Find the existing test case by ID
-        Optional<TestCase> existingTestCase = testList.stream()
-                .filter(tc -> tc.getIdtest_cases().equals(updatedTestCase.getIdtest_cases()))
-                .findFirst();
-    
-        // Update the existing test case if found
-        existingTestCase.ifPresent(testCase -> {
-            testCase.setUserID(userID);
-            // Update other properties as needed
-            // For example: testCase.setSmartContractID(updatedTestCase.getSmartContractID());
-            // ...
-        });
+        Optional<TestCase> existingTestCaseOpt = findById(updatedTestCase.getIdtest_cases());
+        if (existingTestCaseOpt.isPresent()) {
+            TestCase existingTestCase = existingTestCaseOpt.get();
+            existingTestCase.setUserID(userID);
+            existingTestCase.setStatus(updatedTestCase.getStatus());
+            // Update other fields as necessary
+            updateCase(existingTestCase);
+        } else {
+            throw new NoSuchElementException("Test case not found with ID: " + updatedTestCase.getIdtest_cases());
+        }
     }
+    
+    
 
     public TestCase getTestCaseById(long idtest_cases) {
 
@@ -81,6 +81,14 @@ public class ViewCaseService {
             testCase.setStatus(newStatus);
             updateCase(testCase);
         });
+    }
+
+    public void setUnderReview(long idtest_cases) {
+        changeStatus(idtest_cases, "Under Review");
+    }
+
+    public void setNeedsRevision(long idtest_cases) {
+        changeStatus(idtest_cases, "Needs Revision");
     }
 
 

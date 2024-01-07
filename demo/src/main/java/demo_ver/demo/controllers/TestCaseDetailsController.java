@@ -37,6 +37,19 @@ public class TestCaseDetailsController {
         viewCaseService.changeStatus(idtest_cases, "Rejected");
         return "redirect:/view";
     }
+
+    @GetMapping("/testcases/setUnderReview/{idtest_cases}")
+public String setUnderReview(@PathVariable("idtest_cases") Long idtest_cases) {
+    viewCaseService.setUnderReview(idtest_cases);
+    return "redirect:/view";
+}
+
+@GetMapping("/testcases/setNeedsRevision/{idtest_cases}")
+public String setNeedsRevision(@PathVariable("idtest_cases") Long idtest_cases) {
+    viewCaseService.setNeedsRevision(idtest_cases);
+    return "redirect:/view";
+}
+
 }
 
 
