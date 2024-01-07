@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
 
 import demo_ver.demo.service.EmailService;
 
@@ -25,7 +26,7 @@ public class ForgotPasswordController {
 
         // Send the password reset email
         String subject = "Password Reset";
-        String body = "Click the following link to reset your password: http://HyperAgileCollaborationTestingTool/reset-password?token="
+        String body = "Click the following link to reset your password: http://localhost:8090/resetpassword?token="
                 + resetToken;
         emailService.sendPasswordResetEmail(userEmail, subject, body);
 
@@ -35,9 +36,50 @@ public class ForgotPasswordController {
         return "ForgotPassword";
     }
 
+    @GetMapping("/resetpassword")
+    public String showResetPasswordForm(@RequestParam String token, Model model) {
+        // Validate the token (you need to implement this logic)
+        if (isValidToken(token)) {
+            model.addAttribute("resetToken", token);
+            return "ResetPassword";
+        } else {
+            model.addAttribute("errorMessage", "Invalid or expired token");
+            return "ResetPassword";
+        }
+    }
+
+    private boolean isValidToken(String token) {
+        // Implement the logic to validate the token (e.g., check against stored tokens,
+        // expiration time)
+        // Return true if the token is valid, false otherwise
+        return true;
+    }
+
+    @PostMapping("/resetpassword")
+    public String handleResetPasswordForm(@RequestParam String token, @RequestParam String newPassword, Model model) {
+        if (isValidToken(token)) {
+            if (isPasswordValid(newPassword)) {
+                // Implement logic to update user's password with the new password
+                // For demonstration purposes, assume success
+                model.addAttribute("successMessage", "Password reset successful");
+                return "ResetPassword";
+            } else {
+                model.addAttribute("errorMessage", "Password should be at least 6 characters");
+                return "ResetPassword";
+            }
+        } else {
+            model.addAttribute("errorMessage", "Invalid or expired token");
+            return "ResetPassword";
+        }
+    }
+
+    private boolean isPasswordValid(String password) {
+        // Add your password validation logic here
+        return password.length() >= 6;
+    }
+
     private String generateResetToken(String email) {
-        // Add your logic to generate a reset token
-        // This can involve generating a unique token, saving it in the database, etc.
-        return null;
+        // Generate a secure token
+        return UUID.randomUUID().toString();
     }
 }

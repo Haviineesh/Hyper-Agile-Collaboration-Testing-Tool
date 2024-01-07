@@ -37,13 +37,14 @@ public class SecurityConfig extends WebSecurityConfiguration {
                                 .passwordEncoder(passwordEncoder());
                 return http
                                 .formLogin(form -> form
-                                                .loginPage("/login").permitAll())
+                                                .loginPage("/login").permitAll()
+                                                .defaultSuccessUrl("/manageuser", true))
                                 .logout(logout -> logout
                                                 .invalidateHttpSession(true)
                                                 .clearAuthentication(true)
                                                 .logoutUrl("/logout").permitAll())
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/login", "/forgotpassword").permitAll()
+                                                .requestMatchers("/login", "/forgotpassword", "/resetpassword").permitAll()
                                                 .requestMatchers("/resources/**", "/static/**", "/webjars/**")
                                                 .permitAll()
                                                 .anyRequest().authenticated())

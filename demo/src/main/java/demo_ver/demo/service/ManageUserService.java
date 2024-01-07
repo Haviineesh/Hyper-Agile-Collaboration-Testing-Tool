@@ -109,10 +109,11 @@ public class ManageUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ManageUser manageUser = getUserByUsername(username); // retrieve ManageUser by username
+        ManageUser manageUser = getUserByUsername(username); // retrieve ManageUser
 
         if (manageUser == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new UsernameNotFoundException("User not found with username: " +
+                    username);
         }
 
         List<GrantedAuthority> authorities = getAuthorities(manageUser.getRoleName());
@@ -132,7 +133,21 @@ public class ManageUserService implements UserDetailsService {
 
     private List<GrantedAuthority> getAuthorities(String role) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role)); // Assuming roles are prefixed with "ROLE_"
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+        // Assuming roles are prefixed with "ROLE_"
         return authorities;
+    }
+
+    // Change password methods
+    public boolean passwordMatches(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    public void updateUserPassword(ManageUser user) {
+        // Find the existing user and update the password
+        userList.stream()
+                .filter(existingUser -> existingUser.getUserID() == user.getUserID())
+                .findFirst()
+                .ifPresent(existingUser -> existingUser.setPassword(passwordEncoder.encode(user.getPassword())));
     }
 }

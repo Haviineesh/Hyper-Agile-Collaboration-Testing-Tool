@@ -1,5 +1,8 @@
 package demo_ver.demo.model;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import demo_ver.demo.service.ManageRoleService;

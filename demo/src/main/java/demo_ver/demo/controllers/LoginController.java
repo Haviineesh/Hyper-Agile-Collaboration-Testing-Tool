@@ -14,6 +14,7 @@ public class LoginController {
     public LoginController(ManageRoleService manageRoleService) {
         this.manageRoleService = manageRoleService;
     }
+
     @GetMapping("/login")
     public String showLoginPage(Model model) {
         model.addAttribute("roles", manageRoleService.getAllRoles());
