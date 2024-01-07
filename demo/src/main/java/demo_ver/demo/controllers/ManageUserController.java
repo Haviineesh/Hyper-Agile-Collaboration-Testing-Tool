@@ -43,6 +43,7 @@ public class ManageUserController {
     @PostMapping("/adduser")
     public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("role") int roleID,
             Model model) {
+        model.addAttribute("roles", ManageRoleService.getAllRoles());
         if (manageUserService.isUsernameExists(manageUser.getUsername())) {
             model.addAttribute("usernameExists", true);
             return "ManageUserAdd";
