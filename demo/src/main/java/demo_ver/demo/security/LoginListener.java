@@ -2,6 +2,8 @@ package demo_ver.demo.security;
 
 import demo_ver.demo.mail.MailService;
 import demo_ver.demo.mail.MailStructure;
+import demo_ver.demo.model.ManageUser;
+import demo_ver.demo.service.ManageUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
@@ -13,16 +15,27 @@ public class LoginListener implements ApplicationListener<AuthenticationSuccessE
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private ManageUserService manageUserService;
+
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
-        String userEmail = event.getAuthentication().getName();
-        sendLoginNotification(userEmail);
+        String username = event.getAuthentication().getName();
+        sendLoginNotification(username);
     }
 
-    private void sendLoginNotification(String userEmail) {
-        String subject = "Login Notification";
-        String message = "Dear user, you have successfully logged in.";
-        mailService.sendAssignedMail(userEmail, subject, message);
+    private void sendLoginNotification(String username) {
+        // Retrieve the user by username
+        ManageUser user = manageUserService.getUserByUsername(username);
+
+        // Check if the user exists and has an email
+        if (user != null && user.getEmail() != null) {
+            String userEmail = user.getEmail();
+            String subject = "Login Notification";
+            String message = "Dear user, you have successfully logged in.";
+            mailService.sendAssignedMail(userEmail, subject, message);
+        }
     }
 }
+
 
