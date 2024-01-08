@@ -127,4 +127,9 @@ public class ViewCaseService {
             }
         }
     }
+
+
+        public List<TestCase> getPendingTestCasesForUser(int userID) {
+            return null;
+        }
 }
