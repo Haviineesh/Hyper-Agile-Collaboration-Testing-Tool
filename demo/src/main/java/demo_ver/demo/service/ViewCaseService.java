@@ -98,40 +98,4 @@ public class ViewCaseService {
     public void setNeedsRevision(long idtest_cases) {
         changeStatus(idtest_cases, "Needs Revision");
     }
-
-    //check deadline
-        public void checkDeadlineAndSendNotification(TestCase testCase, MailService mailService) {
-        if ("Pending".equals(testCase.getStatus())) {
-            // Adjust the condition based on your actual status values
-            // Assuming the deadline is in the format "yyyy-MM-dd"
-            LocalDate current = LocalDate.now();
-            LocalDate deadlineDate = LocalDate.parse(testCase.getDeadline());
-
-            if (current.isAfter(deadlineDate)) {
-                // Deadline has been reached, send notification
-                sendNotificationEmail(testCase, mailService);
-            }
-        }
-    }
-
-    //send notification email
-        private void sendNotificationEmail(TestCase testCase, MailService mailService) {
-        List<String> usernames = testCase.getUsername();
-        String subject = "Test Case Approval Reminder";
-        String message = "Dear user, the deadline for test case approval has been reached.";
-
-        for (String username : usernames) {
-            ManageUser user = ManageUserService.getUserByUsername(username);
-            if (user != null && user.getEmail() != null) {
-                String userEmail = user.getEmail();
-                mailService.sendAssignedMail(userEmail, subject, message);
-            }
-        }
-    }
-
-        public List<TestCase> getPendingTestCasesForUser(int userID) {
-            return testList.stream()
-            .filter(testCase -> testCase.getUserID().contains(userID) && "PENDING_APPROVAL".equals(testCase.getStatus()))
-            .collect(Collectors.toList());
-        }
 }
