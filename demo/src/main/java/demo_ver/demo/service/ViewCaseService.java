@@ -1,15 +1,19 @@
 package demo_ver.demo.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.NoSuchElementException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.model.TestCase;
+import demo_ver.demo.mail.MailService;
 import demo_ver.demo.utils.RandomNumber;
 
 
@@ -23,9 +27,12 @@ public class ViewCaseService {
             add(new TestCase(RandomNumber.getRandom(100,999),"001",8,"Diagram","desc1","2023-12-11","2023-11-10","Pending",Arrays.asList(2000)));
             add(new TestCase(RandomNumber.getRandom(100,999),"002",15,"Package","desc23","2023-11-07","2023-11-17","Pending",Arrays.asList(2001)));
             add(new TestCase(RandomNumber.getRandom(100,999),"003",17,"Behavorial","desc34","2023-12-05","2023-11-15","Pending",Arrays.asList(2001)));
+            add(new TestCase(RandomNumber.getRandom(100,999),"004",19,"Diagram","desc56","2023-12-20","2024-01-07","Pending",Arrays.asList(2002)));
      }
     };
-           
+
+    @Autowired
+    private MailService mailService;
 
     public static List<TestCase> findAllList() {
        return testList;
@@ -91,6 +98,33 @@ public class ViewCaseService {
         changeStatus(idtest_cases, "Needs Revision");
     }
 
+    //check deadline
+        public void checkDeadlineAndSendNotification(TestCase testCase) {
+        if ("PENDING_APPROVAL".equals(testCase.getStatus())) {
+            // Adjust the condition based on your actual status values
+            // Assuming the deadline is in the format "yyyy-MM-dd"
+            LocalDate current = LocalDate.now();
+            LocalDate deadlineDate = LocalDate.parse(testCase.getDeadline());
 
+            if (current.isAfter(deadlineDate)) {
+                // Deadline has been reached, send notification
+                sendNotificationEmail(testCase);
+            }
+        }
+    }
 
+    //send notification email
+        private void sendNotificationEmail(TestCase testCase) {
+        List<String> usernames = testCase.getUsername();
+        String subject = "Test Case Approval Reminder";
+        String message = "Dear user, the deadline for test case approval has been reached.";
+
+        for (String username : usernames) {
+            ManageUser user = ManageUserService.getUserByUsername(username);
+            if (user != null && user.getEmail() != null) {
+                String userEmail = user.getEmail();
+                mailService.sendAssignedMail(userEmail, subject, message);
+            }
+        }
+    }
 }
