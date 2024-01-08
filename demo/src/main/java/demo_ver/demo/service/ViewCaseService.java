@@ -129,7 +129,6 @@ public class ViewCaseService {
         }
     }
 
-
         public List<TestCase> getPendingTestCasesForUser(int userID) {
             return testList.stream()
             .filter(testCase -> testCase.getUserID().contains(userID) && "PENDING_APPROVAL".equals(testCase.getStatus()))
