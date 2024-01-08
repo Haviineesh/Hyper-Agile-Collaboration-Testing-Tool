@@ -99,7 +99,7 @@ public class ViewCaseService {
     }
 
     //check deadline
-        public void checkDeadlineAndSendNotification(TestCase testCase) {
+        public void checkDeadlineAndSendNotification(TestCase testCase, MailService mailService) {
         if ("PENDING_APPROVAL".equals(testCase.getStatus())) {
             // Adjust the condition based on your actual status values
             // Assuming the deadline is in the format "yyyy-MM-dd"
@@ -108,13 +108,13 @@ public class ViewCaseService {
 
             if (current.isAfter(deadlineDate)) {
                 // Deadline has been reached, send notification
-                sendNotificationEmail(testCase);
+                sendNotificationEmail(testCase, mailService);
             }
         }
     }
 
     //send notification email
-        private void sendNotificationEmail(TestCase testCase) {
+        private void sendNotificationEmail(TestCase testCase, MailService mailService) {
         List<String> usernames = testCase.getUsername();
         String subject = "Test Case Approval Reminder";
         String message = "Dear user, the deadline for test case approval has been reached.";
