@@ -101,7 +101,7 @@ public class ManageUserService implements UserDetailsService {
     }
 
     // retrieve user details for authentication
-    public static ManageUser getUserByUsername(String username) {
+    public ManageUser getUserByUsername(String username) {
         return userList.stream()
                 .filter(user -> user.getUsername().equals(username))
                 .findFirst()

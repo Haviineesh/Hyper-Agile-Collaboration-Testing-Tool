@@ -19,9 +19,6 @@ public class TestCaseDetailsController {
         // Fetch the TestCase by id
         TestCase testCase = viewCaseService.getTestCaseById(idtest_cases);
 
-        //Check deadline
-        testCase.checkDeadlineAndSendNotification(null);
-
         // Add the TestCase to the model
         model.addAttribute("testCase", testCase);
 
