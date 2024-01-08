@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.model.TestCase;
 import demo_ver.demo.mail.MailService;
+import demo_ver.demo.mail.MailStructure;
 import demo_ver.demo.utils.RandomNumber;
 
 
@@ -67,8 +69,39 @@ public class ViewCaseService {
             throw new NoSuchElementException("Test case not found with ID: " + updatedTestCase.getIdtest_cases());
         }
     }
-    
-    
+
+    @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
+    public void sendDeadlineNotifications() {
+        LocalDate today = LocalDate.now();
+
+        for (TestCase testCase : testList) {
+            LocalDate deadlineDate = LocalDate.parse(testCase.getDeadline());
+            int daysUntilDeadline = (int) today.until(deadlineDate).getDays();
+
+            if (daysUntilDeadline <= 7 && daysUntilDeadline >= 0) {
+                sendNotificationForTestCase(testCase);
+            }
+        }
+    }
+
+        private void sendNotificationForTestCase(TestCase testCase) {
+        List<String> userEmails = testCase.getUserID().stream()
+                .map(userId -> {
+                    ManageUser user = ManageUserService.getUserById(userId);
+                    return (user != null) ? user.getEmail() : "";
+                })
+                .filter(email -> !email.isEmpty())
+                .collect(Collectors.toList());
+
+        if (!userEmails.isEmpty()) {
+            String subject = "Test Case Deadline Notification";
+            String message = String.format("Dear user, the deadline for test case '%s' is approaching. Please review it.", testCase.getTestCaseName());
+
+            for (String userEmail : userEmails) {
+                mailService.sendMail(userEmail, new MailStructure(userEmail, subject, message));
+            }
+        }
+    }
 
     public TestCase getTestCaseById(long idtest_cases) {
 
