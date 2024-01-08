@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +131,8 @@ public class ViewCaseService {
 
 
         public List<TestCase> getPendingTestCasesForUser(int userID) {
-            return null;
+            return testList.stream()
+            .filter(testCase -> testCase.getUserID().contains(userID) && "PENDING_APPROVAL".equals(testCase.getStatus()))
+            .collect(Collectors.toList());
         }
 }
