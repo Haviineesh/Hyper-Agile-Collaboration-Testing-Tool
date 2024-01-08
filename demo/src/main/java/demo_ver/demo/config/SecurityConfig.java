@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfiguration {
                                                 .clearAuthentication(true)
                                                 .logoutUrl("/logout").permitAll())
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/login", "/forgotpassword", "/resetpassword").permitAll()
+                                                .requestMatchers("/login", "/forgotpassword", "/resetpassword")
+                                                .permitAll()
                                                 .requestMatchers("/resources/**", "/static/**", "/webjars/**")
                                                 .permitAll()
                                                 .anyRequest().authenticated())
