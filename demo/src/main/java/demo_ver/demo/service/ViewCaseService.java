@@ -101,7 +101,7 @@ public class ViewCaseService {
 
     //check deadline
         public void checkDeadlineAndSendNotification(TestCase testCase, MailService mailService) {
-        if ("PENDING_APPROVAL".equals(testCase.getStatus())) {
+        if ("Pending".equals(testCase.getStatus())) {
             // Adjust the condition based on your actual status values
             // Assuming the deadline is in the format "yyyy-MM-dd"
             LocalDate current = LocalDate.now();

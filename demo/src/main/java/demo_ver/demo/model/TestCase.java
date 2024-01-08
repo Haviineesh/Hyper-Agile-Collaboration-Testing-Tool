@@ -109,7 +109,7 @@ public List<String> getUsername() {
 
     // check deadline and send notification
 public void checkDeadlineAndSendNotification(MailService mailService) {
-        if ("PENDING_APPROVAL".equals(status)) {
+        if ("Pending".equals(status)) {
             LocalDate current = LocalDate.now();
             LocalDate deadlineDate = LocalDate.parse(deadline);
 
