@@ -30,6 +30,13 @@ public class ManageUserService implements UserDetailsService {
     // }
     // };
 
+    // private void initializeUserList() {
+    //     userList = new ArrayList<>();
+    //     userList.add(new ManageUser(2000, "teenesh@gmail.com", "Teenesh", passwordEncoder.encode("123456"), 1000));
+    //     userList.add(new ManageUser(2001, "user@gmail.com", "John", passwordEncoder.encode("654321"), 1002));
+    //     userList.add(new ManageUser(2002, "williamlik@graduate.utm.my", "Will", passwordEncoder.encode("142536"), 1001));
+    // }
+
     public ManageUserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         initializeUserList();
