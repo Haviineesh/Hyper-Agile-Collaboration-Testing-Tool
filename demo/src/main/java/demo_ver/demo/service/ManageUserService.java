@@ -2,6 +2,9 @@ package demo_ver.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,16 +30,25 @@ public class ManageUserService implements UserDetailsService {
     // }
     // };
 
-    private void initializeUserList() {
-        userList = new ArrayList<>();
-        userList.add(new ManageUser(2000, "teenesh@gmail.com", "Teenesh", passwordEncoder.encode("123456"), 1000));
-        userList.add(new ManageUser(2001, "user@gmail.com", "John", passwordEncoder.encode("654321"), 1002));
-        userList.add(new ManageUser(2002, "williamlik@graduate.utm.my", "Will", passwordEncoder.encode("142536"), 1001));
-    }
+    // private void initializeUserList() {
+    //     userList = new ArrayList<>();
+    //     userList.add(new ManageUser(2000, "teenesh@gmail.com", "Teenesh", passwordEncoder.encode("123456"), 1000));
+    //     userList.add(new ManageUser(2001, "user@gmail.com", "John", passwordEncoder.encode("654321"), 1002));
+    //     userList.add(new ManageUser(2002, "williamlik@graduate.utm.my", "Will", passwordEncoder.encode("142536"), 1001));
+    // }
 
     public ManageUserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         initializeUserList();
+    }
+
+    private void initializeUserList() {
+        userList = new ArrayList<>();
+        userList.add(new ManageUser(2000, "teeneshsubramaniam10@gmail.com", "Teenesh", passwordEncoder.encode("123456"),
+                1000));
+        userList.add(new ManageUser(2001, "user@gmail.com", "John", passwordEncoder.encode("654321"), 1002));
+        userList.add(
+                new ManageUser(2002, "williamlik@graduate.utm.my", "Will", passwordEncoder.encode("142536"), 1001));
     }
 
     public static List<ManageUser> getAllUsers() {
@@ -110,11 +122,10 @@ public class ManageUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ManageUser manageUser = getUserByUsername(username); // retrieve ManageUser
+        ManageUser manageUser = getUserByUsername(username);
 
         if (manageUser == null) {
-            throw new UsernameNotFoundException("User not found with username: " +
-                    username);
+            throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
         List<GrantedAuthority> authorities = getAuthorities(manageUser.getRoleName());
@@ -125,10 +136,10 @@ public class ManageUserService implements UserDetailsService {
         System.out.println("Password: " + manageUser.getPassword());
         System.out.println("Authorities: " + authorities);
 
-        // Use the encoded password from ManageUser
+        // Update the encoded password from ManageUser
         return new User(
                 manageUser.getUsername(),
-                manageUser.getPassword(), // Use the encoded password
+                manageUser.getPassword(), // Use the updated encoded password
                 authorities);
     }
 
@@ -151,4 +162,50 @@ public class ManageUserService implements UserDetailsService {
                 .findFirst()
                 .ifPresent(existingUser -> existingUser.setPassword(passwordEncoder.encode(user.getPassword())));
     }
+
+    public ManageUser findUserByResetToken(String resetToken) {
+        return userList.stream()
+                .filter(user -> Objects.equals(user.getResetToken(), resetToken))
+                .findFirst()
+                .orElse(null);
+    }
+
+    // Forgot password methods
+    public void updateResetToken(ManageUser user, String resetToken) {
+        user.setResetToken(resetToken);
+        // Update the user in the user service or repository
+        // Example: manageUserRepository.save(user);
+    }
+
+    public boolean isValidToken(String token) {
+        // Implement the logic to validate the token (e.g., check against stored tokens,
+        // expiration time)
+        // Return true if the token is valid, false otherwise
+        return true;
+    }
+
+    public String generateResetToken(String email) {
+        // Generate a secure token
+        return UUID.randomUUID().toString();
+    }
+
+    public boolean isPasswordValid(String password) {
+        // Add your password validation logic here
+        return password.length() >= 6;
+    }
+
+    public void updateUserPassword(ManageUser user, String newPassword) {
+        // Update the user's password with the new password
+        user.setPassword(passwordEncoder.encode(newPassword));
+        // Update the user in the user service or repository
+        // Example: manageUserRepository.save(user);
+    }
+
+    public ManageUser getUserByEmail(String email) {
+        return userList.stream()
+                .filter(user -> user.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+    }
+
 }
