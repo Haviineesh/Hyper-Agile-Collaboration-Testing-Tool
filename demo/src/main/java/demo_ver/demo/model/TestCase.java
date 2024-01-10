@@ -1,6 +1,5 @@
 package demo_ver.demo.model;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import demo_ver.demo.service.ManageUserService;
-import demo_ver.demo.mail.MailService;
 
 @EntityScan
 public class TestCase {
@@ -27,6 +25,7 @@ public class TestCase {
 
 
     public TestCase(){
+
     }
 
     public TestCase(Long idtest_cases, String projectId,int smartContractID, String testCaseName,String test_desc, String dateCreated, String deadline,
@@ -61,6 +60,7 @@ public class TestCase {
         this.smartContractID = smartContractID;
     }    
     
+
     // Getters and Setters afser
    
 
@@ -107,33 +107,6 @@ public List<String> getUsername() {
                 .collect(Collectors.toList());
     }
 
-    // check deadline and send notification
-public void checkDeadlineAndSendNotification(MailService mailService) {
-        if ("Pending".equals(status)) {
-            LocalDate current = LocalDate.now();
-            LocalDate deadlineDate = LocalDate.parse(deadline);
-
-            if (current.isAfter(deadlineDate)) {
-                // Deadline has been reached, send notification
-                sendNotificationEmail(mailService);
-            }
-        }
-    }
-
-// send notification
-    private void sendNotificationEmail(MailService mailService) {
-        List<String> usernames = getUsername();
-        String subject = "Test Case Approval Reminder";
-        String message = "Dear user, the deadline for test case approval has been reached.";
-
-        for (String username : usernames) {
-            ManageUser user = ManageUserService.getUserByUsername(username);
-            if (user != null && user.getEmail() != null) {
-                String userEmail = user.getEmail();
-                mailService.sendAssignedMail(userEmail, subject, message);
-            }
-        }
-    }
 
 }
 
