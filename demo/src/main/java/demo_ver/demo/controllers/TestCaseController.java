@@ -27,6 +27,12 @@ public class TestCaseController {
     public String viewCase(Model model) {
         // List<TestCase> cases = viewCaseService.findAllList();
         model.addAttribute("testCase", ViewCaseService.findAllList());
+
+        //check deadline
+        List<TestCase> testCases = ViewCaseService.findAllList();
+        for (TestCase testCase : testCases) {
+             testCase.checkDeadlineAndSendNotification(null);
+        }
         return "viewTestCase";
     }
 
