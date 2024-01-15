@@ -1,6 +1,11 @@
 package demo_ver.demo.controllers;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +31,14 @@ public class ManageUserController {
     // }
 
     @GetMapping("/manageuser")
-    public String manageusers(Model model) {
-        // List<ManageUser> users = manageUserService.getAllUsers();
+    public String manageusers(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+
+        // Check if the user has the Admin role
+        boolean isAdmin = authorities.stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_Admin"));
+
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("users", ManageUserService.getAllUsers());
         return "ManageUser";
     }
@@ -39,7 +50,6 @@ public class ManageUserController {
         return "ManageUserAdd";
     }
 
-    // @RequestMapping("/adduser")
     @PostMapping("/adduser")
     public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("role") int roleID,
             Model model) {

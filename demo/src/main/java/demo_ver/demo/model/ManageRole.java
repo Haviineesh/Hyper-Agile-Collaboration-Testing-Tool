@@ -1,13 +1,17 @@
 package demo_ver.demo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @EntityScan
 public class ManageRole {
     private int roleID;
     private String description;
     private String roleName;
-    
 
     public ManageRole() {
 
@@ -47,6 +51,13 @@ public class ManageRole {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-
+    
+    // For role based authorization
+    public List<GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(roleName));
+        // Add additional authorities as needed
+        return authorities;
+    }
 
 }

@@ -1,6 +1,9 @@
 package demo_ver.demo.model;
 
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.security.core.GrantedAuthority;
 
 import demo_ver.demo.service.ManageRoleService;
 
@@ -68,6 +71,10 @@ public class ManageUser {
     public String getRoleName() {
         ManageRole role = ManageRoleService.getRoleById(roleID);
         return (role != null) ? role.getRoleName() : "";
+    }
+
+    public List<GrantedAuthority> getAuthorities() {
+        return ManageRoleService.getRoleById(roleID).getAuthorities();
     }
 
     public String getResetToken() {

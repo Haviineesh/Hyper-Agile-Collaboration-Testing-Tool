@@ -1,6 +1,6 @@
 <div th:fragment="navbar">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Profile</a>
+    <a class="navbar-brand" th:href="@{/home}">Home</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -14,24 +14,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:8090/manageuser">Users</a>
+        <li class="nav-item" th:if="${isAdmin}">
+          <a class="nav-link" th:href="@{/manageuser}">Users</a>
         </li>
-        <li class="nav-item">
-          <a
-            id="test-case-link"
-            class="nav-link"
-            href="http://localhost:8090/view"
-            >Test Case</a
-          >
+
+        <li class="nav-item" th:unless="${isAdmin}">
+          <a id="test-case-link" class="nav-link" th:href="@{/view}">Test Case</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="http://localhost:8090/manageroles">Roles</a>
+
+        <li class="nav-item" th:if="${isAdmin}">
+          <a class="nav-link" th:href="@{/manageroles}">Roles</a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="http://localhost:8090/changepassword"
-            >Change Password</a
-          >
+          <a class="nav-link" th:href="@{/changepassword}">Change Password</a>
         </li>
       </ul>
 

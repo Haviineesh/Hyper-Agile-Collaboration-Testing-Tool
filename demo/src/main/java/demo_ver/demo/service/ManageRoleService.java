@@ -11,12 +11,23 @@ import demo_ver.demo.model.ManageRole;
 @Service
 public class ManageRoleService {
 
+    // private static List<ManageRole> roleList = new ArrayList<ManageRole>() {
+    // {
+    // add(new ManageRole(1000, "Admin", "Administration"));
+    // add(new ManageRole(1001, "Tester", "unit tester"));
+    // add(new ManageRole(1002, "Product Manager", "manage production"));
+    // add(new ManageRole(1003, "Developer", "Programming"));
+
+    // }
+    // };
+
+    // roleName prefix with 'ROLE_'
     private static List<ManageRole> roleList = new ArrayList<ManageRole>() {
         {
-             add(new ManageRole(1000, "Admin", "Administration"));
-            add(new ManageRole(1001, "Tester", "unit tester"));
-            add(new ManageRole(1002, "Product Manager", "manage production"));
-            add(new ManageRole(1003, "Developer", "Programming"));
+            add(new ManageRole(1000, "ROLE_Admin", "Administration"));
+            add(new ManageRole(1001, "ROLE_Tester", "unit tester"));
+            add(new ManageRole(1002, "ROLE_Product Manager", "manage production"));
+            add(new ManageRole(1003, "ROLE_Developer", "Programming"));
 
         }
     };
