@@ -3,7 +3,11 @@ package demo_ver.demo.controllers;
 import demo_ver.demo.service.AuthService;
 
 import java.security.Principal;
+import java.util.Collection;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +24,14 @@ public class ChangePasswordController {
     }
 
     @GetMapping("/changepassword")
-    public String showChangePasswordPage() {
+    public String showChangePasswordPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+
+        // Check if the user has the Admin role
+        boolean isAdmin = authorities.stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_Admin"));
+
+        model.addAttribute("isAdmin", isAdmin);
         return "ChangePassword";
     }
 

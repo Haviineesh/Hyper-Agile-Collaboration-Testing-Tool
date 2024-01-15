@@ -9,7 +9,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container mt-5">
         <h2 class="mb-4">Edit User</h2>
         <form th:action="@{/updateuser}" th:object="${manageUser}" method="post">
