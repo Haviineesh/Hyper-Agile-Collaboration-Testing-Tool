@@ -1,10 +1,15 @@
 package demo_ver.demo.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.NoSuchElementException;
 
@@ -47,6 +52,27 @@ public class ViewCaseService {
         testCase.setIdtest_cases(RandomNumber.getRandom(100,999));
         testCase.setUserID(userID);
         testList.add(testCase);
+
+        //send email notification to assigned user
+        sendAssignmentNotification(testCase);
+
+    }
+
+    private void sendAssignmentNotification(TestCase testCase) {
+        List<Integer> assignedUserIDs = testCase.getUserID();
+        for (Integer userID : assignedUserIDs) {
+            ManageUser user = ManageUserService.getUserById(userID);
+            if (user != null && user.getEmail() != null) {
+                String userEmail = user.getEmail();
+                String subject = "New Test Case Assignment";
+                String message = "Dear user, you have been assigned a new test case. Details:\n" +
+                        "Test Case ID: " + testCase.getIdtest_cases() + "\n" +
+                        "Test Case Name: " + testCase.getTestCaseName() + "\n" +
+                        "Deadline: " + testCase.getDeadline() + "\n" +
+                        "Please review and complete the test case.";
+                mailService.sendAssignedMail(userEmail, subject, message);
+            }
+        }
     }
 
     public void deleteCase(long idtest_cases){
@@ -67,39 +93,6 @@ public class ViewCaseService {
             updateCase(existingTestCase);
         } else {
             throw new NoSuchElementException("Test case not found with ID: " + updatedTestCase.getIdtest_cases());
-        }
-    }
-
-    @Scheduled(cron = "0 0 0 * * ?") // Run every day at midnight
-    public void sendDeadlineNotifications() {
-        LocalDate today = LocalDate.now();
-
-        for (TestCase testCase : testList) {
-            LocalDate deadlineDate = LocalDate.parse(testCase.getDeadline());
-            int daysUntilDeadline = (int) today.until(deadlineDate).getDays();
-
-            if (daysUntilDeadline <= 7 && daysUntilDeadline >= 0) {
-                sendNotificationForTestCase(testCase);
-            }
-        }
-    }
-
-        private void sendNotificationForTestCase(TestCase testCase) {
-        List<String> userEmails = testCase.getUserID().stream()
-                .map(userId -> {
-                    ManageUser user = ManageUserService.getUserById(userId);
-                    return (user != null) ? user.getEmail() : "";
-                })
-                .filter(email -> !email.isEmpty())
-                .collect(Collectors.toList());
-
-        if (!userEmails.isEmpty()) {
-            String subject = "Test Case Deadline Notification";
-            String message = String.format("Dear user, the deadline for test case '%s' is approaching. Please review it.", testCase.getTestCaseName());
-
-            for (String userEmail : userEmails) {
-                mailService.sendMail(userEmail, new MailStructure(userEmail, subject, message));
-            }
         }
     }
 
