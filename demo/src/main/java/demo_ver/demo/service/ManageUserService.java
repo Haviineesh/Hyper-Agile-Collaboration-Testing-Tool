@@ -24,18 +24,12 @@ public class ManageUserService implements UserDetailsService {
 
     private static List<ManageUser> userList;
 
-    // private static List<ManageUser> userList = new ArrayList<ManageUser>() {
-    // {
-    // add(new ManageUser(2000, "teenesh@gmail.com", "Teenesh", "123456", 1000));
-    // add(new ManageUser(2001, "user@gmail.com", "John", "654321", 1002));
-    // }
-    // };
-
     public ManageUserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         initializeUserList();
     }
 
+    // Initialize the user list with some sample data
     private void initializeUserList() {
         userList = new ArrayList<>();
         userList.add(new ManageUser(2000, "teeneshsubramaniam10@gmail.com", "Teenesh", passwordEncoder.encode("123456"),
@@ -45,46 +39,51 @@ public class ManageUserService implements UserDetailsService {
                 new ManageUser(2002, "williamlik@graduate.utm.my", "Will", passwordEncoder.encode("142536"), 1001));
     }
 
+    // Get all users in the system
     public static List<ManageUser> getAllUsers() {
         return userList;
     }
 
+    // Add a new user to the system
     public void addUser(ManageUser newUser, int roleID) {
-        // Check if a user with the same user ID already exists
-        if (userList.stream().noneMatch(user -> user.getUsername().equalsIgnoreCase(newUser.getUsername()) ||
-                user.getEmail().equalsIgnoreCase(newUser.getEmail()))) {
-
-            // Print the raw password before encoding
-            System.out.println("Raw Password: " + newUser.getPassword());
-
+        if (isUserUnique(newUser)) {
             newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
-            // Print the encoded password after encoding
-            System.out.println("Encoded Password: " + newUser.getPassword());
-            newUser.setUserID(generateUserID()); // Assign a new user ID
+            newUser.setUserID(generateUserID());
             newUser.setRoleID(roleID);
             userList.add(newUser);
-
         } else {
+            // Handle duplicate user logic if needed
         }
     }
 
+    // Check if a user with the same username or email already exists
+    private boolean isUserUnique(ManageUser newUser) {
+        return userList.stream().noneMatch(user ->
+                user.getUsername().equalsIgnoreCase(newUser.getUsername()) ||
+                        user.getEmail().equalsIgnoreCase(newUser.getEmail()));
+    }
+
+    // Delete a user by userID
     public void deleteUser(int userID) {
         userList.removeIf(user -> user.getUserID() == userID);
     }
 
+    // Generate a new unique userID
     private int generateUserID() {
         return userList.get(userList.size() - 1).getUserID() + 1;
     }
 
+    // Check if a username exists in the system
     public boolean isUsernameExists(String username) {
         return userList.stream().anyMatch(user -> user.getUsername().equalsIgnoreCase(username));
     }
 
+    // Check if an email exists in the system
     public boolean isEmailExists(String email) {
         return userList.stream().anyMatch(user -> user.getEmail().equalsIgnoreCase(email));
     }
 
+    // Get a user by userID
     public static ManageUser getUserById(int userID) {
         return userList.stream()
                 .filter(user -> user.getUserID() == userID)
@@ -92,8 +91,8 @@ public class ManageUserService implements UserDetailsService {
                 .orElse(null);
     }
 
+    // Update user details
     public void updateUser(ManageUser updatedUser, int roleID) {
-        // Find the existing user and update their details
         userList.stream()
                 .filter(user -> user.getUserID() == updatedUser.getUserID())
                 .findFirst()
@@ -101,12 +100,10 @@ public class ManageUserService implements UserDetailsService {
                     user.setEmail(updatedUser.getEmail());
                     user.setUsername(updatedUser.getUsername());
                     user.setRoleID(updatedUser.getRoleID());
-                    // Consider handling password updates carefully, especially with regards to
-                    // security
                 });
     }
 
-    // retrieve user details for authentication
+    // Retrieve user details for authentication
     public ManageUser getUserByUsername(String username) {
         return userList.stream()
                 .filter(user -> user.getUsername().equals(username))
@@ -114,6 +111,7 @@ public class ManageUserService implements UserDetailsService {
                 .orElse(null);
     }
 
+    // Load user details for authentication
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ManageUser manageUser = getUserByUsername(username);
@@ -137,23 +135,25 @@ public class ManageUserService implements UserDetailsService {
                 authorities);
     }
 
+    // Get authorities for a user role
     private List<GrantedAuthority> getAuthorities(String role) {
         return new ArrayList<>(Collections.singletonList(new SimpleGrantedAuthority(role)));
     }
 
-    // Change password methods
+    // Check if a raw password matches an encoded password
     public boolean passwordMatches(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
+    // Update user password
     public void updateUserPassword(ManageUser user) {
-        // Find the existing user and update the password
         userList.stream()
                 .filter(existingUser -> existingUser.getUserID() == user.getUserID())
                 .findFirst()
                 .ifPresent(existingUser -> existingUser.setPassword(passwordEncoder.encode(user.getPassword())));
     }
 
+    // Find a user by reset token
     public ManageUser findUserByResetToken(String resetToken) {
         return userList.stream()
                 .filter(user -> Objects.equals(user.getResetToken(), resetToken))
@@ -161,33 +161,36 @@ public class ManageUserService implements UserDetailsService {
                 .orElse(null);
     }
 
-    // Forgot password methods
+    // Update reset token for a user
     public void updateResetToken(ManageUser user, String resetToken) {
         user.setResetToken(resetToken);
     }
 
+    // Check if a reset token is valid (dummy implementation)
     public boolean isValidToken(String token) {
         return true;
     }
 
+    // Generate a reset token (dummy implementation)
     public String generateResetToken(String email) {
         return UUID.randomUUID().toString();
     }
 
+    // Check if a password is valid
     public boolean isPasswordValid(String password) {
         return password.length() >= 6;
     }
 
+    // Update user password with a new password
     public void updateUserPassword(ManageUser user, String newPassword) {
-        // Update the user's password with the new password
         user.setPassword(passwordEncoder.encode(newPassword));
     }
 
+    // Get a user by email
     public ManageUser getUserByEmail(String email) {
         return userList.stream()
                 .filter(user -> user.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .orElse(null);
     }
-
 }
