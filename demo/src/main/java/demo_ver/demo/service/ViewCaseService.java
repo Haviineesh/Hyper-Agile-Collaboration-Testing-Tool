@@ -56,6 +56,9 @@ public class ViewCaseService {
         //send email notification to assigned user
         sendAssignmentNotification(testCase);
 
+        //schedule a task to check deadline and sent email to user
+        scheduleDeadlineNotification(testCase);
+
     }
 
     private void sendAssignmentNotification(TestCase testCase) {
@@ -69,7 +72,39 @@ public class ViewCaseService {
                         "Test Case ID: " + testCase.getIdtest_cases() + "\n" +
                         "Test Case Name: " + testCase.getTestCaseName() + "\n" +
                         "Deadline: " + testCase.getDeadline() + "\n" +
-                        "Please review and complete the test case.";
+                        "Please review and approve the test case before the deadline.";
+                mailService.sendAssignedMail(userEmail, subject, message);
+            }
+        }
+    }
+
+    private void scheduleDeadlineNotification(TestCase testCase) {
+        LocalDateTime deadlineDateTime = LocalDate.parse(testCase.getDeadline()).atStartOfDay();
+    
+        // Calculate the initial delay to schedule the task after the deadline
+        long initialDelay = ChronoUnit.SECONDS.between(LocalDateTime.now(), deadlineDateTime);
+    
+        // Schedule a task to check for deadline and send notification with a fixed delay
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        executorService.scheduleWithFixedDelay(() -> sendDeadlineNotification(testCase), initialDelay, 24 * 60 * 60, TimeUnit.SECONDS);
+        // The above line schedules the task with a fixed delay of 24 hours (1 day) between consecutive executions
+    
+        // Shutdown the executor service after a certain period, assuming it won't be needed anymore
+        executorService.schedule(() -> executorService.shutdown(), initialDelay + 24 * 60 * 60, TimeUnit.SECONDS);
+    }
+
+    private void sendDeadlineNotification(TestCase testCase) {
+        List<Integer> assignedUserIDs = testCase.getUserID();
+        for (Integer userID : assignedUserIDs) {
+            ManageUser user = ManageUserService.getUserById(userID);
+            if (user != null && user.getEmail() != null) {
+                String userEmail = user.getEmail();
+                String subject = "Test Case Deadline Notification";
+                String message = "Dear user, the deadline for the assigned test case has been reached. Details:\n" +
+                        "Test Case ID: " + testCase.getIdtest_cases() + "\n" +
+                        "Test Case Name: " + testCase.getTestCaseName() + "\n" +
+                        "Deadline: " + testCase.getDeadline() + "\n" +
+                        "Please ensure that the test case is completed.";
                 mailService.sendAssignedMail(userEmail, subject, message);
             }
         }
