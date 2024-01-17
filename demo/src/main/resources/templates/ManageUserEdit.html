@@ -7,19 +7,30 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function validateForm() {
+            var email = document.getElementById("email").value;
+            var username = document.getElementById("username").value;
+            if (email === "" || username === "") {
+                alert("Email and username must be filled out");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div class="container mt-5">
         <h2 class="mb-4">Edit User</h2>
-        <form th:action="@{/updateuser}" th:object="${manageUser}" method="post">
+        <form th:action="@{/updateuser}" th:object="${manageUser}" method="post" onsubmit="return validateForm()">
             <input type="hidden" th:field="*{userID}" />
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" th:field="*{email}" placeholder="Email" required />
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Email" required />
             </div>
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" th:field="*{username}" placeholder="Username" required />
+                <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Username" required />
             </div>
             <div class="form-group">
                 <label for="role">Role</label>
