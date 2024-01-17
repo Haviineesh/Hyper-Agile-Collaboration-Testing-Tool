@@ -87,27 +87,24 @@ public class ManageUserController {
 
    // ...
 
-@PostMapping("/updateuser")
-public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID, Model model) {
-    model.addAttribute("roles", ManageRoleService.getAllRoles());
-
-    // Check if the username already exists (excluding the current user)
-    if (manageUserService.isUsernameExistsExcludingCurrentUser(manageUser.getUsername(), manageUser.getUserID())) {
-        model.addAttribute("usernameExists", true);
-        return "ManageUserEdit"; // Return to the edit form with an error message
-    }
-
-    // Check if the email already exists (excluding the current user)
-    if (manageUserService.isEmailExistsExcludingCurrentUser(manageUser.getEmail(), manageUser.getUserID())) {
-        model.addAttribute("emailExists", true);
-        return "ManageUserEdit"; // Return to the edit form with an error message
-    }
-
-    manageUserService.updateUser(manageUser, roleID);
-    return "redirect:/manageuser";
-}
-
-// ...
-
+   @PostMapping("/updateuser")
+   public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID) {
+       // Check if you want to ask for confirmation here
+       if (!confirmUpdate()) {
+           return "redirect:/manageuser"; // Redirect back without updating
+       }
+   
+       manageUserService.updateUser(manageUser, roleID);
+       return "redirect:/manageuser";
+   }
+   
+   private boolean confirmUpdate() {
+       // Implement your logic to ask for confirmation here
+       // You can use additional parameters or conditions to determine when to ask for confirmation
+       // For example, you can check if certain conditions are met before asking for confirmation
+       // If you don't need server-side confirmation, you can remove this method.
+       return true; // Returning true will always ask for confirmation
+   }
+   
     
 }
