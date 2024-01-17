@@ -16,6 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
+
   <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <br />
@@ -52,16 +53,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each="user, iStat : ${users}">
+          <tr th:each="user, iStat : ${users}" th:data-username="${user.username}">
             <td th:text="${iStat.count}"></td>
             <td th:text="${user.userID}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.username}"></td>
             <td th:text="${user.roleName}"></td>
             <td>
-              <a th:href="@{/edituser/{userID}(userID=${user.userID})}" class="btn btn-success">
-                <i class="bi bi-pencil-square"></i>
-              </a>
+              <a th:href="@{/edituser/{userID}(userID=${user.userID})}" 
+              onclick="return confirmEdit(event)"
+              class="btn btn-success">
+             <i class="bi bi-pencil-square"></i>
+           </a>
+           
               <a class="btn btn-danger" data-toggle="modal" th:attr="data-target='#deleteModal' + ${user.userID}">
                 <i class="bi bi-trash"></i>
             </a>
@@ -93,7 +97,12 @@
          </div>
      </div>
  </div>
-
+ <script>
+  function confirmEdit(event) {
+    var username = event.currentTarget.closest('tr').getAttribute('data-username');
+    return confirm("Are you sure you want to edit this user: " + username + "?");
+  }
+</script>
     <script>
       // JavaScript for Filtering 
       $(document).ready(function () {

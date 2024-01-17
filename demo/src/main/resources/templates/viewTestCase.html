@@ -16,7 +16,12 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  </head>
+    <style>
+        .action-column {
+            min-width: 250px; 
+        }
+    </style>
+</head>
 
 <body>
     <div th:replace="~{fragments/navbar :: navbar}"></div>
@@ -46,7 +51,8 @@
                     <th scope="col">Deadline</th>
                     <th scope="col">Status</th>
                     <th scope="col">Users</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">User Statuses</th> <!-- New column for user statuses -->
+                    <th scope="col" class="action-column">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +65,18 @@
                         <span th:text="${test.status}" th:class="${test.status eq 'Approved' ? 'text-success' : (test.status eq 'Rejected' ? 'text-danger' : 'text-Pending')}"></span>
                     </td>
                     <td th:text="${test.username}"></td>
+                    <td>
+                        <span th:each="username, iStat : ${test.getUsername()}">
+                            <span th:if="${test.status eq 'Under Review'}" th:text="'Under Review'"></span>
+                            <span th:if="${test.status eq 'Needs Revision'}" th:text="'Needs Revision'"></span>
+                            <span th:if="${test.status eq 'Rejected'}" th:text="'Rejected'"></span>
+                            <span th:if="${test.status eq 'Approved'}" th:text="'Approved'"></span>
+                            <span th:if="${test.status eq 'Pending'}" th:text="'Pending'"></span>
+
+                            <span th:if="${!iStat.last}">, </span>
+                        </span>
+                        </span>
+                    </td>
                     <td>
 
                         <a class="btn btn-primary" th:href = "@{'/testcases/details/'+${test.idtest_cases}}">
