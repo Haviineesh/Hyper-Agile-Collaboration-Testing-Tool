@@ -85,10 +85,29 @@ public class ManageUserController {
         return "ManageUserEdit"; //
     }
 
-    @PostMapping("/updateuser")
-    public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID) {
-        manageUserService.updateUser(manageUser, roleID);
-        return "redirect:/manageuser";
+   // ...
+
+@PostMapping("/updateuser")
+public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID, Model model) {
+    model.addAttribute("roles", ManageRoleService.getAllRoles());
+
+    // Check if the username already exists (excluding the current user)
+    if (manageUserService.isUsernameExistsExcludingCurrentUser(manageUser.getUsername(), manageUser.getUserID())) {
+        model.addAttribute("usernameExists", true);
+        return "ManageUserEdit"; // Return to the edit form with an error message
     }
 
+    // Check if the email already exists (excluding the current user)
+    if (manageUserService.isEmailExistsExcludingCurrentUser(manageUser.getEmail(), manageUser.getUserID())) {
+        model.addAttribute("emailExists", true);
+        return "ManageUserEdit"; // Return to the edit form with an error message
+    }
+
+    manageUserService.updateUser(manageUser, roleID);
+    return "redirect:/manageuser";
+}
+
+// ...
+
+    
 }

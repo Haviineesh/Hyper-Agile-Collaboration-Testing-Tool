@@ -91,17 +91,34 @@ public class ManageUserService implements UserDetailsService {
                 .orElse(null);
     }
 
-    // Update user details
-    public void updateUser(ManageUser updatedUser, int roleID) {
-        userList.stream()
-                .filter(user -> user.getUserID() == updatedUser.getUserID())
-                .findFirst()
-                .ifPresent(user -> {
-                    user.setEmail(updatedUser.getEmail());
-                    user.setUsername(updatedUser.getUsername());
-                    user.setRoleID(updatedUser.getRoleID());
-                });
-    }
+ // ...
+
+// Check if a username exists in the system excluding the current user
+public boolean isUsernameExistsExcludingCurrentUser(String username, int userID) {
+    return userList.stream().anyMatch(user ->
+            user.getUserID() != userID && user.getUsername().equalsIgnoreCase(username));
+}
+
+// Check if an email exists in the system excluding the current user
+public boolean isEmailExistsExcludingCurrentUser(String email, int userID) {
+    return userList.stream().anyMatch(user ->
+            user.getUserID() != userID && user.getEmail().equalsIgnoreCase(email));
+}
+
+// Update user details (including role)
+public void updateUser(ManageUser updatedUser, int roleID) {
+    userList.stream()
+            .filter(user -> user.getUserID() == updatedUser.getUserID())
+            .findFirst()
+            .ifPresent(user -> {
+                user.setEmail(updatedUser.getEmail());
+                user.setUsername(updatedUser.getUsername());
+                user.setRoleID(roleID); // Update the role as well
+            });
+}
+
+// ...
+
 
     // Retrieve user details for authentication
     public ManageUser getUserByUsername(String username) {
