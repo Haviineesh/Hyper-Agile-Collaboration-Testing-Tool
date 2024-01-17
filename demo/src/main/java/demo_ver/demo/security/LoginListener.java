@@ -31,7 +31,7 @@ public class LoginListener implements ApplicationListener<AuthenticationSuccessE
         if (user != null && user.getEmail() != null) {
             String userEmail = user.getEmail();
             String subject = "Login Notification";
-            String message = "Dear user, you have successfully logged in.";
+            String message = "Dear user, you have successfully logged in. Please check your test cases under you.";
             mailService.sendAssignedMail(userEmail, subject, message);
         }
     }

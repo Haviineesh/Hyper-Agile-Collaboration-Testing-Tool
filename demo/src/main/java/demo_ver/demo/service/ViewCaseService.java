@@ -69,7 +69,7 @@ public class ViewCaseService {
                         "Test Case ID: " + testCase.getIdtest_cases() + "\n" +
                         "Test Case Name: " + testCase.getTestCaseName() + "\n" +
                         "Deadline: " + testCase.getDeadline() + "\n" +
-                        "Please review and complete the test case.";
+                        "Please review and approve the test case before the deadline.";
                 mailService.sendAssignedMail(userEmail, subject, message);
             }
         }
