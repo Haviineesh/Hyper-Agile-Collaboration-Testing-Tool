@@ -30,6 +30,16 @@
       main {
         padding: 2em;
       }
+
+      .welcome-message {
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
     </style>
   </head>
   <body>
@@ -37,7 +47,9 @@
     <br />
 
     <div class="container">
-      <h1>Welcome to the Hyper Agile!</h1>
+      <h1 class="welcome-message">Welcome to the Hyper Agile!</h1>
+      <h3 class="username" th:text="${#authentication.principal.username}"><h3/>
+    </div>
     </div>
   </body>
 </html>

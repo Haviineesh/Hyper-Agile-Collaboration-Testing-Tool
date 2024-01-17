@@ -1,7 +1,6 @@
 package demo_ver.demo.security;
 
 import demo_ver.demo.mail.MailService;
-import demo_ver.demo.mail.MailStructure;
 import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.service.ManageUserService;
 import org.springframework.beans.factory.annotation.Autowired;
