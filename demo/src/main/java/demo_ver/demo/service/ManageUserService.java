@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import demo_ver.demo.model.ManageUser;
+import demo_ver.demo.mail.MailService;
 
 @Service
 public class ManageUserService implements UserDetailsService {
@@ -23,6 +25,9 @@ public class ManageUserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     private static List<ManageUser> userList;
+
+    @Autowired
+    private MailService mailService;
 
     public ManageUserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -51,9 +56,25 @@ public class ManageUserService implements UserDetailsService {
             newUser.setUserID(generateUserID());
             newUser.setRoleID(roleID);
             userList.add(newUser);
+
+            //send email notification to new user
+            sendNewUserNotification(newUser);
         } else {
             // Handle duplicate user logic if needed
         }
+    }
+
+    //send email to new user
+    private void sendNewUserNotification(ManageUser newUser) {
+        String subject = "Welcome to the System";
+        String message = "Dear " + newUser.getUsername() + ",\n\n"
+                + "Welcome to our system! Your account has been successfully created.\n"
+                + "Username: " + newUser.getUsername() + "\n"
+                + "Password: [hidden for security]\n\n"
+                + "Please log in and change your password.\n\n"
+                + "Best regards,\nThe System Team";
+    
+        mailService.sendAssignedMail(newUser.getEmail(), subject, message);
     }
 
     // Check if a user with the same username or email already exists
