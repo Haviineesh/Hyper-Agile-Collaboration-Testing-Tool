@@ -11,17 +11,6 @@ import demo_ver.demo.model.ManageRole;
 @Service
 public class ManageRoleService {
 
-    // private static List<ManageRole> roleList = new ArrayList<ManageRole>() {
-    // {
-    // add(new ManageRole(1000, "Admin", "Administration"));
-    // add(new ManageRole(1001, "Tester", "unit tester"));
-    // add(new ManageRole(1002, "Product Manager", "manage production"));
-    // add(new ManageRole(1003, "Developer", "Programming"));
-
-    // }
-    // };
-
-    // roleName prefix with 'ROLE_'
     private static List<ManageRole> roleList = new ArrayList<ManageRole>() {
         {
             add(new ManageRole(1000, "ROLE_Admin", "Administration"));
@@ -59,6 +48,7 @@ public class ManageRoleService {
 
     public void deleteRole(int id) {
         roleList.removeIf(t -> t.getRoleID() == id);
+        System.out.println("Remove role ID:" + id + "Success");
     }
 
     public void updateManageRole(ManageRole manageRole) {
