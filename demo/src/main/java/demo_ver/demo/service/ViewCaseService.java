@@ -96,6 +96,9 @@ public class ViewCaseService {
         if (testCaseOptional.isPresent()) {
             TestCase testCase = testCaseOptional.get();
             testCase.setUserStatus(username, status);
+            String overallStatus = testCase.determineOverallStatus(); // Determine the overall status
+            // Assuming you have a method setOverallStatus in your TestCase model
+            testCase.setOverallStatus(overallStatus); // Update the overall status
             updateCase(testCase);
         } else {
             throw new NoSuchElementException("Test case not found with ID: " + testCaseId);

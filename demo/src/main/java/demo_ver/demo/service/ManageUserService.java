@@ -42,6 +42,8 @@ public class ManageUserService implements UserDetailsService {
         userList.add(new ManageUser(2001, "user@gmail.com", "John", passwordEncoder.encode("654321"), 1002));
         userList.add(
                 new ManageUser(2002, "williamlik@graduate.utm.my", "Will", passwordEncoder.encode("142536"), 1001));
+        userList.add(
+                new ManageUser(2003, "Mahathir@gmail.com", "Mahathir", passwordEncoder.encode("100000"), 1003));
     }
 
     // Get all users in the system

@@ -49,8 +49,12 @@
                     <th scope="col">Test Case ID</th>
                     <th scope="col">Test Case</th>
                     <th scope="col">Deadline</th>
-                    <th scope="col">User Statuses</th> <!-- New column for user statuses -->
-                    <th scope="col" class="action-column">Action</th>
+                    <th scope="col">User Statuses</th>
+                    <th scope="col" class="action-column">Status Approval</th>
+                    <th scope="col">Overal Status</th>
+                    <th scope="col">Actions</th>
+
+
                 </tr>
             </thead>
             <tbody>
@@ -77,6 +81,8 @@
                             <button type="submit" class="btn btn-primary">Set Status</button>
                         </form>
                     </td>
+                    <td th:text="${test.overallStatus}"></td>
+
                     <td>
 
                         <a class="btn btn-primary" th:href = "@{'/testcases/details/'+${test.idtest_cases}}">
