@@ -51,6 +51,7 @@ public class ViewCaseService {
         
         testCase.setIdtest_cases(RandomNumber.getRandom(100,999));
         testCase.setUserID(userID);
+        //to add to api
         testList.add(testCase);
 
         //send email notification to assigned user

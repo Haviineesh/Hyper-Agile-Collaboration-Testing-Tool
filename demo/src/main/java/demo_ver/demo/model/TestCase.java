@@ -22,6 +22,7 @@ public class TestCase {
     // public int userID;
     private int smartContractID;
     private List<Integer> userID;
+    
 
 
     public TestCase(){
@@ -39,6 +40,7 @@ public class TestCase {
         this.smartContractID = smartContractID;
         this.test_desc = test_desc;
         this.userID = userID;
+
     }
 
     public Long getIdtest_cases() {
