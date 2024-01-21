@@ -39,24 +39,46 @@ public class ChangePasswordController {
     public String changePassword(@RequestParam("currentPassword") String currentPassword,
             @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmPassword") String confirmPassword,
-            Model model, Principal principal) {
+            Model model, Principal principal,
+            @AuthenticationPrincipal UserDetails userDetails) {
 
         String username = principal.getName();
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
         if (!newPassword.equals(confirmPassword)) {
+            // Check if the user has the Admin role
+            boolean isAdmin = authorities.stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_Admin"));
+
+            model.addAttribute("isAdmin", isAdmin);
             model.addAttribute("error", "New password and confirm password do not match.");
             return "ChangePassword";
         }
 
         if (newPassword.length() < 6) {
+            // Check if the user has the Admin role
+            boolean isAdmin = authorities.stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_Admin"));
+
+            model.addAttribute("isAdmin", isAdmin);
             model.addAttribute("error", "New password should be at least 6 characters.");
             return "ChangePassword";
         }
 
         if (authService.changePassword(username, currentPassword, newPassword)) {
             model.addAttribute("success", "Password changed successfully.");
+            // Check if the user has the Admin role
+            boolean isAdmin = authorities.stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_Admin"));
+
+            model.addAttribute("isAdmin", isAdmin);
         } else {
             model.addAttribute("error", "Incorrect current password. Please try again.");
+            // Check if the user has the Admin role
+            boolean isAdmin = authorities.stream()
+                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_Admin"));
+
+            model.addAttribute("isAdmin", isAdmin);
         }
 
         return "ChangePassword";

@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfiguration {
         public SpringTemplateEngine templateEngine(ITemplateResolver templateResolver, SpringSecurityDialect sec) {
                 final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
                 templateEngine.setTemplateResolver(templateResolver);
-                templateEngine.addDialect(sec); // Enable use of "sec"
+                templateEngine.addDialect(sec); 
                 return templateEngine;
         }
 
