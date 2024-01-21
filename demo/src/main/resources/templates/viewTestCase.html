@@ -18,8 +18,34 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         .action-column {
-            min-width: 250px; 
+            min-width: 235px; 
         }
+        .status-column {
+            min-width: 110px; 
+        }
+        .userstatus-column {
+            min-width: 205px; 
+        }
+        .highlight {
+        background-color: #f2f2f2; /* Light grey background */
+        }
+        
+        .status-approve {
+        background-color: #d9ecdd; /* Light green background for approved */
+        color: green; /* Green text for approved */
+    }
+    .status-reject {
+        background-color: #f8e0e2; /* Light red background for rejected */
+        color: red; /* Red text for rejected */
+    }
+    .status-pending {
+        background-color: #fff3cd; /* Light yellow background for pending */
+        color: #856404; /* Dark yellow text for pending */
+    }
+    .status-needs-revision {
+        background-color: #d6ebef; /* Light blue background for needs revision */
+        color: #0c5460; /* Dark blue text for needs revision */
+    }
     </style>
 </head>
 
@@ -49,10 +75,10 @@
                     <th scope="col">Test Case ID</th>
                     <th scope="col">Test Case</th>
                     <th scope="col">Deadline</th>
-                    <th scope="col">User Statuses</th>
-                    <th scope="col" class="action-column">Status Approval</th>
-                    <th scope="col">Overal Status</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col" class="userstatus-column">User Statuses</th>
+                    <th scope="col" class="status-column">Status Approval</th>
+                    <th scope="col" class="highlight">Overall Status</th>
+                    <th scope="col" class="action-column">Actions</th>
 
 
                 </tr>
@@ -81,8 +107,15 @@
                             <button type="submit" class="btn btn-primary">Set Status</button>
                         </form>
                     </td>
-                    <td th:text="${test.overallStatus}"></td>
-
+                    
+                    <td>
+                        <span th:class="${test.overallStatus == 'Approved' ? 'status-approve' : 
+                                          test.overallStatus == 'Rejected' ? 'status-reject' : 
+                                          test.overallStatus == 'Pending' ? 'status-pending' : 
+                                          test.overallStatus == 'Needs Revision' ? 'status-needs-revision' : ''}" 
+                             th:text="${test.overallStatus}">
+                        </span>
+                    </td>
                     <td>
 
                         <a class="btn btn-primary" th:href = "@{'/testcases/details/'+${test.idtest_cases}}">
