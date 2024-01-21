@@ -37,17 +37,24 @@
                 <li class="list-group-item">Date Updated: <span th:text="${testCase.dateCreated}"></span></li>
                 <li class="list-group-item">Project ID: <span th:text="${testCase.projectId}"></span></li>
                 <li class="list-group-item">Reason: <span th:text="${testCase.reason}"></span></li>
-                <li class="list-group-item">Status: <span th:text="${testCase.status}"></span></li>
-                <!-- <li class="list-group-item">By: <span th:text="${testCase.actor}"></span></li> -->
                 <li class="list-group-item">Test Case Name: <span th:text="${testCase.testCaseName}"></span></li>
             </ul>
-        </div>
+            <div>
+                <h4>User Status:</h4>
+                <ul>
+                    <li th:each="userStatus : ${testCase.userStatuses}">
+                        <span th:text="${userStatus.key}">Username</span>: 
+                        <span th:text="${userStatus.value}">Status</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- Action Buttons for Status Change -->
             <div class="actions mt-3">
                 <a th:href="@{/testcases/approveStatus/{id}(id=${testCase.idtest_cases})}" class="btn btn-success">Approve Status</a>
                 <a th:href="@{/testcases/rejectStatus/{id}(id=${testCase.idtest_cases})}" class="btn btn-danger">Reject Status</a>
-                <a th:href="@{/testcases/setUnderReview/{id}(id=${testCase.idtest_cases})}" class="btn btn-info">Under Review</a>
-                <a th:href="@{/testcases/setNeedsRevision/{id}(id=${testCase.idtest_cases})}" class="btn btn-warning">Needs Revision</a>
-            <button class="btn btn-info" th:onclick="'window.location.href=\'/viewSelectedTestCaseInfo/' + ${testCase.idtest_cases} + '\''">Edit Selected Test Case Info</button>
+                <a th:href="@{/testcases/underReviewStatus/{id}(id=${testCase.idtest_cases})}" class="btn btn-info">Under Review</a>
+                <a th:href="@{/testcases/needsRevisionStatus/{id}(id=${testCase.idtest_cases})}" class="btn btn-warning">Needs Revision</a>
+            </div>
         </div>
     </div>
 </div>

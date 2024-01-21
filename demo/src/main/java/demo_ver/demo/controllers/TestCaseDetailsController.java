@@ -1,5 +1,7 @@
 package demo_ver.demo.controllers;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,41 +18,36 @@ public class TestCaseDetailsController {
 
     @GetMapping("/testcases/details/{idtest_cases}")
     public String viewTestCaseDetails(@PathVariable("idtest_cases") Long idtest_cases, Model model) {
-        // Fetch the TestCase by id
         TestCase testCase = viewCaseService.getTestCaseById(idtest_cases);
-
-        // Add the TestCase to the model
         model.addAttribute("testCase", testCase);
-
-        // Return the Thymeleaf template name for the details view
         return "viewTestCasesDetails";
     }
 
     @GetMapping("/testcases/approveStatus/{idtest_cases}")
-    public String approveTestCase(@PathVariable("idtest_cases") Long idtest_cases) {
-        viewCaseService.changeStatus(idtest_cases, "Approved");
+    public String approveTestCase(@PathVariable("idtest_cases") Long idtest_cases, Principal principal) {
+        String username = principal.getName(); 
+        viewCaseService.setUserStatusForTestCase(idtest_cases, username, "Approved");
         return "redirect:/view";
     }
 
     @GetMapping("/testcases/rejectStatus/{idtest_cases}")
-    public String rejectTestCase(@PathVariable("idtest_cases") Long idtest_cases) {
-        viewCaseService.changeStatus(idtest_cases, "Rejected");
+    public String rejectTestCase(@PathVariable("idtest_cases") Long idtest_cases, Principal principal) {
+        String username = principal.getName(); 
+        viewCaseService.setUserStatusForTestCase(idtest_cases, username, "Rejected");
         return "redirect:/view";
     }
 
-    @GetMapping("/testcases/setUnderReview/{idtest_cases}")
-public String setUnderReview(@PathVariable("idtest_cases") Long idtest_cases) {
-    viewCaseService.setUnderReview(idtest_cases);
-    return "redirect:/view";
+    @GetMapping("/testcases/needsRevisionStatus/{idtest_cases}")
+    public String needsRevisionTestCase(@PathVariable("idtest_cases") Long idtest_cases, Principal principal) {
+        String username = principal.getName(); 
+        viewCaseService.setUserStatusForTestCase(idtest_cases, username, "Needs Revision");
+        return "redirect:/view";
+    }
+
+    @GetMapping("/testcases/underReviewStatus/{idtest_cases}")
+    public String underReviewTestCase(@PathVariable("idtest_cases") Long idtest_cases, Principal principal) {
+        String username = principal.getName(); 
+        viewCaseService.setUserStatusForTestCase(idtest_cases, username, "Under Review");
+        return "redirect:/view";
+    }
 }
-
-@GetMapping("/testcases/setNeedsRevision/{idtest_cases}")
-public String setNeedsRevision(@PathVariable("idtest_cases") Long idtest_cases) {
-    viewCaseService.setNeedsRevision(idtest_cases);
-    return "redirect:/view";
-}
-
-}
-
-
-
