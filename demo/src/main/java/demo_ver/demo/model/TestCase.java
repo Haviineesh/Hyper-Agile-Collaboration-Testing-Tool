@@ -1,7 +1,8 @@
 package demo_ver.demo.model;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -16,73 +17,83 @@ public class TestCase {
     private String dateUpdated;
     private String projectId;
     private String reason;
-    private String status;
     private String testCaseName;
     private String dateCreated;
-    // public int userID;
     private int smartContractID;
     private List<Integer> userID;
-    
+    private Map<String, String> userStatuses = new HashMap<>(); // New field for user-specific statuses
 
-
-    public TestCase(){
-
+    public TestCase() {
+        // Default constructor
     }
 
-    public TestCase(Long idtest_cases, String projectId,int smartContractID, String testCaseName,String test_desc, String dateCreated, String deadline,
-            String status, List<Integer> userID) {
+    public TestCase(Long idtest_cases, String projectId, int smartContractID, String testCaseName, String test_desc, String dateCreated, String deadline, List<Integer> userID) {
         this.idtest_cases = idtest_cases;
-        this.deadline = deadline;
         this.projectId = projectId;
-        this.status = status;
-        this.testCaseName = testCaseName;
-        this.dateCreated = dateCreated;
         this.smartContractID = smartContractID;
+        this.testCaseName = testCaseName;
         this.test_desc = test_desc;
+        this.dateCreated = dateCreated;
+        this.deadline = deadline;
         this.userID = userID;
-
     }
 
+    // Getters and setters for existing fields
     public Long getIdtest_cases() {
         return idtest_cases;
     }
+
     public void setIdtest_cases(Long idtest_cases) {
         this.idtest_cases = idtest_cases;
     }
+
     public String getTest_desc() {
         return test_desc;
     }
+
     public void setTest_desc(String test_desc) {
         this.test_desc = test_desc;
     }
-    public int getSmartContractID() {
-        return smartContractID;
+
+    public String getDeadline() {
+        return deadline;
     }
-    public void setSmartContractID(int smartContractID) {
-        this.smartContractID = smartContractID;
-    }    
-    
 
-    // Getters and Setters afser
-   
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
 
-    public String getDeadline() { return deadline; }
-    public void setDeadline(String deadline) { this.deadline = deadline; }
+    public String getDateUpdated() {
+        return dateUpdated;
+    }
 
-    public String getDateUpdated() { return dateUpdated; }
-    public void setDateUpdated(String dateUpdated) { this.dateUpdated = dateUpdated; }
+    public void setDateUpdated(String dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
 
-    public String getProjectId() { return projectId; }
-    public void setProjectId(String projectId) { this.projectId = projectId; }
+    public String getProjectId() {
+        return projectId;
+    }
 
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getReason() {
+        return reason;
+    }
 
-    public String getTestCaseName() { return testCaseName; }
-    public void setTestCaseName(String testCaseName) { this.testCaseName = testCaseName; }
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getTestCaseName() {
+        return testCaseName;
+    }
+
+    public void setTestCaseName(String testCaseName) {
+        this.testCaseName = testCaseName;
+    }
 
     public String getDateCreated() {
         return dateCreated;
@@ -90,6 +101,14 @@ public class TestCase {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public int getSmartContractID() {
+        return smartContractID;
+    }
+
+    public void setSmartContractID(int smartContractID) {
+        this.smartContractID = smartContractID;
     }
 
     public List<Integer> getUserID() {
@@ -100,7 +119,17 @@ public class TestCase {
         this.userID = userID;
     }
 
-public List<String> getUsername() {
+    // Methods for user statuses
+    public Map<String, String> getUserStatuses() {
+        return userStatuses;
+    }
+
+    public void setUserStatus(String username, String status) {
+        userStatuses.put(username, status);
+    }
+
+    // Method to get usernames of assigned users
+    public List<String> getUsernames() {
         return userID.stream()
                 .map(userId -> {
                     ManageUser user = ManageUserService.getUserById(userId);
@@ -108,15 +137,4 @@ public List<String> getUsername() {
                 })
                 .collect(Collectors.toList());
     }
-
-
 }
-
-
-
-
-
-
-    
-    
-

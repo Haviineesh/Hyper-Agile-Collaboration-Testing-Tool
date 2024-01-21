@@ -18,11 +18,11 @@
         crossorigin="anonymous"></script>
 </head>
 
+</head>
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
         <form th:object="${testCase}" method="post" th:action="@{/update}">
-
             <div class="mb-3 d-flex justify-content-center">
                 <h3>Edit Test Case</h3>
             </div>
@@ -41,7 +41,7 @@
             <p>
                 <label class="col-3" for="desc">Test Case Description:</label>
                 <textarea name="test_desc" th:field ="*{test_desc}" rows="3"></textarea>
-            </p>    
+            </p>
             <div class="row">
                 <div class="col-md-6">
                     <p>
@@ -57,36 +57,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <p>
-                        <label class="col-6" for="status">Status:</label>
-                        <select th:field="*{status}">
-                            <option value="Pending">Pending</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Rejected">Rejected</option>
-                            <option value="Under Review">Under Review</option>
-                            <option value="Needs Revision">Needs Revision</option>
-                        </select>
-                        
-                    </p>
-                </div>
-                <div class="col-md-6">
-                    <p>
-                        <label class="col-6" for="user">Assign Users:</label>
+                <div class="mb-3">
+                    <label class="col-6" for="userID">Assign Users:</label>
                         <select id="userID" name="userID" th:field="*{userID}" required multiple>
-                            <option th:each="user : ${users}" th:value="${user.userID}" th:text="${user.username + ' (' + user.roleName + ')'}"></option>
+                            <option th:each="user : ${users}" th:value="${user.userID}" th:text="${user.username}"></option>
                         </select>
-                    </p>
                 </div>
             </div>
 
             <br/><input type="hidden" th:field="*{idtest_cases}" />
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success">Save </button>
+                <button type="submit" class="btn btn-success">Save</button>
             </div>
-        
         </form>
     </div>
 </body>
-
 </html>

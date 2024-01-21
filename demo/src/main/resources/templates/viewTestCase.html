@@ -49,8 +49,6 @@
                     <th scope="col">Test Case ID</th>
                     <th scope="col">Test Case</th>
                     <th scope="col">Deadline</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Users</th>
                     <th scope="col">User Statuses</th> <!-- New column for user statuses -->
                     <th scope="col" class="action-column">Action</th>
                 </tr>
@@ -62,20 +60,22 @@
                     <td th:text="${test.testCaseName}"></td>
                     <td th:text="${test.deadline}"></td>
                     <td>
-                        <span th:text="${test.status}" th:class="${test.status eq 'Approved' ? 'text-success' : (test.status eq 'Rejected' ? 'text-danger' : 'text-Pending')}"></span>
-                    </td>
-                    <td th:text="${test.username}"></td>
+                        <div th:each="userStatus : ${test.userStatuses}">
+                            <span th:text="${userStatus.key}">Username</span>: <span th:text="${userStatus.value}">Status</span><br/>
+                        </div>                    </td>
                     <td>
-                        <span th:each="username, iStat : ${test.getUsername()}">
-                            <span th:if="${test.status eq 'Under Review'}" th:text="'Under Review'"></span>
-                            <span th:if="${test.status eq 'Needs Revision'}" th:text="'Needs Revision'"></span>
-                            <span th:if="${test.status eq 'Rejected'}" th:text="'Rejected'"></span>
-                            <span th:if="${test.status eq 'Approved'}" th:text="'Approved'"></span>
-                            <span th:if="${test.status eq 'Pending'}" th:text="'Pending'"></span>
+                        <form th:action="@{/setUserStatus}" method="post">
+                            <input type="hidden" th:name="testCaseId" th:value="${test.idtest_cases}" />
+                            <select name="status">
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Under Review">Under Review</option>
+                                <option value="Needs Revision">Needs Revision</option>
 
-                            <span th:if="${!iStat.last}">, </span>
-                        </span>
-                        </span>
+                            </select>
+                            <button type="submit" class="btn btn-primary">Set Status</button>
+                        </form>
                     </td>
                     <td>
 
