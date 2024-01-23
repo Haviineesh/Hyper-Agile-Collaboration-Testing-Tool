@@ -26,6 +26,16 @@
         .userstatus-column {
             min-width: 205px; 
         }
+        .projectid-column {
+            min-width: 60px; 
+        }
+        .testcaseid-column {
+            min-width: 82px; 
+        }
+        .deadline-column {
+            min-width: 110px; 
+        }
+        
         .highlight {
         background-color: #f2f2f2; /* Light grey background */
         }
@@ -71,10 +81,10 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Project ID</th>
-                    <th scope="col">Test Case ID</th>
+                    <th scope="col" class="projectid-column">Project ID</th>
+                    <th scope="col" class="testcaseid-column ">Test Case ID</th>
                     <th scope="col">Test Case</th>
-                    <th scope="col">Deadline</th>
+                    <th scope="col" class="deadline-column ">Deadline</th>
                     <th scope="col" class="userstatus-column">User Statuses</th>
                     <th scope="col" class="status-column">Status Approval</th>
                     <th scope="col" class="highlight">Overall Status</th>
