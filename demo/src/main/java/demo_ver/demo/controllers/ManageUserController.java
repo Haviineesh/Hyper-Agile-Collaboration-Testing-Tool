@@ -88,15 +88,26 @@ public class ManageUserController {
    // ...
 
    @PostMapping("/updateuser")
-   public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID) {
-       // Check if you want to ask for confirmation here
-       if (!confirmUpdate()) {
-           return "redirect:/manageuser"; // Redirect back without updating
+   public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID, Model model) {
+       model.addAttribute("roles", ManageRoleService.getAllRoles()); // Add this line at the beginning
+   
+       if (manageUserService.isUsernameExistsExcludingCurrentUser(manageUser.getUsername(), manageUser.getUserID())) {
+           model.addAttribute("usernameExists", true);
+           // model.addAttribute("roles", ManageRoleService.getAllRoles()); // Remove from here
+           return "ManageUserEdit";
+       }
+   
+       if (manageUserService.isEmailExistsExcludingCurrentUser(manageUser.getEmail(), manageUser.getUserID())) {
+           model.addAttribute("emailExists", true);
+           // model.addAttribute("roles", ManageRoleService.getAllRoles()); // Remove from here
+           return "ManageUserEdit";
        }
    
        manageUserService.updateUser(manageUser, roleID);
        return "redirect:/manageuser";
    }
+   
+   
    
    private boolean confirmUpdate() {
        // Implement your logic to ask for confirmation here

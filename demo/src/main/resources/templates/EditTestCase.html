@@ -22,6 +22,7 @@
 <body>
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
+        
         <form th:object="${testCase}" method="post" th:action="@{/update}">
             <div class="mb-3 d-flex justify-content-center">
                 <h3>Edit Test Case</h3>
