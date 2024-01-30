@@ -1,6 +1,8 @@
 package demo_ver.demo.model;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +19,6 @@ public class ManageUser {
     private String resetToken;
 
     public ManageUser() {
-
     }
 
     public ManageUser(int userID, String email, String username, String password, int roleID) {
@@ -69,12 +70,15 @@ public class ManageUser {
     }
 
     public String getRoleName() {
-        ManageRole role = ManageRoleService.getRoleById(roleID);
-        return (role != null) ? role.getRoleName() : "";
+        ManageRoleService manageRoleService = new ManageRoleService(null); // Initialize manageRoleService
+        Optional<ManageRole> role = manageRoleService.apiFindById(roleID);
+        return role.map(ManageRole::getRoleName).orElse("");
     }
 
     public List<GrantedAuthority> getAuthorities() {
-        return ManageRoleService.getRoleById(roleID).getAuthorities();
+        ManageRoleService manageRoleService = new ManageRoleService(null); // Initialize manageRoleService
+        Optional<ManageRole> role = manageRoleService.apiFindById(roleID);
+        return role.map(ManageRole::getAuthorities).orElse(Collections.emptyList());
     }
 
     public String getResetToken() {
