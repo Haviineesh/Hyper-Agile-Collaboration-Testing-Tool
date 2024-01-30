@@ -29,7 +29,6 @@ public class ManageRolesController {
 
     @GetMapping("/manageroles")
     public String getManageroles(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        // List<ManageRole> roles = manageRoleService.getAllRoles();
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
         // Check if the user has the Admin role
@@ -37,7 +36,7 @@ public class ManageRolesController {
                 .anyMatch(authority -> authority.getAuthority().equals("ROLE_Admin"));
 
         model.addAttribute("isAdmin", isAdmin);
-        model.addAttribute("roles", ManageRoleService.getAllRoles());
+        model.addAttribute("roles", manageRoleService.apiGetAllRoles());
         return "ManageRoles";
     }
 
@@ -57,7 +56,7 @@ public class ManageRolesController {
 
     @GetMapping("/editrole/{id}")
     public String editManagerole(@PathVariable("id") int id, Model model) {
-        model.addAttribute("role", manageRoleService.findById(id));
+        model.addAttribute("role", manageRoleService.apiFindById(id));
         return "ManageRolesEdit";
     }
 

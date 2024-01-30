@@ -3,14 +3,23 @@ package demo_ver.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-@EntityScan
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+// @EntityScan
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ManageRole {
+
+    @JsonProperty("roleID")
     private int roleID;
+
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("roleName")
     private String roleName;
 
     public ManageRole() {
