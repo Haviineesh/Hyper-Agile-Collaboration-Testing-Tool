@@ -74,4 +74,32 @@ public class FakeController {
         }
     }
 
+    @PostMapping("/roleupdate")
+    public ResponseEntity<String> updateRole(@RequestBody Map<String, Object> updatedRole) {
+        // Extract necessary fields from the request body
+        int roleId = (int) updatedRole.get("roleID");
+        String roleName = (String) updatedRole.get("roleName");
+        String description = (String) updatedRole.get("description");
+
+        // Check if the roleName already exists in the list
+        boolean roleNameExists = fakeRoleList.stream()
+                .anyMatch(role -> role.getRoleID() != roleId && role.getRoleName().equals(roleName));
+        if (roleNameExists) {
+            return ResponseEntity.badRequest().body("Role with roleName " + roleName + " already exists.");
+        }
+
+        // Find the role to update
+        Optional<ManageRole> roleToUpdate = fakeRoleList.stream().filter(role -> role.getRoleID() == roleId)
+                .findFirst();
+        if (roleToUpdate.isPresent()) {
+            ManageRole existingRole = roleToUpdate.get();
+            // Update the role
+            existingRole.setRoleName(roleName);
+            existingRole.setDescription(description);
+            return ResponseEntity.ok("Role updated successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Role with ID " + roleId + " not found.");
+        }
+    }
+
 }

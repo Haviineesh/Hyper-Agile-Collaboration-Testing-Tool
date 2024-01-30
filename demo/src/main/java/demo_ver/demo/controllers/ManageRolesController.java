@@ -3,6 +3,7 @@ package demo_ver.demo.controllers;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,9 @@ public class ManageRolesController {
     @Autowired
     private ManageRoleService manageRoleService;
 
+    public ManageRolesController(ManageRoleService manageRoleService) {
+        this.manageRoleService = manageRoleService;
+    }
     // @GetMapping("/manageroles")
     // @ResponseBody
     // public List<ManageRole> getAllRoles(){
@@ -62,8 +66,17 @@ public class ManageRolesController {
 
     @PostMapping("/editrole")
     public String updateManageRole(ManageRole manageRole, Model model) {
-        manageRoleService.updateManageRole(manageRole);
-        return "redirect:/manageroles";
+        ResponseEntity<String> response = manageRoleService.apiUpdateManageRole(manageRole);
+    
+    if (response.getStatusCode().is2xxSuccessful()) {
+        // Role updated successfully
+        return "redirect:/manageroles"; // Redirect to the page where roles are managed
+    } else {
+        // Role update failed
+        // You can handle the failure scenario here, such as displaying an error message
+        model.addAttribute("errorMessage", "Failed to update role: " + response.getBody());
+        return "errorPage"; // Redirect to an error page or return an error message
+    }
     }
 
     @GetMapping("/deleterole/{id}")

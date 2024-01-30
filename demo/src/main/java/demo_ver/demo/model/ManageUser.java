@@ -1,9 +1,8 @@
 package demo_ver.demo.model;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -69,16 +68,16 @@ public class ManageUser {
         this.roleID = roleID;
     }
 
+    @Autowired
+    private ManageRoleService manageRoleService;
+
     public String getRoleName() {
-        ManageRoleService manageRoleService = new ManageRoleService(null); // Initialize manageRoleService
-        Optional<ManageRole> role = manageRoleService.apiFindById(roleID);
-        return role.map(ManageRole::getRoleName).orElse("");
+        ManageRole role = manageRoleService.getRoleById(roleID);
+        return (role != null) ? role.getRoleName() : "";
     }
 
     public List<GrantedAuthority> getAuthorities() {
-        ManageRoleService manageRoleService = new ManageRoleService(null); // Initialize manageRoleService
-        Optional<ManageRole> role = manageRoleService.apiFindById(roleID);
-        return role.map(ManageRole::getAuthorities).orElse(Collections.emptyList());
+        return manageRoleService.getRoleById(roleID).getAuthorities();
     }
 
     public String getResetToken() {

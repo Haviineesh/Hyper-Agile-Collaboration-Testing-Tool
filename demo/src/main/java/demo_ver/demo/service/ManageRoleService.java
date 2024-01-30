@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -26,6 +27,7 @@ public class ManageRoleService {
 
     private final String API_Add_Role_Url = "http://localhost:8090/api/roleadd"; // Endpoint for adding roles
     private final String API_Delete_Role_Url = "http://localhost:8090/api/roledelete/";
+    private final String API_Update_Role_Url = "http://localhost:8090/api/roleupdate";
 
     @Autowired
     private final RestTemplate restTemplate;
@@ -133,33 +135,49 @@ public class ManageRoleService {
         }
     }
 
-    public void updateManageRole(ManageRole manageRole) {
-        Optional<ManageRole> existingRoleOptional = apiFindById(manageRole.getRoleID());
+    // public void updateManageRole(ManageRole manageRole) {
+    // Optional<ManageRole> existingRoleOptional =
+    // apiFindById(manageRole.getRoleID());
 
-        if (existingRoleOptional.isPresent()) {
-            ManageRole existingRole = existingRoleOptional.get();
+    // if (existingRoleOptional.isPresent()) {
+    // ManageRole existingRole = existingRoleOptional.get();
 
-            existingRole.setDescription(manageRole.getDescription());
-            // Check if the new roleName is not already in use
-            if (roleList.stream().noneMatch(role -> role.getRoleName().equals(manageRole.getRoleName()))) {
-                // Update the existing role's properties
-                existingRole.setRoleName(manageRole.getRoleName());
-                System.out.println("Role with ID " + existingRole.getRoleID() + " updated successfully");
-            } else {
-                System.out.println("Role with roleName " + manageRole.getRoleName() + " already exists.");
-            }
-        } else {
-            // Handle the case when the role does not exist
-            System.out.println("Role with ID " + manageRole.getRoleID() + " not found");
+    // existingRole.setDescription(manageRole.getDescription());
+    // // Check if the new roleName is not already in use
+    // if (roleList.stream().noneMatch(role ->
+    // role.getRoleName().equals(manageRole.getRoleName()))) {
+    // // Update the existing role's properties
+    // existingRole.setRoleName(manageRole.getRoleName());
+    // System.out.println("Role with ID " + existingRole.getRoleID() + " updated
+    // successfully");
+    // } else {
+    // System.out.println("Role with roleName " + manageRole.getRoleName() + "
+    // already exists.");
+    // }
+    // } else {
+    // // Handle the case when the role does not exist
+    // System.out.println("Role with ID " + manageRole.getRoleID() + " not found");
+    // }
+    // }
+
+    public ResponseEntity<String> apiUpdateManageRole(ManageRole manageRole) {
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(API_Update_Role_Url, manageRole,
+                    String.class);
+            return responseEntity;
+        } catch (RestClientException e) {
+            // Handle the exception as needed
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to update role: " + e.getMessage());
         }
     }
 
     // public ManageRole getRoleById(int roleID) {
-    //     List<ManageRole> roles = apiGetAllRoles();
-    //     return roles.stream()
-    //             .filter(role -> role.getRoleID() == roleID)
-    //             .findFirst()
-    //             .orElse(null);
+    // List<ManageRole> roles = apiGetAllRoles();
+    // return roles.stream()
+    // .filter(role -> role.getRoleID() == roleID)
+    // .findFirst()
+    // .orElse(null);
     // }
 
     public static ManageRole getRoleById(int roleID) {
@@ -168,6 +186,14 @@ public class ManageRoleService {
                 .findFirst()
                 .orElse(null);
     }
+    // public static ManageRole getRoleById(int roleID) {
+    // List<ManageRole> roles = apiGetAllRoles(); // Automatically invokes
+    // apiGetAllRoles()
+    // return roles.stream()
+    // .filter(role -> role.getRoleID() == roleID)
+    // .findFirst()
+    // .orElse(null);
+    // }
 
     private List<ManageRole> parseJsonResponse(String jsonResponse) {
         ObjectMapper objectMapper = new ObjectMapper();
