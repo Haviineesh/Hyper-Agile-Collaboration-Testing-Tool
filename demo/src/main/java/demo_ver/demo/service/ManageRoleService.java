@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,6 +23,8 @@ import demo_ver.demo.model.ManageRole;
 public class ManageRoleService {
 
     private final String API_Base_Url = "http://localhost:8090/api/rolegetallroles";
+
+    private final String API_Add_Role_Url = "http://localhost:8090/api/roleadd"; // Endpoint for adding roles
 
     @Autowired
     private final RestTemplate restTemplate;
@@ -49,8 +52,7 @@ public class ManageRoleService {
                 API_Base_Url,
                 HttpMethod.GET,
                 null,
-                String.class
-        );
+                String.class);
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             String jsonResponse = responseEntity.getBody();
@@ -78,9 +80,25 @@ public class ManageRoleService {
         }
     }
 
-    public Optional<ManageRole> findById(int id) {
-        return roleList.stream().filter(t -> t.getRoleID() == id).findFirst();
+    public void apiAddRole(ManageRole manageRole) {
+        try {
+            ResponseEntity<ManageRole> responseEntity = restTemplate.postForEntity(API_Add_Role_Url, manageRole,
+                    ManageRole.class);
+
+            if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                ManageRole addedRole = responseEntity.getBody();
+                System.out.println("Role added successfully: " + addedRole);
+            } else {
+                System.out.println("Failed to add role. HTTP Status: " + responseEntity.getStatusCode().value());
+            }
+        } catch (RestClientException e) {
+            System.out.println("Failed to add role due to exception: " + e.getMessage());
+        }
     }
+
+    // public Optional<ManageRole> findById(int id) {
+    // return roleList.stream().filter(t -> t.getRoleID() == id).findFirst();
+    // }
 
     public Optional<ManageRole> apiFindById(int id) {
         List<ManageRole> roles = apiGetAllRoles();
@@ -95,7 +113,7 @@ public class ManageRoleService {
     }
 
     public void updateManageRole(ManageRole manageRole) {
-        Optional<ManageRole> existingRoleOptional = findById(manageRole.getRoleID());
+        Optional<ManageRole> existingRoleOptional = apiFindById(manageRole.getRoleID());
 
         if (existingRoleOptional.isPresent()) {
             ManageRole existingRole = existingRoleOptional.get();
