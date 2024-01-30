@@ -25,6 +25,7 @@ public class ManageRoleService {
     private final String API_Base_Url = "http://localhost:8090/api/rolegetallroles";
 
     private final String API_Add_Role_Url = "http://localhost:8090/api/roleadd"; // Endpoint for adding roles
+    private final String API_Delete_Role_Url = "http://localhost:8090/api/roledelete/";
 
     @Autowired
     private final RestTemplate restTemplate;
@@ -112,6 +113,26 @@ public class ManageRoleService {
         System.out.println("Remove role ID:" + id + "Success");
     }
 
+    public void apiDeleteRole(int id) {
+        try {
+            String deleteUrl = API_Delete_Role_Url + id;
+            ResponseEntity<String> responseEntity = restTemplate.exchange(
+                    deleteUrl,
+                    HttpMethod.DELETE,
+                    null,
+                    String.class);
+
+            if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                System.out.println("Role with ID " + id + " deleted successfully.");
+            } else {
+                System.out.println("Failed to delete role with ID " + id + ". HTTP Status: "
+                        + responseEntity.getStatusCode().value());
+            }
+        } catch (RestClientException e) {
+            System.out.println("Failed to delete role due to exception: " + e.getMessage());
+        }
+    }
+
     public void updateManageRole(ManageRole manageRole) {
         Optional<ManageRole> existingRoleOptional = apiFindById(manageRole.getRoleID());
 
@@ -132,6 +153,14 @@ public class ManageRoleService {
             System.out.println("Role with ID " + manageRole.getRoleID() + " not found");
         }
     }
+
+    // public ManageRole getRoleById(int roleID) {
+    //     List<ManageRole> roles = apiGetAllRoles();
+    //     return roles.stream()
+    //             .filter(role -> role.getRoleID() == roleID)
+    //             .findFirst()
+    //             .orElse(null);
+    // }
 
     public static ManageRole getRoleById(int roleID) {
         return roleList.stream()

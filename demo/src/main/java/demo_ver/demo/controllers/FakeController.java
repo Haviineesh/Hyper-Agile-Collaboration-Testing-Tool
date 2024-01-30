@@ -3,9 +3,12 @@ package demo_ver.demo.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +61,17 @@ public class FakeController {
 
         // Return success response
         return ResponseEntity.ok("Role added successfully.");
+    }
+
+    @DeleteMapping("/roledelete/{id}")
+    public ResponseEntity<String> deleteRole(@PathVariable("id") int id) {
+        Optional<ManageRole> roleToDelete = fakeRoleList.stream().filter(role -> role.getRoleID() == id).findFirst();
+        if (roleToDelete.isPresent()) {
+            fakeRoleList.remove(roleToDelete.get());
+            return ResponseEntity.ok("Role with ID " + id + " deleted successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Role with ID " + id + " not found.");
+        }
     }
 
 }
