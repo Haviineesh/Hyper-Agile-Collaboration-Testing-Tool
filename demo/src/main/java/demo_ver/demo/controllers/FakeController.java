@@ -41,7 +41,7 @@ public class FakeController {
     @PostMapping("/roleadd")
     public ResponseEntity<String> addRole(@RequestBody Map<String, Object> requestBody) {
         // Extract necessary fields from the request body
-        String roleName = "ROLE_"+(String) requestBody.get("roleName");
+        String roleName = "ROLE_" + (String) requestBody.get("roleName");
         String description = (String) requestBody.get("description");
 
         // Check if the role already exists
@@ -78,7 +78,7 @@ public class FakeController {
     public ResponseEntity<String> updateRole(@RequestBody Map<String, Object> updatedRole) {
         // Extract necessary fields from the request body
         int roleId = (int) updatedRole.get("roleID");
-        String roleName = (String) updatedRole.get("roleName");
+        String roleName = "ROLE_" + (String) updatedRole.get("roleName");
         String description = (String) updatedRole.get("description");
 
         // Check if the roleName already exists in the list
