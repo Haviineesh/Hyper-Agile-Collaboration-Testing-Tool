@@ -41,7 +41,7 @@ public class FakeController {
     @PostMapping("/roleadd")
     public ResponseEntity<String> addRole(@RequestBody Map<String, Object> requestBody) {
         // Extract necessary fields from the request body
-        String roleName = (String) requestBody.get("roleName");
+        String roleName = "ROLE_"+(String) requestBody.get("roleName");
         String description = (String) requestBody.get("description");
 
         // Check if the role already exists
