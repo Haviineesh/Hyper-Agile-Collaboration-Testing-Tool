@@ -24,6 +24,9 @@ public class ManageUserController {
     @Autowired
     private ManageUserService manageUserService;
 
+    @Autowired
+    private ManageRoleService manageRoleService;
+
     // @GetMapping("/manageuser")
     // @ResponseBody
     // public List<ManageUser> getAllUsers(){
@@ -46,14 +49,14 @@ public class ManageUserController {
     @GetMapping("/adduser")
     public String showAddUserPage(Model model) {
         model.addAttribute("manageUser", new ManageUser());
-        model.addAttribute("roles", ManageRoleService.getAllRoles());
+        model.addAttribute("roles", manageRoleService.getAllRoles());
         return "ManageUserAdd";
     }
 
     @PostMapping("/adduser")
     public String adduser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("role") int roleID,
             Model model) {
-        model.addAttribute("roles", ManageRoleService.getAllRoles());
+        model.addAttribute("roles", manageRoleService.getAllRoles());
         if (manageUserService.isUsernameExists(manageUser.getUsername())) {
             model.addAttribute("usernameExists", true);
             return "ManageUserAdd";
@@ -79,43 +82,45 @@ public class ManageUserController {
 
     @GetMapping("/edituser/{userID}")
     public String showEditUserForm(@PathVariable("userID") int userID, Model model) {
-        ManageUser userToEdit = manageUserService.getUserById(userID);
+        ManageUser userToEdit = ManageUserService.getUserById(userID);
         model.addAttribute("manageUser", userToEdit);
-        model.addAttribute("roles", ManageRoleService.getAllRoles());
+        model.addAttribute("roles", manageRoleService.getAllRoles());
         return "ManageUserEdit"; //
     }
 
-   // ...
+    // ...
 
-   @PostMapping("/updateuser")
-   public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID, Model model) {
-       model.addAttribute("roles", ManageRoleService.getAllRoles()); // Add this line at the beginning
-   
-       if (manageUserService.isUsernameExistsExcludingCurrentUser(manageUser.getUsername(), manageUser.getUserID())) {
-           model.addAttribute("usernameExists", true);
-           // model.addAttribute("roles", ManageRoleService.getAllRoles()); // Remove from here
-           return "ManageUserEdit";
-       }
-   
-       if (manageUserService.isEmailExistsExcludingCurrentUser(manageUser.getEmail(), manageUser.getUserID())) {
-           model.addAttribute("emailExists", true);
-           // model.addAttribute("roles", ManageRoleService.getAllRoles()); // Remove from here
-           return "ManageUserEdit";
-       }
-   
-       manageUserService.updateUser(manageUser, roleID);
-       return "redirect:/manageuser";
-   }
-   
-   
-   
-   private boolean confirmUpdate() {
-       // Implement your logic to ask for confirmation here
-       // You can use additional parameters or conditions to determine when to ask for confirmation
-       // For example, you can check if certain conditions are met before asking for confirmation
-       // If you don't need server-side confirmation, you can remove this method.
-       return true; // Returning true will always ask for confirmation
-   }
-   
-    
+    @PostMapping("/updateuser")
+    public String updateUser(@ModelAttribute("manageUser") ManageUser manageUser, @RequestParam("roleID") int roleID,
+            Model model) {
+        model.addAttribute("roles", manageRoleService.getAllRoles()); // Add this line at the beginning
+
+        if (manageUserService.isUsernameExistsExcludingCurrentUser(manageUser.getUsername(), manageUser.getUserID())) {
+            model.addAttribute("usernameExists", true);
+            // model.addAttribute("roles", ManageRoleService.getAllRoles()); // Remove from
+            // here
+            return "ManageUserEdit";
+        }
+
+        if (manageUserService.isEmailExistsExcludingCurrentUser(manageUser.getEmail(), manageUser.getUserID())) {
+            model.addAttribute("emailExists", true);
+            // model.addAttribute("roles", ManageRoleService.getAllRoles()); // Remove from
+            // here
+            return "ManageUserEdit";
+        }
+
+        manageUserService.updateUser(manageUser, roleID);
+        return "redirect:/manageuser";
+    }
+
+    private boolean confirmUpdate() {
+        // Implement your logic to ask for confirmation here
+        // You can use additional parameters or conditions to determine when to ask for
+        // confirmation
+        // For example, you can check if certain conditions are met before asking for
+        // confirmation
+        // If you don't need server-side confirmation, you can remove this method.
+        return true; // Returning true will always ask for confirmation
+    }
+
 }

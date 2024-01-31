@@ -46,8 +46,11 @@ public class ManageRoleService {
         }
     };
 
-    public static List<ManageRole> getAllRoles() {
-        return roleList;
+    // public static List<ManageRole> getAllRoles() {
+    // return roleList;
+    // }
+    public List<ManageRole> getAllRoles() {
+        return apiGetAllRoles();
     }
 
     public List<ManageRole> apiGetAllRoles() {
