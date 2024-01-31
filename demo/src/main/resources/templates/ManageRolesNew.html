@@ -26,7 +26,10 @@
       </div>
       <p>
         <label class="col-3" for="roleName">Role Name:</label>
-        <input type="text" name="roleName" id="roleName" placeholder="name" />
+        <input type="text" name="roleName" id="roleName" placeholder="name" required/>
+        <div th:if="${roleExists}" class="alert alert-danger" role="alert">
+          Role Name already exists!
+        </div>
       </p>
       <p>
         <label class="col-3" for="description">Description:</label>

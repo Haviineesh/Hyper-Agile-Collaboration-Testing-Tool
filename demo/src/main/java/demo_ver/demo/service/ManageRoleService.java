@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -46,8 +45,11 @@ public class ManageRoleService {
         }
     };
 
-    public static List<ManageRole> getAllRoles() {
-        return roleList;
+    // public static List<ManageRole> getAllRoles() {
+    // return roleList;
+    // }
+    public List<ManageRole> getAllRoles() {
+        return apiGetAllRoles();
     }
 
     public List<ManageRole> apiGetAllRoles() {
@@ -99,15 +101,11 @@ public class ManageRoleService {
         }
     }
 
-    // public Optional<ManageRole> findById(int id) {
-    // return roleList.stream().filter(t -> t.getRoleID() == id).findFirst();
-    // }
-
-    public Optional<ManageRole> apiFindById(int id) {
+    public ManageRole apiFindById(int id) {
         List<ManageRole> roles = apiGetAllRoles();
         return roles.stream()
                 .filter(role -> role.getRoleID() == id)
-                .findFirst();
+                .findFirst().orElse(null);
     }
 
     public void deleteRole(int id) {
@@ -135,31 +133,6 @@ public class ManageRoleService {
         }
     }
 
-    // public void updateManageRole(ManageRole manageRole) {
-    // Optional<ManageRole> existingRoleOptional =
-    // apiFindById(manageRole.getRoleID());
-
-    // if (existingRoleOptional.isPresent()) {
-    // ManageRole existingRole = existingRoleOptional.get();
-
-    // existingRole.setDescription(manageRole.getDescription());
-    // // Check if the new roleName is not already in use
-    // if (roleList.stream().noneMatch(role ->
-    // role.getRoleName().equals(manageRole.getRoleName()))) {
-    // // Update the existing role's properties
-    // existingRole.setRoleName(manageRole.getRoleName());
-    // System.out.println("Role with ID " + existingRole.getRoleID() + " updated
-    // successfully");
-    // } else {
-    // System.out.println("Role with roleName " + manageRole.getRoleName() + "
-    // already exists.");
-    // }
-    // } else {
-    // // Handle the case when the role does not exist
-    // System.out.println("Role with ID " + manageRole.getRoleID() + " not found");
-    // }
-    // }
-
     public ResponseEntity<String> apiUpdateManageRole(ManageRole manageRole) {
         try {
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(API_Update_Role_Url, manageRole,
@@ -172,19 +145,13 @@ public class ManageRoleService {
         }
     }
 
-    // public ManageRole getRoleById(int roleID) {
-    // List<ManageRole> roles = apiGetAllRoles();
-    // return roles.stream()
-    // .filter(role -> role.getRoleID() == roleID)
-    // .findFirst()
-    // .orElse(null);
-    // }
-
-    public static ManageRole getRoleById(int roleID) {
-        return roleList.stream()
+    public static String getRoleById(int roleID) {
+        ManageRole m = new ManageRole();
+        m = roleList.stream()
                 .filter(role -> role.getRoleID() == roleID)
                 .findFirst()
                 .orElse(null);
+        return m.getRoleName();
     }
     // public static ManageRole getRoleById(int roleID) {
     // List<ManageRole> roles = apiGetAllRoles(); // Automatically invokes
@@ -223,4 +190,31 @@ public class ManageRoleService {
         return manageRoles;
     }
 
+    public String apiFindByIdString(int id) {
+        List<ManageRole> roles = apiGetAllRoles();
+        ManageRole m = roles.stream()
+                .filter(role -> role.getRoleID() == id)
+                .findFirst()
+                .orElse(null);
+
+        if (m != null) {
+            return m.getRoleName();
+        } else {
+
+            return null;
+        }
+    }
+
+    public ManageRole apiFindByIdList(int id) {
+        List<ManageRole> roles = apiGetAllRoles();
+        return roles.stream()
+                .filter(role -> role.getRoleID() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean isRoleNameExists(String roleName) {
+        List<ManageRole> roles = apiGetAllRoles();
+        return roles.stream().anyMatch(role -> role.getRoleName().equalsIgnoreCase("ROLE_" + roleName));
+    }
 }

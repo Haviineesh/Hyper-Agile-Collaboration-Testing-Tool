@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.client.RestTemplate;
 
 import demo_ver.demo.service.ManageRoleService;
 
@@ -16,6 +17,8 @@ public class ManageUser {
     public String password;
     public int roleID;
     private String resetToken;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public ManageUser() {
     }
@@ -69,15 +72,15 @@ public class ManageUser {
     }
 
     @Autowired
-    private ManageRoleService manageRoleService;
+    private ManageRoleService manageRoleService = new ManageRoleService(restTemplate);
 
     public String getRoleName() {
-        ManageRole role = manageRoleService.getRoleById(roleID);
-        return (role != null) ? role.getRoleName() : "";
+        String roleName = manageRoleService.apiFindByIdString(roleID);
+        return (roleName != null) ? roleName : "";
     }
 
     public List<GrantedAuthority> getAuthorities() {
-        return manageRoleService.getRoleById(roleID).getAuthorities();
+        return manageRoleService.apiFindByIdList(roleID).getAuthorities();
     }
 
     public String getResetToken() {

@@ -15,9 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.mail.MailService;
+import demo_ver.demo.model.ManageUser;
 
 @Service
 public class ManageUserService implements UserDetailsService {
@@ -29,9 +30,15 @@ public class ManageUserService implements UserDetailsService {
     @Autowired
     private MailService mailService;
 
-    public ManageUserService(PasswordEncoder passwordEncoder) {
+    @Autowired
+    private final RestTemplate restTemplate;
+
+    public ManageUserService(PasswordEncoder passwordEncoder, RestTemplate restTemplate) {
         this.passwordEncoder = passwordEncoder;
+        this.restTemplate = new RestTemplate();
         initializeUserList();
+        ManageRoleService roleService = new ManageRoleService(restTemplate);
+
     }
 
     // Initialize the user list with some sample data
@@ -148,6 +155,7 @@ public class ManageUserService implements UserDetailsService {
                 .orElse(null);
     }
 
+   
     // Load user details for authentication
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -157,13 +165,14 @@ public class ManageUserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        List<GrantedAuthority> authorities = getAuthorities(manageUser.getRoleName());
+        ManageRoleService roleService = new ManageRoleService(restTemplate);
+        List<GrantedAuthority> authorities = getAuthorities(roleService.apiFindByIdString(manageUser.getRoleID()));
 
         // Log user details and authorities
-        System.out.println("User Details: ");
-        System.out.println("Username: " + manageUser.getUsername());
-        System.out.println("Password: " + manageUser.getPassword());
-        System.out.println("Authorities: " + authorities);
+        // System.out.println("User Details: ");
+        // System.out.println("Username: " + manageUser.getUsername());
+        // System.out.println("Password: " + manageUser.getPassword());
+        // System.out.println("Authorities: " + authorities);
 
         // Update the encoded password from ManageUser
         return new User(

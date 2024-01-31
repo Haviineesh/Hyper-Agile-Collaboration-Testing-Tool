@@ -53,6 +53,11 @@ public class ManageRolesController {
     // @RequestMapping("/createrole")
     @PostMapping("/createrole")
     public String createRole(@ModelAttribute("manageRole") ManageRole manageRole, Model model) {
+        if (manageRoleService.isRoleNameExists(manageRole.getRoleName())) {
+            model.addAttribute("roleExists", true);
+            return "ManageRolesNew";
+        }
+
         manageRoleService.apiAddRole(manageRole);// save product into database,
         // model.addAttribute("manageRole", manageRole);
         return "redirect:/manageroles";
@@ -60,23 +65,29 @@ public class ManageRolesController {
 
     @GetMapping("/editrole/{id}")
     public String editManagerole(@PathVariable("id") int id, Model model) {
-        model.addAttribute("role", manageRoleService.apiFindById(id));
+        ManageRole role = manageRoleService.apiFindById(id);
+        // Remove "ROLE_" if it exists in roleName
+        String roleNameWithoutPrefix = role.getRoleName().startsWith("ROLE_") ? role.getRoleName().substring(5)
+                : role.getRoleName();
+        role.setRoleName(roleNameWithoutPrefix);
+        model.addAttribute("role", role);
+
         return "ManageRolesEdit";
     }
 
     @PostMapping("/editrole")
     public String updateManageRole(ManageRole manageRole, Model model) {
         ResponseEntity<String> response = manageRoleService.apiUpdateManageRole(manageRole);
-    
-    if (response.getStatusCode().is2xxSuccessful()) {
-        // Role updated successfully
-        return "redirect:/manageroles"; // Redirect to the page where roles are managed
-    } else {
-        // Role update failed
-        // You can handle the failure scenario here, such as displaying an error message
-        model.addAttribute("errorMessage", "Failed to update role: " + response.getBody());
-        return "errorPage"; // Redirect to an error page or return an error message
-    }
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            // Role updated successfully
+            return "redirect:/manageroles"; // Redirect to the page where roles are managed
+        } else {
+            // Role update failed
+            // You can handle the failure scenario here, such as displaying an error message
+            model.addAttribute("errorMessage", "Failed to update role: " + response.getBody());
+            return "errorPage"; // Redirect to an error page or return an error message
+        }
     }
 
     @GetMapping("/deleterole/{id}")
