@@ -26,8 +26,8 @@ public class FakeController {
         // Initialize the fake role list
         fakeRoleList = new ArrayList<>();
         fakeRoleList.add(new ManageRole(1000, "ROLE_Admin", "Fake Administration"));
-        fakeRoleList.add(new ManageRole(1002, "ROLE_Tester", "Fake unit tester"));
-        fakeRoleList.add(new ManageRole(1003, "ROLE_Manager", "Fake manager"));
+        fakeRoleList.add(new ManageRole(1001, "ROLE_Tester", "Fake unit tester"));
+        fakeRoleList.add(new ManageRole(1002, "ROLE_Manager", "Fake manager"));
         fakeRoleList.add(new ManageRole(1003, "ROLE_Developer", "Programming"));
 
     }
