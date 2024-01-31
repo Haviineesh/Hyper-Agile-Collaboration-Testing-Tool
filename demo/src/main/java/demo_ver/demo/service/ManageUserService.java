@@ -169,10 +169,10 @@ public class ManageUserService implements UserDetailsService {
         List<GrantedAuthority> authorities = getAuthorities(roleService.apiFindByIdString(manageUser.getRoleID()));
 
         // Log user details and authorities
-        System.out.println("User Details: ");
-        System.out.println("Username: " + manageUser.getUsername());
-        System.out.println("Password: " + manageUser.getPassword());
-        System.out.println("Authorities: " + authorities);
+        // System.out.println("User Details: ");
+        // System.out.println("Username: " + manageUser.getUsername());
+        // System.out.println("Password: " + manageUser.getPassword());
+        // System.out.println("Authorities: " + authorities);
 
         // Update the encoded password from ManageUser
         return new User(
