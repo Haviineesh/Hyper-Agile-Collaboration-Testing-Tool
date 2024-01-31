@@ -47,7 +47,7 @@
                     <td th:text="${role.roleID}"></td>
                     <td>
                     <span th:if="${role.roleName.startsWith('ROLE_')}" th:text="${role.roleName.substring(5)}"></span>
-                    <span th:unless="${role.roleName.startsWith('ROLE_')}" th:text="${role.roleName}"></span>
+                    <!-- <span th:unless="${role.roleName.startsWith('ROLE_')}" th:text="${role.roleName}"></span> -->
                     </td>
                     <td th:text="${role.description}"></td>
                     <td>

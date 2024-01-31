@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -102,11 +101,11 @@ public class ManageRoleService {
         }
     }
 
-    public Optional<ManageRole> apiFindById(int id) {
+    public ManageRole apiFindById(int id) {
         List<ManageRole> roles = apiGetAllRoles();
         return roles.stream()
                 .filter(role -> role.getRoleID() == id)
-                .findFirst();
+                .findFirst().orElse(null);
     }
 
     public void deleteRole(int id) {
