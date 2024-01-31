@@ -19,57 +19,67 @@
 </head>
 
 <body>
+
     <div th:replace="fragments/navbar :: navbar"></div>
     <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
         <form th:object="${testCase}" method="post" th:action="@{/save}">
 
-                    <div class="mb-3 d-flex justify-content-center">
-                        <h3>Add Test Case</h3>
+            <div class="mb-3 d-flex justify-content-center">
+                <h3>Add Test Case</h3>
+            </div>
+            <div class="form-group">
+                <label for="code">Projects ID:</label>
+                <input type="text" class="form-control" th:field="*{projectId}" placeholder="Code Test Case" required>
+            </div>
+            <div class="form-group">
+                <label for="smart">Smart Contract ID:</label>
+                <input type="number" class="form-control" th:field="*{smartContractID}" placeholder="Smart Contract ID"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="tcName">Test Case Name:</label>
+                <input type="text" class="form-control" th:field="*{testCaseName}" placeholder="Test Case Name"
+                    required>
+            </div>
+
+            <!-- Display an alert if the username already exists -->
+            <div th:if="${usernameExists}" class="alert alert-danger" role="alert">
+                Username already exists! Please choose a different username.
+            </div>
+            
+            <div class="form-group">
+                <label for="desc">Test Case Description:</label>
+                <textarea class="form-control" name="test_desc" th:field="*{test_desc}" rows="3"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="dateCreated">Date Create:</label>
+                        <input type="date" class="form-control" th:field="*{dateCreated}" placeholder="Date Created">
+                        <span class="text-danger" th:if="${#fields.hasErrors('dateCreated')}" th:errors="*{dateCreated}"></span>
                     </div>
-                    <p>
-                        <label class="col-3" for="code">Projects ID:</label>
-                        <input type="text" th:field="*{projectId}" placeholder="Code Test Case" required>
-                    </p>
-                    <p>
-                        <label class="col-3" for="smart">Smart Contract ID:</label>
-                        <input type="number" th:field="*{smartContractID}" placeholder="Smart Contract ID" required>
-                    </p>
-                    <p>
-                        <label class="col-3" for="tcName">Test Case Name:</label>
-                        <input type="text" th:field="*{testCaseName}" placeholder="Test Case Name" required>
-                    </p>
-                    <p>
-                        <label class="col-3" for="desc">Test Case Description:</label>
-                        <textarea name="test_desc" th:field="*{test_desc}" rows="3"></textarea>
-                    </p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p>
-                                <label class="col-6" for="dateCreated">Deadline:</label>
-                                <input type="date" th:field ="*{dateCreated}" placeholder="Date Created">
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p>
-                                <label class="col-6" for="deadline">Date Update:</label>
-                                <input type="date" th:field ="*{deadline}" placeholder="Deadline">
-                            </p>
-                        </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="deadline">Deadline:</label>
+                        <input type="date" class="form-control" th:field="*{deadline}" placeholder="Deadline">
+                        <span class="text-danger" th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"></span>
                     </div>
-                    <div class="row">
-                     
-                        <div class="col-md-6">
-                            <p>
-                                <label class="col-6" for="user">Assign Users:</label>
-                                <select id="userID" name="userID" th:field="*{userID}" required multiple>
-                                    <option th:each="user : ${users}" th:value="${user.userID}" th:text="${user.username + ' (' + user.roleName + ')'}"></option>
-                                </select>
-                            </p>
-                        </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="user">Assign Users:</label>
+                        <select id="userID" name="userID" class="form-control" th:field="*{userID}" required multiple>
+                            <option th:each="user : ${users}" th:value="${user.userID}"
+                                th:text="${user.username + ' (' + user.roleName + ')'}"></option>
+                        </select>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-success">Create <i class="bi bi-plus"></i></button>
-                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Create <i class="bi bi-plus"></i></button>
             </div>
         </form>
     </div>

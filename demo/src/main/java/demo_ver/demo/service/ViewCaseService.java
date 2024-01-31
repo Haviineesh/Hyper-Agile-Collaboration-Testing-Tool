@@ -25,10 +25,14 @@ public class ViewCaseService {
 
     private static List<TestCase> testList = new ArrayList<TestCase>() {
         {
-            add(new TestCase(RandomNumber.getRandom(100,999), "001", 8, "Diagram", "desc1", "2023-12-11", "2023-11-10", Arrays.asList(2000)));
-            add(new TestCase(RandomNumber.getRandom(100,999), "002", 15, "Package", "desc23", "2023-11-07", "2023-11-17", Arrays.asList(2001)));
-            add(new TestCase(RandomNumber.getRandom(100,999), "003", 17, "Behavioral", "desc34", "2023-12-05", "2023-11-15", Arrays.asList(2001)));
-            add(new TestCase(RandomNumber.getRandom(100,999), "004", 19, "Diagram", "desc56", "2023-12-20", "2024-01-07", Arrays.asList(2002)));
+            add(new TestCase(RandomNumber.getRandom(100, 999), "001", 8, "Diagram", "desc1", "2023-12-11",
+                    "2023-11-10", Arrays.asList(2000)));
+            add(new TestCase(RandomNumber.getRandom(100, 999), "002", 15, "Package", "desc23", "2023-11-07",
+                    "2023-11-17", Arrays.asList(2001)));
+            add(new TestCase(RandomNumber.getRandom(100, 999), "003", 17, "Behavioral", "desc34", "2023-12-05",
+                    "2023-11-15", Arrays.asList(2001)));
+            add(new TestCase(RandomNumber.getRandom(100, 999), "004", 19, "Diagram", "desc56", "2023-12-20",
+                    "2024-01-07", Arrays.asList(2002)));
         }
     };
 
@@ -40,7 +44,7 @@ public class ViewCaseService {
     }
 
     public void addTestCaseForm(TestCase testCase, List<Integer> userID) {
-        testCase.setIdtest_cases(RandomNumber.getRandom(100,999));
+        testCase.setIdtest_cases(RandomNumber.getRandom(100, 999));
         testCase.setUserID(userID);
         testList.add(testCase);
 
@@ -70,7 +74,8 @@ public class ViewCaseService {
         long initialDelay = ChronoUnit.SECONDS.between(LocalDateTime.now(), deadlineDateTime);
 
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-        executorService.scheduleWithFixedDelay(() -> sendDeadlineNotification(testCase), initialDelay, 24 * 60 * 60, TimeUnit.SECONDS);
+        executorService.scheduleWithFixedDelay(() -> sendDeadlineNotification(testCase), initialDelay, 24 * 60 * 60,
+                TimeUnit.SECONDS);
         executorService.schedule(() -> executorService.shutdown(), initialDelay + 24 * 60 * 60, TimeUnit.SECONDS);
     }
 
@@ -107,8 +112,8 @@ public class ViewCaseService {
 
     private Optional<TestCase> findById(long idtest_cases) {
         return testList.stream()
-                       .filter(t -> t.getIdtest_cases() == idtest_cases)
-                       .findFirst();
+                .filter(t -> t.getIdtest_cases() == idtest_cases)
+                .findFirst();
     }
 
     public void updateCaseUser(TestCase updatedTestCase, List<Integer> userID) {
@@ -135,15 +140,19 @@ public class ViewCaseService {
         testList.removeIf(t -> t.getIdtest_cases() == idtest_cases);
     }
 
+    // Check if a username exists in the system
+    public boolean isUsernameExists(String testCaseName) {
+        return testList.stream().anyMatch(Test -> Test.getTestCaseName().equalsIgnoreCase(testCaseName));
+    }
+
     // In ViewCaseService class
 
-public TestCase getTestCaseById(Long idtest_cases) {
-    return testList.stream()
-                   .filter(testCase -> testCase.getIdtest_cases().equals(idtest_cases))
-                   .findFirst()
-                   .orElseThrow(() -> new NoSuchElementException("Test case not found with ID: " + idtest_cases));
-}
-
+    public TestCase getTestCaseById(Long idtest_cases) {
+        return testList.stream()
+                .filter(testCase -> testCase.getIdtest_cases().equals(idtest_cases))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Test case not found with ID: " + idtest_cases));
+    }
 
     // ... other existing methods ...
 }

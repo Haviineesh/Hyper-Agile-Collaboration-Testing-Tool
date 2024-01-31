@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import demo_ver.demo.model.TestCase;
+import demo_ver.demo.service.ManageRoleService;
 import demo_ver.demo.service.ManageUserService;
 import demo_ver.demo.service.ViewCaseService;
 
@@ -33,6 +34,13 @@ public class TestCaseController {
 
     @PostMapping("/save")
     public String addTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
+
+        model.addAttribute("tests", ViewCaseService.findAllList());
+        if (viewCaseService.isUsernameExists(testCase.getTestCaseName())) {
+            model.addAttribute("usernameExists", true);
+            return "addTestCase";
+        }
+
         viewCaseService.addTestCaseForm(testCase, userID);
         return "redirect:/view";
     }
@@ -53,10 +61,16 @@ public class TestCaseController {
 
     @PostMapping("/update")
     public String editTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
+
+        model.addAttribute("tests", ViewCaseService.findAllList());
+        if (viewCaseService.isUsernameExists(testCase.getTestCaseName())) {
+            model.addAttribute("usernameExists", true);
+            return "EditTestCase";
+        }
+
         viewCaseService.updateCaseUser(testCase, userID);
         return "redirect:/view";
     }
-    
 
     @PostMapping("/setUserStatus")
     public String setUserStatus(@RequestParam Long testCaseId, @RequestParam String status, Principal principal) {
