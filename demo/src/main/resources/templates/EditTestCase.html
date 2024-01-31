@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Add Test Case</title>
+    <title>Edit Test Case</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -56,12 +56,14 @@
                     <div class="form-group">
                         <label for="dateCreated">Date Create:</label>
                         <input type="date" class="form-control" th:field="*{dateCreated}" placeholder="Date Created">
+                        <span class="text-danger" th:if="${#fields.hasErrors('dateCreated')}" th:errors="*{dateCreated}"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="deadline">Deadline:</label>
                         <input type="date" class="form-control" th:field="*{deadline}" placeholder="Deadline">
+                        <span class="text-danger" th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"></span>
                     </div>
                 </div>
             </div>
@@ -69,15 +71,18 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="user">Assign Users:</label>
-                        <select id="userID" name="userID" class="form-control" th:field="*{userID}" required multiple>
-                            <option th:each="user : ${users}" th:value="${user.userID}"
-                                th:text="${user.username + ' (' + user.roleName + ')'}"></option>
-                        </select>
+                        <div th:each="user : ${users}">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" th:id="${'userCheckbox' + user.userID}" th:field="*{userID}" th:value="${user.userID}">
+                                <label class="form-check-label" th:for="${'userCheckbox' + user.userID}" th:text="${user.username + ' (' + user.roleName + ')'}"></label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success">Save <i class="bi bi-plus"></i></button>
+                <button type="submit" class="btn btn-success">Create <i class="bi bi-plus"></i></button>
             </div>
         </form>
     </div>

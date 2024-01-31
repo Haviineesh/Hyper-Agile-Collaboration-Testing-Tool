@@ -140,8 +140,10 @@ public class ViewCaseService {
         testList.removeIf(t -> t.getIdtest_cases() == idtest_cases);
     }
 
+    
+
     // Check if a username exists in the system
-    public boolean isUsernameExists(String testCaseName) {
+    public boolean istestCaseExists(String testCaseName) {
         return testList.stream().anyMatch(Test -> Test.getTestCaseName().equalsIgnoreCase(testCaseName));
     }
 

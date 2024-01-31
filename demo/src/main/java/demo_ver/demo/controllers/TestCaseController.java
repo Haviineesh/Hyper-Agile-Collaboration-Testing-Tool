@@ -1,11 +1,20 @@
 package demo_ver.demo.controllers;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import java.security.Principal; // Import Principal for getting logged-in user's information
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import demo_ver.demo.model.TestCase;
@@ -15,6 +24,8 @@ import demo_ver.demo.service.ViewCaseService;
 
 @Controller
 public class TestCaseController {
+
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Autowired
     private ViewCaseService viewCaseService;
@@ -34,15 +45,30 @@ public class TestCaseController {
 
     @PostMapping("/save")
     public String addTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
-
         model.addAttribute("tests", ViewCaseService.findAllList());
-        if (viewCaseService.isUsernameExists(testCase.getTestCaseName())) {
-            model.addAttribute("usernameExists", true);
+
+        // Check if the deadline is later than the date created
+        if (!isDeadlineLaterThanDateCreated(testCase.getDateCreated(), testCase.getDeadline())) {
+            model.addAttribute("deadlineInvalid", true);
             return "addTestCase";
         }
 
+        // Check if the test case name already exists
+        if (viewCaseService.istestCaseExists(testCase.getTestCaseName())) {
+            model.addAttribute("testCaseNameExists", true);
+            return "addTestCase";
+        }
+
+        // Proceed with adding the test case
         viewCaseService.addTestCaseForm(testCase, userID);
         return "redirect:/view";
+    }
+
+    // Helper method to check if deadline is later than date created
+    private boolean isDeadlineLaterThanDateCreated(String dateCreated, String deadline) {
+        LocalDate createdDate = LocalDate.parse(dateCreated);
+        LocalDate deadlineDate = LocalDate.parse(deadline);
+        return deadlineDate.isAfter(createdDate);
     }
 
     @GetMapping("/deleteCase/{idtest_cases}")
@@ -63,8 +89,8 @@ public class TestCaseController {
     public String editTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
 
         model.addAttribute("tests", ViewCaseService.findAllList());
-        if (viewCaseService.isUsernameExists(testCase.getTestCaseName())) {
-            model.addAttribute("usernameExists", true);
+        if (viewCaseService.istestCaseExists(testCase.getTestCaseName())) {
+            model.addAttribute("testCaseNameExists", true);
             return "EditTestCase";
         }
 
