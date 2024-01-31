@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
+
 </head>
 
 <body>
@@ -45,7 +45,10 @@
                 <tr th:each="role, iStat : ${roles}">
                     <td th:text="${iStat.count}"></td>
                     <td th:text="${role.roleID}"></td>
-                    <td th:text="${role.roleName}"></td>
+                    <td>
+                    <span th:if="${role.roleName.startsWith('ROLE_')}" th:text="${role.roleName.substring(5)}"></span>
+                    <span th:unless="${role.roleName.startsWith('ROLE_')}" th:text="${role.roleName}"></span>
+                    </td>
                     <td th:text="${role.description}"></td>
                     <td>
                         <a class="btn btn-warning" th:href="@{'/editrole/' +${role.roleID}}">
