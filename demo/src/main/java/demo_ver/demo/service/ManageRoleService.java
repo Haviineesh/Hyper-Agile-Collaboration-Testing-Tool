@@ -180,11 +180,13 @@ public class ManageRoleService {
     // .orElse(null);
     // }
 
-    public static ManageRole getRoleById(int roleID) {
-        return roleList.stream()
+    public static String getRoleById(int roleID) {
+        ManageRole m = new ManageRole();
+        m = roleList.stream()
                 .filter(role -> role.getRoleID() == roleID)
                 .findFirst()
                 .orElse(null);
+        return m.getRoleName();
     }
     // public static ManageRole getRoleById(int roleID) {
     // List<ManageRole> roles = apiGetAllRoles(); // Automatically invokes
@@ -223,4 +225,21 @@ public class ManageRoleService {
         return manageRoles;
     }
 
+    public String apiFindByIdString(int id) {
+        List<ManageRole> roles = apiGetAllRoles();
+        ManageRole m = new ManageRole();
+        m = roles.stream()
+                .filter(role -> role.getRoleID() == id)
+                .findFirst()
+                .orElse(null);
+        return m.getRoleName();
+    }
+
+    public ManageRole apiFindByIdList(int id) {
+        List<ManageRole> roles = apiGetAllRoles();
+        return roles.stream()
+                .filter(role -> role.getRoleID() == id)
+                .findFirst()
+                .orElse(null);
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
@@ -40,16 +41,17 @@ public class SecurityConfig extends WebSecurityConfiguration {
                 return templateEngine;
         }
 
+        private final RestTemplate restTemplate = new RestTemplate();
         @Bean
-        public ManageUserService manageUserService(PasswordEncoder passwordEncoder) {
-                return new ManageUserService(passwordEncoder);
+        public ManageUserService manageUserService(PasswordEncoder passwordEncoder, RestTemplate restTemplate) {
+                return new ManageUserService(passwordEncoder, restTemplate);
         }
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 AuthenticationManagerBuilder authenticationManagerBuilder = http
                                 .getSharedObject(AuthenticationManagerBuilder.class);
-                authenticationManagerBuilder.userDetailsService(manageUserService(passwordEncoder()))
+                authenticationManagerBuilder.userDetailsService(manageUserService(passwordEncoder(), restTemplate))
                                 .passwordEncoder(passwordEncoder());
                 return http
                                 .formLogin(form -> form
