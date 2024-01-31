@@ -225,14 +225,29 @@ public class ManageRoleService {
         return manageRoles;
     }
 
+    // public String apiFindByIdString(int id) {
+    // List<ManageRole> roles = apiGetAllRoles();
+    // ManageRole m = new ManageRole();
+    // m = roles.stream()
+    // .filter(role -> role.getRoleID() == id)
+    // .findFirst()
+    // .orElse(null);
+    // return m.getRoleName();
+    // }
+
     public String apiFindByIdString(int id) {
         List<ManageRole> roles = apiGetAllRoles();
-        ManageRole m = new ManageRole();
-        m = roles.stream()
+        ManageRole m = roles.stream()
                 .filter(role -> role.getRoleID() == id)
                 .findFirst()
                 .orElse(null);
-        return m.getRoleName();
+
+        if (m != null) {
+            return m.getRoleName();
+        } else {
+
+            return null;
+        }
     }
 
     public ManageRole apiFindByIdList(int id) {
