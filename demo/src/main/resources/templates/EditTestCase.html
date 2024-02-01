@@ -21,40 +21,37 @@
 <body>
 
     <div th:replace="fragments/navbar :: navbar"></div>
-    <div class="container p-3 mt-3 mb-3 border border-secondary rounded">
+    <div class="container mt-5">
+        <h2 class="mb-4">Edit Test Case</h2>
         <form th:object="${testCase}" method="post" th:action="@{/update}">
-
-            <div class="mb-3 d-flex justify-content-center">
-                <h3>Edit Test Case</h3>
-            </div>
             <div class="form-group">
-                <label for="code">Projects ID:</label>
+                <label for="projectId">Projects ID:</label>
                 <input type="text" class="form-control" th:field="*{projectId}" placeholder="Code Test Case" required>
             </div>
             <div class="form-group">
-                <label for="smart">Smart Contract ID:</label>
+                <label for="smartContractID">Smart Contract ID:</label>
                 <input type="number" class="form-control" th:field="*{smartContractID}" placeholder="Smart Contract ID"
                     required>
             </div>
             <div class="form-group">
-                <label for="tcName">Test Case Name:</label>
+                <label for="testCaseName">Test Case Name:</label>
                 <input type="text" class="form-control" th:field="*{testCaseName}" placeholder="Test Case Name"
                     required>
             </div>
 
-            <!-- Display an alert if the username already exists -->
-            <div th:if="${usernameExists}" class="alert alert-danger" role="alert">
-                Username already exists! Please choose a different username.
+            <!-- Display an alert if the test case name already exists -->
+            <div th:if="${testCaseNameExists}" class="alert alert-danger" role="alert">
+                Test Case Name already exists! Please choose a different test case name.
             </div>
-            
+
             <div class="form-group">
-                <label for="desc">Test Case Description:</label>
+                <label for="test_desc">Test Case Description:</label>
                 <textarea class="form-control" name="test_desc" th:field="*{test_desc}" rows="3"></textarea>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="dateCreated">Date Create:</label>
+                        <label for="dateCreated">Date Created:</label>
                         <input type="date" class="form-control" th:field="*{dateCreated}" placeholder="Date Created">
                         <span class="text-danger" th:if="${#fields.hasErrors('dateCreated')}" th:errors="*{dateCreated}"></span>
                     </div>
@@ -71,18 +68,16 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="user">Assign Users:</label>
-                        <div th:each="user : ${users}">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" th:id="${'userCheckbox' + user.userID}" th:field="*{userID}" th:value="${user.userID}">
-                                <label class="form-check-label" th:for="${'userCheckbox' + user.userID}" th:text="${user.username + ' (' + user.roleName + ')'}"></label>
-                            </div>
-                        </div>
+                        <select class="form-control" th:field="*{userID}" multiple>
+                            <option th:each="user : ${users}" th:value="${user.userID}"
+                                th:text="${user.username + ' (' + user.roleName + ')'}"></option>
+                        </select>
                     </div>
                 </div>
             </div>
-            
+
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success">Create <i class="bi bi-plus"></i></button>
+                <button type="submit" class="btn btn-success">Update <i class="bi bi-check"></i></button>
             </div>
         </form>
     </div>

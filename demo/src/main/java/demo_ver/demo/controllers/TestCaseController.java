@@ -47,15 +47,14 @@ public class TestCaseController {
     public String addTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
         model.addAttribute("tests", ViewCaseService.findAllList());
 
+         // Check if the test case name already exists
+        if (viewCaseService.istestCaseExists(testCase.getTestCaseName())) {
+            model.addAttribute("testCaseNameExists", true);
+            return "addTestCase";
+        }
         // Check if the deadline is later than the date created
         if (!isDeadlineLaterThanDateCreated(testCase.getDateCreated(), testCase.getDeadline())) {
             model.addAttribute("deadlineInvalid", true);
-            return "addTestCase";
-        }
-
-        // Check if the test case name already exists
-        if (viewCaseService.istestCaseExists(testCase.getTestCaseName())) {
-            model.addAttribute("testCaseNameExists", true);
             return "addTestCase";
         }
 
@@ -89,11 +88,15 @@ public class TestCaseController {
     public String editTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
 
         model.addAttribute("tests", ViewCaseService.findAllList());
-        if (viewCaseService.istestCaseExists(testCase.getTestCaseName())) {
-            model.addAttribute("testCaseNameExists", true);
-            return "EditTestCase";
+        // if (viewCaseService.istestCaseExists(testCase.getTestCaseName())) {
+        //     model.addAttribute("testCaseNameExists", true);
+        //     return "EditTestCase";
+        // }
+        // Check if the deadline is later than the date created
+        if (!isDeadlineLaterThanDateCreated(testCase.getDateCreated(), testCase.getDeadline())) {
+            model.addAttribute("deadlineInvalid", true);
+            return "addTestCase";
         }
-
         viewCaseService.updateCaseUser(testCase, userID);
         return "redirect:/view";
     }
