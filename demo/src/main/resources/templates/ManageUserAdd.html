@@ -61,7 +61,7 @@
         <div class="form-group">
           <label for="role">Role</label>
           <select class="form-control" id="role" name="role" required>
-            <option th:each="role : ${roles}" th:value="${role.roleID}" th:text="${role.roleName}"></option>
+            <option th:each="role : ${roles}" th:if="${role.roleName.startsWith('ROLE_')}" th:text="${role.roleName.substring(5)}"th:value="${role.roleID}"></option>
           </select>
         </div>
         <button type="submit" class="btn btn-primary">Save User</button>
