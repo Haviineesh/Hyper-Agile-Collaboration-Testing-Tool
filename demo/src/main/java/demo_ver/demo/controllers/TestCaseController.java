@@ -46,6 +46,7 @@ public class TestCaseController {
     @PostMapping("/save")
     public String addTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
         model.addAttribute("tests", ViewCaseService.findAllList());
+        model.addAttribute("users", ManageUserService.getAllUsers()); // I added this so that user list will always show even if got validation errors
 
          // Check if the test case name already exists
         if (viewCaseService.istestCaseExists(testCase.getTestCaseName())) {
