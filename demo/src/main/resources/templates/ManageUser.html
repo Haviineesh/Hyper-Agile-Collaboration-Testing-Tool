@@ -58,7 +58,7 @@
             <td th:text="${user.userID}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.username}"></td>
-            <td th:text="${user.roleName}"></td>
+            <td th:if="${user.roleName.startsWith('ROLE_')}" th:text="${user.roleName.substring(5)}"></td>
             <td>
               <a th:href="@{/edituser/{userID}(userID=${user.userID})}" 
               onclick="return confirmEdit(event)"
