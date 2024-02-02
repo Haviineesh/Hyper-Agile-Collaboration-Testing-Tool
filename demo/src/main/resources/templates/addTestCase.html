@@ -61,10 +61,12 @@
             <div class="form-group">
                 <label>Assign Users:</label>
                 <div th:each="user : ${users}">
-                    <!-- Add a condition to exclude user with ID 2000 -->
-                    <div th:unless="${user.userID == 2000}" class="form-check">
-                        <input type="checkbox" class="form-check-input" th:id="${'userCheckbox' + user.userID}" th:field="*{userID}" th:value="${user.userID}">
-                        <label class="form-check-label" th:for="${'userCheckbox' + user.userID}" th:if="${user.roleName.startsWith('ROLE_')}" th:text="${user.username + ' (' + user.roleName.substring(5) + ')'}"></label>
+                    <div  th:unless="${user.userID == 2000}" class="form-check">
+                        <input type="checkbox" class="form-check-input" th:id="${'userCheckbox' + user.userID}"
+                            th:field="*{userID}" th:value="${user.userID}">
+                        <label class="form-check-label" th:for="${'userCheckbox' + user.userID}"
+                            th:if="${user.roleName.startsWith('ROLE_')}"
+                            th:text="${user.username + ' (' + user.roleName.substring(5) + ')'}"></label>
                     </div>
                 </div>
             </div>
