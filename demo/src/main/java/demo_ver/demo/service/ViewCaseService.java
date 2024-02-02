@@ -25,8 +25,6 @@ public class ViewCaseService {
 
     private static List<TestCase> testList = new ArrayList<TestCase>() {
         {
-            add(new TestCase(RandomNumber.getRandom(100, 999), "001", 8, "Diagram", "desc1", "2023-12-11",
-                    "2023-11-10", Arrays.asList(2000)));
             add(new TestCase(RandomNumber.getRandom(100, 999), "002", 15, "Package", "desc23", "2023-11-07",
                     "2023-11-17", Arrays.asList(2001)));
             add(new TestCase(RandomNumber.getRandom(100, 999), "003", 17, "Behavioral", "desc34", "2023-12-05",

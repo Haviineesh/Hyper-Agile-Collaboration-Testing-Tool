@@ -2,6 +2,7 @@ package demo_ver.demo.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.model.TestCase;
 import demo_ver.demo.service.ManageRoleService;
 import demo_ver.demo.service.ManageUserService;
@@ -30,11 +32,33 @@ public class TestCaseController {
     @Autowired
     private ViewCaseService viewCaseService;
 
-    @GetMapping("/view")
-    public String viewCase(Model model) {
-        model.addAttribute("testCase", ViewCaseService.findAllList());
-        return "viewTestCase";
+   @GetMapping("/view")
+public String viewCase(Model model) {
+    List<TestCase> testCases = ViewCaseService.findAllList();
+
+    // Assuming ManageUserService.getAllUsers() returns a List<ManageUser>
+    List<ManageUser> allUsers = ManageUserService.getAllUsers();
+
+    // Set username for each test case
+    for (TestCase testCase : testCases) {
+        List<Integer> userIds = testCase.getUserID();
+        List<String> usernames = userIds.stream()
+                .map(userId -> {
+                    ManageUser user = ManageUserService.getUserById(userId);
+                    return (user != null) ? user.getUsername() : "";
+                })
+                .collect(Collectors.toList());
+
+        // Assuming you want to concatenate usernames into a single string
+        testCase.setUsername(String.join(", ", usernames));
     }
+
+    model.addAttribute("testCase", testCases);
+    model.addAttribute("users1", allUsers);
+    return "viewTestCase";
+}
+
+    
 
     @GetMapping("/add")
     public String showAddTestCaseForm(Model model) {

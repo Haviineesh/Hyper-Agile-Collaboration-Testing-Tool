@@ -83,8 +83,9 @@
                 <tr>
                     <th scope="col" class="projectid-column">Project ID</th>
                     <th scope="col" class="testcaseid-column ">Test Case ID</th>
-                    <th scope="col">Test Case</th>
+                    <th scope="col">Test Case Name</th>
                     <th scope="col" class="deadline-column ">Deadline</th>
+                    <th scope="col" class="users1-column">Users</th>
                     <th scope="col" class="userstatus-column">User Statuses</th>
                     <th scope="col" class="status-column">Status Approval</th>
                     <th scope="col" class="highlight">Overall Status</th>
@@ -99,6 +100,7 @@
                     <td th:text="${test.idtest_cases}"></td>
                     <td th:text="${test.testCaseName}"></td>
                     <td th:text="${test.deadline}"></td>
+                    <td th:text="${test.username}"></td>
                     <td>
                         <div th:each="userStatus : ${test.userStatuses}">
                             <span th:text="${userStatus.key}">Username</span>: <span th:text="${userStatus.value}">Status</span><br/>

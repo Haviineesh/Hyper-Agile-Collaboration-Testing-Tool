@@ -23,6 +23,7 @@ public class TestCase {
     private List<Integer> userID;
     private Map<String, String> userStatuses = new HashMap<>(); // New field for user-specific statuses
     private String overallStatus;
+    private String username;
 
     public TestCase() {
         // Default constructor
@@ -118,6 +119,14 @@ public class TestCase {
 
     public void setUserID(List<Integer> userID) {
         this.userID = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     // Methods for user statuses
