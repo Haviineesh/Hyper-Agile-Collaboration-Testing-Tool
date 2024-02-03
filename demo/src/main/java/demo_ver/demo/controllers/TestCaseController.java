@@ -113,6 +113,7 @@ public String viewCase(Model model) {
     public String editTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
 
         model.addAttribute("tests", ViewCaseService.findAllList());
+        model.addAttribute("users", ManageUserService.getAllUsers()); // I added this so that user list will always show even if got validation errors
         // if (viewCaseService.istestCaseExists(testCase.getTestCaseName())) {
         //     model.addAttribute("testCaseNameExists", true);
         //     return "EditTestCase";
@@ -120,7 +121,7 @@ public String viewCase(Model model) {
         // Check if the deadline is later than the date created
         if (!isDeadlineLaterThanDateCreated(testCase.getDateCreated(), testCase.getDeadline())) {
             model.addAttribute("deadlineInvalid", true);
-            return "addTestCase";
+            return "EditTestCase";
         }
         viewCaseService.updateCaseUser(testCase, userID);
         return "redirect:/view";

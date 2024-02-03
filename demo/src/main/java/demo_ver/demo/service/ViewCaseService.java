@@ -118,12 +118,15 @@ public class ViewCaseService {
         Optional<TestCase> existingTestCaseOpt = findById(updatedTestCase.getIdtest_cases());
         if (existingTestCaseOpt.isPresent()) {
             TestCase existingTestCase = existingTestCaseOpt.get();
-            existingTestCase.setUserID(userID);
-            // Update other fields of the TestCase as necessary
+            
+            existingTestCase.setProjectId(updatedTestCase.getProjectId());
+            existingTestCase.setSmartContractID(updatedTestCase.getSmartContractID());
+            existingTestCase.setTestCaseName(updatedTestCase.getTestCaseName());
             existingTestCase.setTest_desc(updatedTestCase.getTest_desc());
+            existingTestCase.setDateCreated(updatedTestCase.getDateCreated());
             existingTestCase.setDeadline(updatedTestCase.getDeadline());
-            // ... other fields ...
-            updateCase(existingTestCase); // Update the case in the list
+            existingTestCase.setUserID(userID);
+           
         } else {
             throw new NoSuchElementException("Test case not found with ID: " + updatedTestCase.getIdtest_cases());
         }

@@ -40,9 +40,9 @@
             </div>
 
             <!-- Display an alert if the test case name already exists -->
-            <div th:if="${testCaseNameExists}" class="alert alert-danger" role="alert">
+            <!-- <div th:if="${testCaseNameExists}" class="alert alert-danger" role="alert">
                 Test Case Name already exists! Please choose a different test case name.
-            </div>
+            </div> -->
 
             <div class="form-group">
                 <label for="test_desc">Test Case Description:</label>
@@ -61,8 +61,10 @@
                     <div class="form-group">
                         <label for="deadline">Deadline:</label>
                         <input type="date" class="form-control" th:field="*{deadline}" placeholder="Deadline">
-                        <span class="text-danger" th:if="${#fields.hasErrors('deadline')}"
-                            th:errors="*{deadline}"></span>
+                        <!-- Display an alert if the deadline is not later than the date created -->
+                        <div th:if="${deadlineInvalid}" class="alert alert-danger" role="alert">
+                            Deadline must be later than the Date Created! Please choose a valid deadline.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,7 +85,7 @@
                     
                 </div>
             </div>
-
+            <br/><input type="hidden" th:field="*{idtest_cases}"/>
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success">Update <i class="bi bi-check"></i></button>
             </div>
