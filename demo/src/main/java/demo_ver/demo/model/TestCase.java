@@ -24,6 +24,7 @@ public class TestCase {
     private Map<String, String> userStatuses = new HashMap<>(); // New field for user-specific statuses
     private String overallStatus;
     private String username;
+    private String createdBy;
 
     public TestCase() {
         // Default constructor
@@ -127,6 +128,14 @@ public class TestCase {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     // Methods for user statuses
