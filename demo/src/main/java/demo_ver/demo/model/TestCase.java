@@ -172,37 +172,35 @@ public class TestCase {
         //     }
         // }
 
-        //METHOD 2 
         public String determineOverallStatus() {
             // If any user has rejected the test case, then the overall status is "Rejected"
             if (userStatuses.containsValue("Rejected")) {
                 return "Rejected";
             }
             
-            // If the number of users who have set their status is less than 3, overall status is "Pending"
-            if (userStatuses.size() < 3) {
-                return "Pending";
-            }
+            // Check if all assigned users have set their status
+            // Only change the overall status if all users have set their status
+            if (userStatuses.size() == userID.size()) {
+                // If all users have approved, then the overall status is "Approved"
+                boolean allApproved = userStatuses.values().stream().allMatch(status -> status.equals("Approved"));
+                if (allApproved) {
+                    return "Approved";
+                }
         
-            // If all users have approved, then the overall status is "Approved"
-            boolean allApproved = userStatuses.values().stream().allMatch(status -> status.equals("Approved"));
-            if (allApproved) {
-                return "Approved";
-            }
-
-              // If all users have "Needs Revision", then the overall status is "Needs Revision"
-            if (userStatuses.values().stream().allMatch(status -> status.equals("Needs Revision"))) {
-            return "Needs Revision";
-            }
+                // If all users have "Needs Revision", then the overall status is "Needs Revision"
+                if (userStatuses.values().stream().allMatch(status -> status.equals("Needs Revision"))) {
+                    return "Needs Revision";
+                }
         
-            // If any user has set "Under Review" or "Needs Revision" without any "Reject", then it's "Pending"
-            boolean anyUnderReviewOrNeedsRevision = userStatuses.values().stream()
-                    .anyMatch(status -> status.equals("Under Review") || status.equals("Needs Revision"));
-            if (anyUnderReviewOrNeedsRevision) {
-                return "Pending";
+                // If any user has set "Under Review" or "Needs Revision" without any "Reject", then it's "Pending"
+                boolean anyUnderReviewOrNeedsRevision = userStatuses.values().stream()
+                        .anyMatch(status -> status.equals("Under Review") || status.equals("Needs Revision"));
+                if (anyUnderReviewOrNeedsRevision) {
+                    return "Pending";
+                }
             }
-        
-            // If none of the above conditions are met, default to "Pending"
+            
+            // Default to "Pending" if not all users have set their status or if none of the above conditions are met
             return "Pending";
         }
         

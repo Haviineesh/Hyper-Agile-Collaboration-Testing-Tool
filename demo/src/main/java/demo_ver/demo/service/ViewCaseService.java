@@ -118,7 +118,6 @@ public class ViewCaseService {
         Optional<TestCase> existingTestCaseOpt = findById(updatedTestCase.getIdtest_cases());
         if (existingTestCaseOpt.isPresent()) {
             TestCase existingTestCase = existingTestCaseOpt.get();
-            
             existingTestCase.setProjectId(updatedTestCase.getProjectId());
             existingTestCase.setSmartContractID(updatedTestCase.getSmartContractID());
             existingTestCase.setTestCaseName(updatedTestCase.getTestCaseName());
@@ -126,11 +125,19 @@ public class ViewCaseService {
             existingTestCase.setDateCreated(updatedTestCase.getDateCreated());
             existingTestCase.setDeadline(updatedTestCase.getDeadline());
             existingTestCase.setUserID(userID);
-           
+            // Here, you might also want to update the user statuses if necessary
+            // existingTestCase.setUserStatuses(updatedTestCase.getUserStatuses());
+    
+            String overallStatus = existingTestCase.determineOverallStatus(); // Recalculate overall status
+            existingTestCase.setOverallStatus(overallStatus);
+    
+            // No need to call deleteCase; just update the object directly in the list
+            // updateCase(existingTestCase); // This method might be redundant
         } else {
             throw new NoSuchElementException("Test case not found with ID: " + updatedTestCase.getIdtest_cases());
         }
     }
+    
 
     private void updateCase(TestCase testCase) {
         deleteCase(testCase.getIdtest_cases());
