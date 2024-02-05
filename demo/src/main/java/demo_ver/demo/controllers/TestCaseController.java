@@ -33,11 +33,12 @@ public class TestCaseController {
     private ViewCaseService viewCaseService;
 
    @GetMapping("/view")
-public String viewCase(Model model) {
+    public String viewCase(Model model,Principal principal) {
     List<TestCase> testCases = ViewCaseService.findAllList();
 
     // Assuming ManageUserService.getAllUsers() returns a List<ManageUser>
     List<ManageUser> allUsers = ManageUserService.getAllUsers();
+    String username = principal.getName();
 
     // Set username for each test case
     for (TestCase testCase : testCases) {
@@ -53,7 +54,10 @@ public String viewCase(Model model) {
         testCase.setUsername(String.join(", ", usernames));
     }
 
-    model.addAttribute("testCase", testCases);
+    List<TestCase> userTestCases = viewCaseService.findTestCasesByUsername(username);
+
+
+    model.addAttribute("testCase", userTestCases);
     model.addAttribute("users1", allUsers);
     return "viewTestCase";
 }

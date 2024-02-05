@@ -164,5 +164,17 @@ public class ViewCaseService {
                 .orElseThrow(() -> new NoSuchElementException("Test case not found with ID: " + idtest_cases));
     }
 
+    public List<TestCase> findTestCasesByUsername(String username) {
+        List<TestCase> userTestCases = new ArrayList<>();
+
+        for (TestCase testCase : testList) {
+            if (testCase.getUsernames().contains(username)) {
+                userTestCases.add(testCase);
+            }
+        }
+
+        return userTestCases;
+    }
+
     // ... other existing methods ...
 }
