@@ -59,7 +59,7 @@ public class ViewCaseService {
 
     private static final HttpClient httpClient = HttpClient.newHttpClient();
 
-    private static final String HYPERLEDGER_BASE_URL = "http://172.20.228.232:3000"; // Update with your Hyperledger API base URL
+    private static final String HYPERLEDGER_BASE_URL = "http://172.20.228.232:3000"; // Use ngrok link here instead
 
     //get all test cases
     public static List<TestCase> findAllList() {
