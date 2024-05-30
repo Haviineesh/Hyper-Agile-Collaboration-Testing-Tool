@@ -91,6 +91,15 @@
 			<artifactId>javaee-api</artifactId>
 			<version>8.0.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hyperledger.fabric/fabric-gateway -->
+		<dependency>
+			<groupId>org.hyperledger.fabric</groupId>
+			<artifactId>fabric-gateway</artifactId>
+			<version>1.5.1</version>
+		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
@@ -98,6 +107,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>3.1.5</version>
 			</plugin>
 		</plugins>
 	</build>

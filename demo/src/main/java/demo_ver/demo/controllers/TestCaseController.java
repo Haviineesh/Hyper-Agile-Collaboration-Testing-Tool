@@ -12,17 +12,27 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+// import org.hyperledger.fabric.gateway.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import demo_ver.demo.model.ManageUser;
 import demo_ver.demo.model.TestCase;
 import demo_ver.demo.service.ManageRoleService;
 import demo_ver.demo.service.ManageUserService;
 import demo_ver.demo.service.ViewCaseService;
+
 
 @Controller
 public class TestCaseController {
@@ -31,6 +41,40 @@ public class TestCaseController {
 
     @Autowired
     private ViewCaseService viewCaseService;
+    
+    @Autowired
+    private RestTemplate restTemplate;
+
+    // @RequestMapping("/getData")
+    // public String getDataFromApi() {
+    //     String uri = "http://172.20.228.232:3000/getAllTestCases";
+
+    //     try {
+    //         String result = restTemplate.getForObject(uri, String.class);
+
+    //         // Assuming response is JSON, parse it into a list of TestCase objects
+    //         ObjectMapper objectMapper = new ObjectMapper();
+    //         List<TestCase> testCases = objectMapper.readValue(result, List.class);
+
+    //         // Build a formatted string to list data
+    //         StringBuilder dataList = new StringBuilder();
+    //         for (TestCase testCase : testCases) {
+    //             dataList.append("ID: ").append(testCase.getIdtest_cases()).append(", ");
+    //             dataList.append("Case Number: ").append(testCase.getProjectId()).append(", ");
+    //             dataList.append("Priority: ").append(testCase.getSmartContractID()).append(",\n");
+    //         }
+
+    //         return dataList.toString(); // Return a string containing the formatted data
+
+    //     } catch (RestClientResponseException e) {
+    //         // Handle specific HTTP error responses
+    //         return "Error: " + e.getMessage();
+    //     } catch (Exception e) {
+    //         // Handle unexpected exceptions
+    //         return "Error: " + e.getMessage();
+    //     }
+    // }
+    
 
    @GetMapping("/view")
     public String viewCase(Model model,Principal principal) {
