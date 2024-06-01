@@ -102,4 +102,14 @@ public class FakeController {
         }
     }
 
+    @GetMapping("/api/getAllTestCases")
+    public ResponseEntity<Object> getTestCases() {
+        // Assuming you have logic to retrieve or generate the test case data
+        String jsonString = 
+            "{\"status\":\"success\",\"message\":[{\"createdBy\":\"John\",\"dateCreated\":\"2024-06-20T00:00:00Z\",\"dateUpdated\":\"2024-06-22T00:00:00Z\",\"deadline\":\"2024-06-25T00:00:00Z\",\"idtest_cases\":\"TC01\",\"overallStatus\":\"Pending\",\"projectId\":\"01\",\"reason\":\"Reason01\",\"smartContractID\":\"5\",\"status\":\"Under Review\",\"testCaseName\":\"Test Case 1\",\"test_desc\":\"Desc1\",\"userID\":2001,\"username\":\"John\"},{\"createdBy\":\"John\",\"dateCreated\":\"2024-06-20T00:00:00Z\",\"dateUpdated\":\"2024-06-22T00:00:00Z\",\"deadline\":\"2024-06-25T00:00:00Z\",\"idtest_cases\":\"TC02\",\"overallStatus\":\"Under Review\",\"projectId\":\"02\",\"reason\":\"Reason02\",\"smartContractID\":\"5\",\"status\":\"Under Review\",\"testCaseName\":\"Test Case 2\",\"test_desc\":\"Desc2\",\"userID\":2001,\"username\":\"John\"}]}";
+
+        // Wrap the JSON string in a ResponseEntity with appropriate status code
+        return ResponseEntity.ok(jsonString);
+    }
+
 }
