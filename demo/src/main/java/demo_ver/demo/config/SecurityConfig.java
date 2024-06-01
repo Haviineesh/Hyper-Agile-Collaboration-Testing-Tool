@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfiguration {
                                                 .requestMatchers("/resources/**", "/static/**", "/webjars/**")
                                                 .permitAll()
                                                 .requestMatchers("/manageuser", "/adduser", "/deleteuser/{userID}","/edituser/{userID}", "/updateuser", "/manageroles", "/createrole", "/editrole/{id}", "/editrole", "/deleterole/{id}").hasRole("Admin")
-                                                .requestMatchers("/view", "/add", "/save", "/deleteCase/{idtest_cases}", "/editCase/{idtest_cases}", "/update", "/testcases/details/{idtest_cases}", "/testcases/approveStatus/{idtest_cases}", "/testcases/rejectStatus/{idtest_cases}", "/testcases/setUnderReview/{idtest_cases}", "/testcases/setNeedsRevision/{idtest_cases}").hasAnyRole("Tester", "Product Manager", "Developer")
+                                                .requestMatchers("/view", "/add", "/save", "/deleteCase/{idtest_cases}", "/editCase/{idtest_cases}", "/update", "/testcases/details/{idtest_cases}", "/testcases/approveStatus/{idtest_cases}", "/testcases/rejectStatus/{idtest_cases}", "/testcases/setUnderReview/{idtest_cases}", "/testcases/setNeedsRevision/{idtest_cases}", "/getAllTestCases").hasAnyRole("Tester", "Product Manager", "Developer")
                                                 .requestMatchers("/home", "/changepassword").hasAnyRole("Admin", "Tester", "Product Manager", "Developer")
                                                 .anyRequest().authenticated())
                                 .csrf(AbstractHttpConfigurer::disable)

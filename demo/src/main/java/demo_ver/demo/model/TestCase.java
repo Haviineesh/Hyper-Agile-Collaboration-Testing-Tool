@@ -19,18 +19,20 @@ public class TestCase {
     private String reason;
     private String testCaseName;
     private String dateCreated;
-    private int smartContractID;
+    private String smartContractID; //Changed from int to String
     private List<Integer> userID;
     private Map<String, String> userStatuses = new HashMap<>(); // New field for user-specific statuses
     private String overallStatus;
     private String username;
     private String createdBy;
+    private String status;
 
     public TestCase() {
         // Default constructor
     }
 
-    public TestCase(Long idtest_cases, String projectId, int smartContractID, String testCaseName, String test_desc, String dateCreated, String deadline, List<Integer> userID) {
+    public TestCase(String status, Long idtest_cases, String projectId, String smartContractID, String testCaseName, String test_desc, String dateCreated, String deadline, List<Integer> userID) {
+        this.status = status;
         this.idtest_cases = idtest_cases;
         this.projectId = projectId;
         this.smartContractID = smartContractID;
@@ -42,6 +44,14 @@ public class TestCase {
     }
 
     // Getters and setters for existing fields
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Long getIdtest_cases() {
         return idtest_cases;
     }
@@ -106,11 +116,11 @@ public class TestCase {
         this.dateCreated = dateCreated;
     }
 
-    public int getSmartContractID() {
+    public String getSmartContractID() {
         return smartContractID;
     }
 
-    public void setSmartContractID(int smartContractID) {
+    public void setSmartContractID(String smartContractID) {
         this.smartContractID = smartContractID;
     }
 
