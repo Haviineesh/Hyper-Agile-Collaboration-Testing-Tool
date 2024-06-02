@@ -24,6 +24,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -77,7 +78,7 @@ public class TestCaseController {
     
 
    @GetMapping("/view")
-    public String viewCase(Model model,Principal principal) {
+    public String viewCase(Model model,Principal principal) throws JsonProcessingException{
     List<TestCase> testCases = ViewCaseService.findAllList();
 
     // Assuming ManageUserService.getAllUsers() returns a List<ManageUser>
@@ -103,6 +104,8 @@ public class TestCaseController {
 
     model.addAttribute("testCase", userTestCases);
     model.addAttribute("users1", allUsers);
+    // model.addAttribute("allTestCases", ViewCaseService.findAllList());
+    // model.addAttribute("userTestCases", viewCaseService.findTestCasesByUsername(username));
     return "viewTestCase";
 }
 
@@ -116,7 +119,7 @@ public class TestCaseController {
     }
 
     @PostMapping("/save")
-    public String addTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
+    public String addTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) throws JsonProcessingException{
         model.addAttribute("tests", ViewCaseService.findAllList());
         model.addAttribute("users", ManageUserService.getAllUsers()); // I added this so that user list will always show even if got validation errors
 
@@ -158,7 +161,7 @@ public class TestCaseController {
     }
 
     @PostMapping("/update")
-    public String editTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) {
+    public String editTestCaseForm(TestCase testCase, @RequestParam("userID") List<Integer> userID, Model model) throws JsonProcessingException{
 
         model.addAttribute("tests", ViewCaseService.findAllList());
         model.addAttribute("users", ManageUserService.getAllUsers()); // I added this so that user list will always show even if got validation errors
