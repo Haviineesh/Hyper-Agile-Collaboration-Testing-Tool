@@ -20,6 +20,7 @@ public class TestCase {
     private String testCaseName;
     private String dateCreated;
     private String smartContractID; //Changed from int to String
+    // private List<Integer> userID;
     private List<Integer> userID;
     private Map<String, String> userStatuses = new HashMap<>(); // New field for user-specific statuses
     private String overallStatus;
@@ -43,6 +44,10 @@ public class TestCase {
         this.userID = userID;
     }
 
+    public void setUserStatuses(Map<String, String> userStatuses) {
+        this.userStatuses = userStatuses;
+    }
+    
     // Getters and setters for existing fields
     public String getStatus() {
         return status;

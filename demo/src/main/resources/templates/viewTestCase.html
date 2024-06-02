@@ -96,6 +96,7 @@
             </thead>
             <tbody>
                 <tr th:each="test, iStat : ${testCase}">
+                <!-- <tr th:each="test, iStat : ${allTestCases}"> -->
                     <td th:text="${test.projectId}"></td>
                     <td th:text="${test.idtest_cases}"></td>
                     <td th:text="${test.testCaseName}"></td>

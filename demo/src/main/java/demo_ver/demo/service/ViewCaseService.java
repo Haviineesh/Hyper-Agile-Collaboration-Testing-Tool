@@ -9,18 +9,23 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,113 +37,125 @@ import demo_ver.demo.utils.RandomNumber;
 @Service
 public class ViewCaseService {
     private static final Logger logger = LoggerFactory.getLogger(ViewCaseService.class);
+    
     private static List<TestCase> testList = new ArrayList<TestCase>() {
         {
-            add(new TestCase("", RandomNumber.getRandom(100, 999), "002", "15", "Package", "desc23", "2023-11-07",
-                    "2023-11-17", Arrays.asList(2001)));
-            add(new TestCase("", RandomNumber.getRandom(100, 999), "003", "17", "Behavioral", "desc34", "2023-12-05",
-                    "2023-11-15", Arrays.asList(2001)));
-            add(new TestCase("", RandomNumber.getRandom(100, 999), "004", "19", "Diagram", "desc56", "2023-12-20",
-                    "2024-01-07", Arrays.asList(2002)));
+            // add(new TestCase("", RandomNumber.getRandom(100, 999), "002", "15", "Package", "desc23", "2023-11-07",
+            //         "2023-11-17", Arrays.asList(2001)));
+            // add(new TestCase("", RandomNumber.getRandom(100, 999), "003", "17", "Behavioral", "desc34", "2023-12-05",
+            //         "2023-11-15", Arrays.asList(2001)));
+            // add(new TestCase("", RandomNumber.getRandom(100, 999), "004", "19", "Diagram", "desc56", "2023-12-20",
+            //         "2024-01-07", Arrays.asList(2002)));
         }
     };
 
     @Autowired
     private MailService mailService;
 
+    private static RestTemplate restTemplate = new RestTemplate();
+
+    public ViewCaseService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     private static final HttpClient httpClient = HttpClient.newHttpClient();
 
-    private static final String HYPERLEDGER_BASE_URL = "http://localhost:8090/api"; // Use ngrok link here instead
+    private static final String HYPERLEDGER_BASE_URL = "http://172.20.228.232:3000"; // Use ngrok link here instead 
+    
+    // private static final String HYPERLEDGER_BASE_URL = "http://localhost:8090/api";
 
-    // get all test cases
-    // public static List<TestCase> findAllList() {
-    // String url = HYPERLEDGER_BASE_URL + "/getAllTestCases";
-    // HttpRequest request = HttpRequest.newBuilder()
-    // .uri(URI.create(url))
-    // .GET()
-    // .build();
-
-    // try { // comment this try catch block to view the old test cases
-    // logger.info("Sending request to URL: {}", url);
-    // HttpResponse<String> response = httpClient.send(request,
-    // HttpResponse.BodyHandlers.ofString());
-    // logger.info("Received response with status code: {}", response.statusCode());
-    // if (response.statusCode() == 200) {
-    // ObjectMapper objectMapper = new ObjectMapper();
-    // TestCase[] testCases = objectMapper.readValue(response.body(),
-    // TestCase[].class);
-    // testList = Arrays.asList(testCases);
-    // } else {
-    // throw new RuntimeException("Failed to fetch test cases, status code: " +
-    // response.statusCode());
-    // }
-    // } catch (JsonParseException e) {
-    // logger.error("JSON parsing error while fetching test cases: {}",
-    // e.getMessage());
-    // throw new RuntimeException("JSON parsing error while fetching test cases",
-    // e);
-    // } catch (JsonMappingException e) {
-    // logger.error("JSON mapping error while converting test cases: {}",
-    // e.getMessage());
-    // throw new RuntimeException("JSON mapping error while converting test cases",
-    // e);
-    // } catch (IOException e) {
-    // logger.error("IO error while fetching test cases: {}", e.getMessage());
-    // logger.debug("IOException details: ", e); // This will print the stack trace
-    // throw new RuntimeException("IO error while fetching test cases", e);
-    // } catch (InterruptedException e) {
-    // logger.error("Request interrupted while fetching test cases: {}",
-    // e.getMessage());
-    // Thread.currentThread().interrupt();
-    // throw new RuntimeException("Request interrupted while fetching test cases",
-    // e);
-    // }
-    // return testList;
-
-    // // 1. Call Hyperledger api instead -> getAllTestCase (GET method)
-
-    // // 2. assign api response to testList
-    // }
-
-    // Get all test cases API By Havi
-    public static List<TestCase> findAllList() {
+    // Get all test cases from hyperledger API
+    public static List<TestCase> findAllList() throws JsonProcessingException {
         String url = HYPERLEDGER_BASE_URL + "/getAllTestCases";
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
+        
+        String jsonString = restTemplate.getForObject(url, String.class);
 
-        List<TestCase> testCases = new ArrayList<>();
-        try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            String responseBody = response.body();
+        // Parse the JSON data and get the list of TestCase objects
+        List<TestCase> testCaseList = parseJsonToTestCaseList(jsonString);
+    
+        testList = testCaseList;
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(responseBody);
-            JsonNode messageNode = rootNode.path("message");
-
-            if (messageNode.isArray()) {
-                for (JsonNode node : messageNode) {
-                    TestCase testCase = new TestCase(
-                            node.path("status").asText(),
-                            node.path("idtest_cases").asLong(),
-                            node.path("projectId").asText(),
-                            node.path("smartContractID").asText(),
-                            node.path("testCaseName").asText(),
-                            node.path("test_desc").asText(),
-                            node.path("dateCreated").asText(),
-                            node.path("deadline").asText(),
-                            new ArrayList<>() // Assuming userID is a List<Integer>
-                    );
-                    testCases.add(testCase);
-                }
-            }
-        } catch (Exception e) {
-            logger.error("Error fetching test cases: ", e);
-        }
-
-        return testCases;
+        return testCaseList;
     }
+
+    private static List<TestCase> parseJsonToTestCaseList(String jsonString) throws JsonProcessingException {
+        // Handle potential JSON parsing exceptions
+        // List<Map<String, Object>> testCaseMaps;
+        // try {
+        //     testCaseMaps = objectMapper.readValue(jsonString, List.class);   // Until here is fine, i get the Payload with out error.
+        // } catch (JsonProcessingException e) {
+        //     throw e; // Re-throw the exception for proper handling
+        // }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // Handle potential JSON parsing exceptions
+        Map<String, Object> responseMap;
+        try {
+          responseMap = objectMapper.readValue(jsonString, Map.class);
+        } catch (JsonProcessingException e) {
+          throw e; // Re-throw the exception for proper handling
+        }
+      
+        // Access the nested array (assuming it's called "message")
+        List<Map<String, Object>> testCaseMaps = (List<Map<String, Object>>) responseMap.get("message");
+        
+        // for (Map<String, Object> testCaseMap : testCaseMaps) {
+            // String userIDString = (String) testCaseMap.get("userID");
+            // if (userIDString.isEmpty()) {
+            //   testCaseMap.put("userID", null);
+            // }
+        //   }
+    
+        return testCaseMaps.stream()
+            .map(testCaseMap -> {
+                TestCase testCase = new TestCase();
+    
+                // Set each field of the TestCase object using the map values
+                testCase.setStatus((String) testCaseMap.get("status"));
+                String idtestCasesString = (String) testCaseMap.get("idtest_cases");
+                Long idtestCasesLong = Long.parseLong(idtestCasesString);
+                testCase.setIdtest_cases(idtestCasesLong);
+                // testCase.setIdtest_cases((Long) testCaseMap.get("idtest_cases")); 
+                testCase.setProjectId((String) testCaseMap.get("projectId"));
+                testCase.setSmartContractID((String) testCaseMap.get("smartContractID"));
+                testCase.setTestCaseName((String) testCaseMap.get("testCaseName"));
+                testCase.setTest_desc((String) testCaseMap.get("test_desc"));
+                testCase.setDateCreated((String) testCaseMap.get("dateCreated"));
+                testCase.setDeadline((String) testCaseMap.get("deadline"));
+                testCase.setDateUpdated((String) testCaseMap.get("dateUpdated"));
+                testCase.setOverallStatus((String) testCaseMap.get("overallStatus"));
+                testCase.setUsername((String) testCaseMap.get("username"));
+                testCase.setCreatedBy((String) testCaseMap.get("createdBy"));
+    
+                // Handle potential null value for reason
+                testCase.setReason((String) testCaseMap.get("reason"));
+                
+                // Create a new List to hold the userID (assuming there's only one)
+                int userIDInteger = (int) testCaseMap.get("userID");
+                List<Integer> userIDList = new ArrayList<>();
+                userIDList.add(userIDInteger);
+
+                // Set the userID in the TestCase object
+                testCase.setUserID(userIDList);
+                
+                // Handle potential null value for userID list
+                // List<Integer> userID = (List<Integer>) testCaseMap.get("userID");
+                // testCase.setUserID(userIDInteger != null ? userIDInteger : Collections.emptyList());
+    
+                // Handle new field (if applicable)
+                // If userStatuses is not relevant, ignore it
+                Map<String, String> userStatuses = (Map<String, String>) testCaseMap.get("userStatuses");
+                testCase.setUserStatuses(userStatuses != null ? userStatuses : Collections.emptyMap());
+                
+                System.out.println("Test Case: " + testCase.toString());
+                return testCase;
+            })
+            .collect(Collectors.toList());
+    }
+    
+
+    
 
     public void addTestCaseForm(TestCase testCase, List<Integer> userID) {
         testCase.setIdtest_cases(RandomNumber.getRandom(0, 20));
