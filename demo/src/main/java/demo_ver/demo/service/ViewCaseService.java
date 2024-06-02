@@ -40,8 +40,8 @@ public class ViewCaseService {
     
     private static List<TestCase> testList = new ArrayList<TestCase>() {
         {
-            add(new TestCase("", RandomNumber.getRandom(100, 999), "002", "15", "Package", "desc23", "2023-11-07",
-                    "2023-11-17", Arrays.asList(2001)));
+            // add(new TestCase("", RandomNumber.getRandom(100, 999), "002", "15", "Package", "desc23", "2023-11-07",
+            //         "2023-11-17", Arrays.asList(2001)));
             // add(new TestCase("", RandomNumber.getRandom(100, 999), "003", "17", "Behavioral", "desc34", "2023-12-05",
             //         "2023-11-15", Arrays.asList(2001)));
             // add(new TestCase("", RandomNumber.getRandom(100, 999), "004", "19", "Diagram", "desc56", "2023-12-20",
@@ -60,9 +60,9 @@ public class ViewCaseService {
 
     private static final HttpClient httpClient = HttpClient.newHttpClient();
 
-    //private static final String HYPERLEDGER_BASE_URL = "http://172.20.228.232:3000"; // Use ngrok link here instead 
+    private static final String HYPERLEDGER_BASE_URL = "http://172.20.228.232:3000"; // Use ngrok link here instead 
     
-    private static final String HYPERLEDGER_BASE_URL = "http://localhost:8090/api";
+    // private static final String HYPERLEDGER_BASE_URL = "http://localhost:8090/api";
 
     // Get all test cases from hyperledger API
     public static List<TestCase> findAllList() throws JsonProcessingException {
@@ -73,6 +73,8 @@ public class ViewCaseService {
         // Parse the JSON data and get the list of TestCase objects
         List<TestCase> testCaseList = parseJsonToTestCaseList(jsonString);
     
+        testList = testCaseList;
+
         return testCaseList;
     }
 
