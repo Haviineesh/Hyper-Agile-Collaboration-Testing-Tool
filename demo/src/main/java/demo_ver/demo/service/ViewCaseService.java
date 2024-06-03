@@ -10,6 +10,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -164,6 +165,30 @@ public class ViewCaseService {
         // 1. hyperledger call to addTestCase (POST method)
         // 2. assign api response to testCase
         // 3. testList.add(testCase)
+
+        // Prepare the request body (assuming field names match API)
+        Map<String, Object> requestBody = new HashMap<>();
+        String idtestCasesString = testCase.getIdtest_cases().toString();
+        requestBody.put("id", idtestCasesString);
+        requestBody.put("tcdesc", testCase.getTest_desc());
+        requestBody.put("dl", testCase.getDeadline());
+        requestBody.put("dtup", testCase.getDateUpdated());
+        requestBody.put("pid", testCase.getProjectId());
+        requestBody.put("rs", testCase.getReason());
+        requestBody.put("tcn", testCase.getTestCaseName());
+        requestBody.put("dtc", testCase.getDateCreated());
+        requestBody.put("scid", testCase.getSmartContractID());
+        // int firstUserID = userID.stream().findFirst().orElse(0);
+        // requestBody.put("uid", Integer.valueOf(firstUserID));
+        requestBody.put("uid", userID); // Assuming "uid" in API represents user IDs
+        requestBody.put("ostts", testCase.getOverallStatus());
+        requestBody.put("usrn", testCase.getUsername());
+        requestBody.put("crtdby", testCase.getCreatedBy());
+        requestBody.put("stts", testCase.getStatus());
+
+        // Send POST request using RestTemplate
+        String url = HYPERLEDGER_BASE_URL + "/createTestCase"; // Replace with your API URL
+        String response = restTemplate.postForObject(url, requestBody, String.class);
 
         sendAssignmentNotification(testCase);
         scheduleDeadlineNotification(testCase);

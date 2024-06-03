@@ -16,6 +16,9 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +36,8 @@ import demo_ver.demo.model.TestCase;
 import demo_ver.demo.service.ManageRoleService;
 import demo_ver.demo.service.ManageUserService;
 import demo_ver.demo.service.ViewCaseService;
+
+
 
 
 @Controller
@@ -112,7 +117,10 @@ public class TestCaseController {
     
 
     @GetMapping("/add")
-    public String showAddTestCaseForm(Model model) {
+    public String showAddTestCaseForm(Model model, Authentication authentication,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         model.addAttribute("testCase", new TestCase());
         model.addAttribute("users", ManageUserService.getAllUsers());
         return "addTestCase";
