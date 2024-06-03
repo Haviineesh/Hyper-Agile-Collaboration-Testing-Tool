@@ -51,6 +51,10 @@
                 <input type="date" class="form-control" th:field="*{dateCreated}" placeholder="Date Created">
             </div>
             <div class="form-group">
+                <label for="dateUpdated">Date Updated:</label>
+                <input type="date" class="form-control" th:field="*{dateUpdated}" placeholder="Date Updated">
+            </div>
+            <div class="form-group">
                 <label for="deadline">Deadline:</label>
                 <input type="date" class="form-control" th:field="*{deadline}" placeholder="Deadline">
                 <!-- Display an alert if the deadline is not later than the date created -->
@@ -58,6 +62,46 @@
                     Deadline must be later than the Date Created! Please choose a valid deadline.
                 </div>
             </div>
+            <div class="form-group">
+                <label for="overallStatus">Overall Status:</label>
+                <select class="form-control" th:field="*{overallStatus}">
+                  <option value="PENDING">Pending</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="COMPLETED">Completed</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select class="form-control" th:field="*{status}">
+                  <option value="PENDING">Pending</option>
+                  <option value="UNDER_REVIEW">Under Review</option>
+                  <option value="APPROVED">Approved</option>
+                  <option value="REJECTED">Rejected</option>
+                </select>
+              </div>
+            <div class="form-group">
+                <label for="reason">Reason (Optional):</label>
+                <textarea class="form-control" name="reason" th:field="*{reason}" rows="3"></textarea>
+            </div>
+            <!-- <input type="hidden" th:field="*{username}" th:value="${username}"> -->
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <div th:each="user">
+                    <div  th:unless="${user.userID == 2000}" class="form-check">
+                        <input type="checkbox" class="form-check-input" th:id="${'userCheckbox' + user.userID}"
+                            th:field="*{userID}" th:value="${user.userID}">
+                        <label class="form-check-label" th:for="${'userCheckbox' + user.userID}"
+                            th:if="${user.roleName.startsWith('ROLE_')}"
+                            th:text="${user.username + ' (' + user.roleName.substring(5) + ')'}"></label>
+                    </div>
+                </div>
+                <!-- <input type="text" class="form-control" th:field="*{username}" th:value="test"> -->
+           </div>
+            <div class="form-group">
+                <label for="createdBy">Created By:</label>
+                <input type="text" class="form-control" name="createdBy" th:field="*{createdBy}" th:value="${#authentication.principal.username}">
+            </div>
+            <!-- <input type="hidden" th:field="*{createdBy}" th:value="${#authentication.principal.username}"> -->
             <div class="form-group">
                 <label>Assign Users:</label>
                 <div th:each="user : ${users}">

@@ -35,6 +35,7 @@ public class ManageUserController {
 
     @GetMapping("/manageuser")
     public String manageusers(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
         // Check if the user has the Admin role
